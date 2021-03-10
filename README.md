@@ -1,5 +1,5 @@
 <p align="center" >
-  <img src="" width="500" height="500">
+  <img src="" style="max-width: 20%">
 </p>
 
 ---
@@ -8,10 +8,10 @@
   <img src="https://forthebadge.com/images/badges/built-with-love.svg"/>
   <img src="https://forthebadge.com/images/badges/made-with-java.svg"/>
   <img src="https://forthebadge.com/images/badges/powered-by-coffee.svg"/><br><br>
-    <b>DO_IT</b>, progetto realizzato in <b>Flutter</b> e <b>Spring</b> per il corso di laurea <b>L-31</b> presso <b>Unicam</b>, <i>nell'anno accademico 2020/2021</i>, realizzato dal team Morpheus composto dagli studenti Giorgio Paoletti e Flavio Pocari per l'esame <b>Project</b>.
+    <b>Sogniario</b>, progetto realizzato in <b>Flutter</b> e <b>Spring</b> per il corso di laurea <b>L-31</b> presso <b>Unicam</b>, <i>nell'anno accademico 2020/2021</i>, realizzato dal team Morpheus composto dagli studenti Giorgio Paoletti e Flavio Pocari per l'esame <b>Project</b>.
     <br><br><b>
 <a href="https://www.unicam.it/">• Unicam</a>
-<a href="https://github.com/GiorgioPaoletti-Unicam/Sogniario">• Sogniario</img></a>
+<a href="https://github.com/GiorgioPaoletti-Unicam/sogniario">• Sogniario</img></a>
 </b></p>
 
 # 📔 Tabella dei contenuti
@@ -22,8 +22,6 @@
 - [Autori](#autori)
 
 # 📝 Panoramica e funzionalità <a name = "panoramica"></a>
-
-
 
 # ⚙ Processo di Sviluppo<a name = "processo"></a>
 
