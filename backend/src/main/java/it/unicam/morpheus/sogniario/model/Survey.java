@@ -20,6 +20,7 @@ public class Survey {
     private Set<String> questions;
 
     public Survey(Set<String> questions) {
+        if(questions.isEmpty()) throw new IllegalArgumentException("Questions is empty");
         this.questions = questions;
     }
 }
