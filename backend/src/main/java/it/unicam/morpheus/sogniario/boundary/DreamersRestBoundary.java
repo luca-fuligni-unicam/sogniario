@@ -20,39 +20,34 @@ public class DreamersRestBoundary implements DreamersBoundary{
     @PreAuthorize("permitAll")
     @GetMapping("/{dreamerID}")
     public Dream getInstance(@PathVariable String dreamerID) throws EntityNotFoundException {
-        // TODO: 16/03/2021 implementare
-        return null;
+        return dreamersController.getInstance(dreamerID);
     }
 
     @Override
     @PreAuthorize("permitAll")
     @PostMapping(value = "/createNew", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Dream create(@RequestBody Dream object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 implementare
-        return null;
+        return dreamersController.create(object);
     }
 
     @Override
     @PreAuthorize("permitAll")
     @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Dream update(@RequestBody Dream object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 implementare
-        return null;
+        return dreamersController.update(object);
     }
 
     @Override
     @PreAuthorize("permitAll")
     @DeleteMapping(value = "/{dreamerID}")
     public boolean delete(@PathVariable String dreamerID) {
-        // TODO: 16/03/2021 implementare
-        return false;
+        return dreamersController.delete(dreamerID);
     }
 
     @Override
     @PreAuthorize("permitAll")
     @GetMapping("/exist/{dreamerID}")
     public boolean exists(@PathVariable String dreamerID) {
-        // TODO: 16/03/2021 implementare
-        return false;
+        return dreamersController.exists(dreamerID);
     }
 }

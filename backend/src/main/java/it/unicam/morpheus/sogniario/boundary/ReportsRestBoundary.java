@@ -20,39 +20,34 @@ public class ReportsRestBoundary implements ReportsBoundary{
     @PreAuthorize("permitAll")
     @GetMapping("/{reportID}")
     public Report getInstance(@PathVariable String reportID) throws EntityNotFoundException {
-        // TODO: 16/03/2021 implementare
-        return null;
+        return reportsController.getInstance(reportID);
     }
 
     @Override
     @PreAuthorize("permitAll")
     @PostMapping(value = "/createNew", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Report create(@RequestBody Report object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 implementare
-        return null;
+        return reportsController.create(object);
     }
 
     @Override
     @PreAuthorize("permitAll")
     @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Report update(@RequestBody Report object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 implementare
-        return null;
+        return reportsController.update(object);
     }
 
     @Override
     @PreAuthorize("permitAll")
     @DeleteMapping(value = "/{reportID}")
     public boolean delete(@PathVariable String reportID) {
-        // TODO: 16/03/2021 implementare
-        return false;
+        return reportsController.delete(reportID);
     }
 
     @Override
     @PreAuthorize("permitAll")
     @GetMapping("/exist/{reportID}")
     public boolean exists(@PathVariable String reportID) {
-        // TODO: 16/03/2021 implementare
-        return false;
+        return reportsController.exists(reportID);
     }
 }

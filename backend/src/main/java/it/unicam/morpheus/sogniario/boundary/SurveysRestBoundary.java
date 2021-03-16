@@ -20,39 +20,34 @@ public class SurveysRestBoundary implements SurveysBoundary{
     @PreAuthorize("permitAll")
     @GetMapping("/{surveyID}")
     public Survey getInstance(@PathVariable String surveyID) throws EntityNotFoundException {
-        // TODO: 16/03/2021 implementare
-        return null;
+        return surveysController.getInstance(surveyID);
     }
 
     @Override
     @PreAuthorize("permitAll")
     @PostMapping(value = "/createNew", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Survey create(@RequestBody Survey object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 implementare
-        return null;
+        return surveysController.create(object);
     }
 
     @Override
     @PreAuthorize("permitAll")
     @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Survey update(@RequestBody Survey object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 implementare
-        return null;
+        return surveysController.update(object);
     }
 
     @Override
     @PreAuthorize("permitAll")
-    @DeleteMapping(value = "/{reportID}")
-    public boolean delete(@PathVariable String reportID) {
-        // TODO: 16/03/2021 implementare
-        return false;
+    @DeleteMapping(value = "/{surveyID}")
+    public boolean delete(@PathVariable String surveyID) {
+        return surveysController.delete(surveyID);
     }
 
     @Override
     @PreAuthorize("permitAll")
-    @GetMapping("/exist/{reportID}")
-    public boolean exists(@PathVariable String reportID) {
-        // TODO: 16/03/2021 implementare
-        return false;
+    @GetMapping("/exist/{surveyID}")
+    public boolean exists(@PathVariable String surveyID) {
+        return surveysController.exists(surveyID);
     }
 }
