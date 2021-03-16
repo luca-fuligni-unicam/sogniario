@@ -3,28 +3,36 @@ package it.unicam.morpheus.sogniario.controller;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Report;
+import it.unicam.morpheus.sogniario.repository.ReportsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
 @Service
 public class ReportsConcreteController implements ReportsController{
+
+    @Autowired
+    private ReportsRepository reportsRepository;
+
     @Override
     public Report getInstance(String id) throws EntityNotFoundException {
-        // TODO: 16/03/2021 implementare
-        return null;
+        return reportsRepository.findById(id).orElseThrow(()->
+                new EntityNotFoundException("Nessun Report trovato con l'ID: "+id));
     }
 
     @Override
     public Report create(Report object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 implementare
-        return null;
+        // TODO: 16/03/2021 verificare che il report sia valido
+        return reportsRepository.save(object);
     }
 
     @Override
     public Report update(Report object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 implementare
-        return null;
+        if(!exists(object.getId()))
+            throw new EntityNotFoundException("Nessun Report con id: "+ object.getId());
+        // TODO: 16/03/2021 verificare che il report sia valido
+        return reportsRepository.save(object);
     }
 
     @Override
@@ -35,7 +43,7 @@ public class ReportsConcreteController implements ReportsController{
 
     @Override
     public boolean exists(String id) {
-        // TODO: 16/03/2021 implementare
-        return false;
+        if(id.isBlank()) throw new IllegalArgumentException("Il campo 'ID' è vuoto");
+        return reportsRepository.existsById(id);
     }
 }

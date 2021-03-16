@@ -2,29 +2,37 @@ package it.unicam.morpheus.sogniario.controller;
 
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
-import it.unicam.morpheus.sogniario.model.Dream;
+import it.unicam.morpheus.sogniario.model.Dreamer;
+import it.unicam.morpheus.sogniario.repository.DreamersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 @Validated
 @Service
 public class DreamersConcreteController implements DreamersController{
+
+    @Autowired
+    private DreamersRepository dreamersRepository;
+
     @Override
-    public Dream getInstance(String id) throws EntityNotFoundException {
-        // TODO: 16/03/2021 implementare
-        return null;
+    public Dreamer getInstance(String id) throws EntityNotFoundException {
+        return dreamersRepository.findById(id).orElseThrow(()->
+                new EntityNotFoundException("Nessun Dreamer trovato con l'ID: "+id));
     }
 
     @Override
-    public Dream create(Dream object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 implementare
-        return null;
+    public Dreamer create(Dreamer object) throws EntityNotFoundException, IdConflictException {
+        // TODO: 16/03/2021 verificare che il dreamer si valido
+        return dreamersRepository.save(object);
     }
 
     @Override
-    public Dream update(Dream object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 implementare
-        return null;
+    public Dreamer update(Dreamer object) throws EntityNotFoundException, IdConflictException {
+        if(!exists(object.getId()))
+            throw new EntityNotFoundException("Nessun Dreamer con id: "+ object.getId());
+        // TODO: 16/03/2021 verificare che il dreamer si valido
+        return dreamersRepository.save(object);
     }
 
     @Override
@@ -35,7 +43,7 @@ public class DreamersConcreteController implements DreamersController{
 
     @Override
     public boolean exists(String id) {
-        // TODO: 16/03/2021 implementare
-        return false;
+        if(id.isBlank()) throw new IllegalArgumentException("Il campo 'ID' è vuoto");
+        return dreamersRepository.existsById(id);
     }
 }
