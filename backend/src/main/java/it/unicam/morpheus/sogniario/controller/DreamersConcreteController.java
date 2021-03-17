@@ -6,6 +6,8 @@ import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Dreamer;
 import it.unicam.morpheus.sogniario.repository.DreamersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -50,5 +52,10 @@ public class DreamersConcreteController implements DreamersController{
     public boolean exists(String id) {
         if(id.isBlank()) throw new IllegalArgumentException("Il campo 'ID' è vuoto");
         return dreamersRepository.existsById(id);
+    }
+
+    @Override
+    public Page<Dreamer> getPage(int page, int size) throws EntityNotFoundException {
+        return dreamersRepository.findAll(PageRequest.of(page, size));
     }
 }

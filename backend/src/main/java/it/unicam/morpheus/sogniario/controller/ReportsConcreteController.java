@@ -6,6 +6,8 @@ import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Report;
 import it.unicam.morpheus.sogniario.repository.ReportsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -50,5 +52,22 @@ public class ReportsConcreteController implements ReportsController{
     public boolean exists(String id) {
         if(id.isBlank()) throw new IllegalArgumentException("Il campo 'ID' è vuoto");
         return reportsRepository.existsById(id);
+    }
+
+    @Override
+    public Page<Report> getPage(int page, int size) throws EntityNotFoundException {
+        return reportsRepository.findAll(PageRequest.of(page, size));
+    }
+
+    @Override
+    public Page<Report> getPageByDreamerId(int page, int size, String dreamerID) throws EntityNotFoundException {
+        // TODO: 17/03/2021 da implementare
+        return null;
+    }
+
+    @Override
+    public int getDreamNumberOfWord(String reportID) throws EntityNotFoundException {
+        // TODO: 17/03/2021 da implementare
+        return 0;
     }
 }

@@ -6,6 +6,8 @@ import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Survey;
 import it.unicam.morpheus.sogniario.repository.SurveysRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -50,5 +52,10 @@ public class SurveysConcreteController implements SurveysController{
     public boolean exists(String id) {
         if(id.isBlank()) throw new IllegalArgumentException("Il campo 'ID' è vuoto");
         return surveysRepository.existsById(id);
+    }
+
+    @Override
+    public Page<Survey> getPage(int page, int size) throws EntityNotFoundException {
+        return surveysRepository.findAll(PageRequest.of(page, size));
     }
 }

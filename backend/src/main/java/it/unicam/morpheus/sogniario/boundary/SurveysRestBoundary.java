@@ -5,6 +5,7 @@ import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -49,5 +50,12 @@ public class SurveysRestBoundary implements SurveysBoundary{
     @GetMapping("/exist/{surveyID}")
     public boolean exists(@PathVariable String surveyID) {
         return surveysController.exists(surveyID);
+    }
+
+    @Override
+    @PreAuthorize("permitAll")
+    @GetMapping("/list/{page}/{size}")
+    public Page<Survey> getPage(@PathVariable int page, @PathVariable int size) throws EntityNotFoundException {
+        return surveysController.getPage(page, size);
     }
 }

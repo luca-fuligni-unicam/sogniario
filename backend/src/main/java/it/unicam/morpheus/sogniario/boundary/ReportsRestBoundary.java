@@ -5,6 +5,7 @@ import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Report;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -49,5 +50,26 @@ public class ReportsRestBoundary implements ReportsBoundary{
     @GetMapping("/exist/{reportID}")
     public boolean exists(@PathVariable String reportID) {
         return reportsController.exists(reportID);
+    }
+
+    @Override
+    @PreAuthorize("permitAll")
+    @GetMapping("/list/{page}/{size}")
+    public Page<Report> getPage(@PathVariable int page, @PathVariable int size) throws EntityNotFoundException {
+        return reportsController.getPage(page, size);
+    }
+
+    @Override
+    @PreAuthorize("permitAll")
+    @GetMapping("/list/{page}/{size}/{dreamerID}")
+    public Page<Report> getPageByDreamerId(@PathVariable int page, @PathVariable int size, @PathVariable String dreamerID) throws EntityNotFoundException {
+        return reportsController.getPageByDreamerId(page, size, dreamerID);
+    }
+
+    @Override
+    @PreAuthorize("permitAll")
+    @GetMapping("/dreamNumberOfWord/{reportID}")
+    public int getDreamNumberOfWord(@PathVariable String reportID) throws EntityNotFoundException {
+        return reportsController.getDreamNumberOfWord(reportID);
     }
 }

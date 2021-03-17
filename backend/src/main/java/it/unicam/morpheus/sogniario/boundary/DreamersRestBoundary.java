@@ -5,6 +5,7 @@ import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Dreamer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -49,5 +50,12 @@ public class DreamersRestBoundary implements DreamersBoundary{
     @GetMapping("/exist/{dreamerID}")
     public boolean exists(@PathVariable String dreamerID) {
         return dreamersController.exists(dreamerID);
+    }
+
+    @Override
+    @PreAuthorize("permitAll")
+    @GetMapping("/list/{page}/{size}")
+    public Page<Dreamer> getPage(@PathVariable int page, @PathVariable int size) throws EntityNotFoundException {
+        return dreamersController.getPage(page, size);
     }
 }
