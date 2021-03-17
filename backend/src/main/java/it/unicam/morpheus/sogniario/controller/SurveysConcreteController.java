@@ -24,6 +24,7 @@ public class SurveysConcreteController implements SurveysController{
     @Override
     public Survey create(Survey object) throws EntityNotFoundException, IdConflictException {
         // TODO: 16/03/2021 verificare che il survey sia valido
+        if(exists(object.getId())) throw new IdConflictException("Id già presente");
         return surveysRepository.save(object);
     }
 

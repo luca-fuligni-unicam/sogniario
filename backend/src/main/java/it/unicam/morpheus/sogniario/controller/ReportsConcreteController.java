@@ -24,6 +24,7 @@ public class ReportsConcreteController implements ReportsController{
     @Override
     public Report create(Report object) throws EntityNotFoundException, IdConflictException {
         // TODO: 16/03/2021 verificare che il report sia valido
+        if(exists(object.getId())) throw new IdConflictException("Id già presente");
         return reportsRepository.save(object);
     }
 
