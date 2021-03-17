@@ -1,5 +1,6 @@
 package it.unicam.morpheus.sogniario.controller;
 
+import it.unicam.morpheus.sogniario.checker.DreamerChecker;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Dreamer;
@@ -15,6 +16,9 @@ public class DreamersConcreteController implements DreamersController{
     @Autowired
     private DreamersRepository dreamersRepository;
 
+    @Autowired
+    private DreamerChecker dreamerChecker;
+
     @Override
     public Dreamer getInstance(String id) throws EntityNotFoundException {
         return dreamersRepository.findById(id).orElseThrow(()->
@@ -23,8 +27,8 @@ public class DreamersConcreteController implements DreamersController{
 
     @Override
     public Dreamer create(Dreamer object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 verificare che il dreamer si valido
         if(exists(object.getId())) throw new IdConflictException("Id già presente");
+        dreamerChecker.check(object);
         return dreamersRepository.save(object);
     }
 
@@ -32,7 +36,7 @@ public class DreamersConcreteController implements DreamersController{
     public Dreamer update(Dreamer object) throws EntityNotFoundException, IdConflictException {
         if(!exists(object.getId()))
             throw new EntityNotFoundException("Nessun Dreamer con id: "+ object.getId());
-        // TODO: 16/03/2021 verificare che il dreamer si valido
+        dreamerChecker.check(object);
         return dreamersRepository.save(object);
     }
 

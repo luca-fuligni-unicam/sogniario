@@ -1,5 +1,6 @@
 package it.unicam.morpheus.sogniario.controller;
 
+import it.unicam.morpheus.sogniario.checker.ReportChecker;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Report;
@@ -15,6 +16,9 @@ public class ReportsConcreteController implements ReportsController{
     @Autowired
     private ReportsRepository reportsRepository;
 
+    @Autowired
+    private ReportChecker reportChecker;
+
     @Override
     public Report getInstance(String id) throws EntityNotFoundException {
         return reportsRepository.findById(id).orElseThrow(()->
@@ -23,8 +27,8 @@ public class ReportsConcreteController implements ReportsController{
 
     @Override
     public Report create(Report object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 verificare che il report sia valido
         if(exists(object.getId())) throw new IdConflictException("Id già presente");
+        reportChecker.check(object);
         return reportsRepository.save(object);
     }
 
@@ -32,7 +36,7 @@ public class ReportsConcreteController implements ReportsController{
     public Report update(Report object) throws EntityNotFoundException, IdConflictException {
         if(!exists(object.getId()))
             throw new EntityNotFoundException("Nessun Report con id: "+ object.getId());
-        // TODO: 16/03/2021 verificare che il report sia valido
+        reportChecker.check(object);
         return reportsRepository.save(object);
     }
 

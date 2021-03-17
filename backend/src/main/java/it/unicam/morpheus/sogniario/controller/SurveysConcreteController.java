@@ -1,5 +1,6 @@
 package it.unicam.morpheus.sogniario.controller;
 
+import it.unicam.morpheus.sogniario.checker.SurveyChecker;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Survey;
@@ -15,6 +16,9 @@ public class SurveysConcreteController implements SurveysController{
     @Autowired
     private SurveysRepository surveysRepository;
 
+    @Autowired
+    private SurveyChecker surveyChecker;
+
     @Override
     public Survey getInstance(String id) throws EntityNotFoundException {
         return surveysRepository.findById(id).orElseThrow(()->
@@ -23,8 +27,8 @@ public class SurveysConcreteController implements SurveysController{
 
     @Override
     public Survey create(Survey object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 16/03/2021 verificare che il survey sia valido
         if(exists(object.getId())) throw new IdConflictException("Id già presente");
+        surveyChecker.check(object);
         return surveysRepository.save(object);
     }
 
@@ -32,7 +36,7 @@ public class SurveysConcreteController implements SurveysController{
     public Survey update(Survey object) throws EntityNotFoundException, IdConflictException {
         if(!exists(object.getId()))
             throw new EntityNotFoundException("Nessun Survey con id: "+ object.getId());
-        // TODO: 16/03/2021 verificare che il survey sia valido
+        surveyChecker.check(object);
         return surveysRepository.save(object);
     }
 
