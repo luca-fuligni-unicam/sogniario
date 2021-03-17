@@ -15,7 +15,7 @@ import java.util.Set;
 public class Dreamer {
 
     @Id @Getter @Setter @NonNull
-    private String Id;
+    private String id;
 
     @Getter @Setter @NonNull
     private Set<String> reports;
@@ -25,7 +25,7 @@ public class Dreamer {
 
     public Dreamer(String id){
         if(id.isBlank()) throw new IllegalArgumentException("Id is blank");
-        this.Id = id;
+        this.id = id;
         reports = new HashSet<>();
         completedSurveys = new HashSet<>();
     }

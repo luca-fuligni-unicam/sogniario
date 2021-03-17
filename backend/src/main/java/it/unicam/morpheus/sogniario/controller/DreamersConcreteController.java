@@ -24,6 +24,7 @@ public class DreamersConcreteController implements DreamersController{
     @Override
     public Dreamer create(Dreamer object) throws EntityNotFoundException, IdConflictException {
         // TODO: 16/03/2021 verificare che il dreamer si valido
+        if(dreamersRepository.existsById(object.getId())) throw new IdConflictException("Id già presente");
         return dreamersRepository.save(object);
     }
 

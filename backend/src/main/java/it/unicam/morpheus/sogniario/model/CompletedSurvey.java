@@ -12,7 +12,7 @@ import java.util.List;
 public class CompletedSurvey {
 
     @Id @Getter @Setter @NonNull
-    private String Id;
+    private String id;
 
     @Getter @Setter @NonNull
     private List<String> answers;

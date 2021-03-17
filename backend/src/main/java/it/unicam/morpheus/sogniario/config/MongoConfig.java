@@ -26,6 +26,7 @@ public class MongoConfig {
         DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoFactory);
         MappingMongoConverter mongoConverter = new MappingMongoConverter(dbRefResolver, mongoMappingContext);
         mongoConverter.setMapKeyDotReplacement(".");
+        mongoConverter.setMapKeyDotReplacement(":");
         return mongoConverter;
     }
 }

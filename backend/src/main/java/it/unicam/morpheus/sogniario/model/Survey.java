@@ -14,7 +14,7 @@ import java.util.Set;
 public class Survey {
 
     @Id @Getter @Setter @NonNull
-    private String Id;
+    private String id;
 
     @Getter @Setter @NonNull
     private Set<String> questions;

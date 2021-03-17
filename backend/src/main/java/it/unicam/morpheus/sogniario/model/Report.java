@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Report {
 
     @Id @Getter @Setter @NonNull
-    private String Id;
+    private String id;
 
     @Getter @Setter @NonNull
     private String dreamerId;

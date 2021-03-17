@@ -11,7 +11,7 @@ import java.util.Calendar;
 public class Dream {
 
     @Getter @Setter @NonNull
-    private String Id;
+    private String id;
 
     @Getter @Setter @NonNull
     private String text;
