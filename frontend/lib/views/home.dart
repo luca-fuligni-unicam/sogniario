@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
                       listTileTitleOne: 'I miei Sogni',
                       listTileIconOne: Icon(Icons.settings_system_daydream, color: Colors.blue.shade300),
                       listTileOnTapOne: () {
-
+                        Navigator.pushNamed(context, '/dreams');
                       },
                       listTileTitleTwo: 'Racconta un Sogno',
                       listTileIconTwo: Icon(Icons.cloud_sharp, color: Colors.blue.shade100),
@@ -103,7 +103,7 @@ class _HomeState extends State<Home> {
                       listTileOnTapOne: () {
                         showDialog(
                           context: context,
-                          builder: (BuildContext context) {
+                          builder: (context) {
                             return SogniarioAlert(
                               content: "Questionario usato per scoprire a quale cronotipo appartieni. Gufo o Allodola?\nNon è obbligatorio, puoi compilarlo in un secondo momento.",
                               buttonLabel: 'Compila',
@@ -118,7 +118,7 @@ class _HomeState extends State<Home> {
                       listTileOnTapTwo: () {
                         showDialog(
                           context: context,
-                          builder: (BuildContext context) {
+                          builder: (context) {
                             return SogniarioAlert(
                               content: "Questionario sulla qualità del sonno.\nNon è obbligatorio, puoi compilarlo in un secondo momento.\nÈ un questionario mensile, verrà richiesto ogni 30 giorni.",
                               buttonLabel: 'Compila',
@@ -145,7 +145,7 @@ class _HomeState extends State<Home> {
                       listTileOnTapTwo: () {
                         Navigator.pushNamed(context, '/privacy');
                       },
-                    ),
+                    )
 
                   ])
               ]),
