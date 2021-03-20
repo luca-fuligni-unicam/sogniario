@@ -9,6 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("api/survey")
@@ -57,5 +60,12 @@ public class SurveysRestBoundary implements SurveysBoundary{
     @GetMapping("/list/{page}/{size}")
     public Page<Survey> getPage(@PathVariable int page, @PathVariable int size) throws EntityNotFoundException {
         return surveysController.getPage(page, size);
+    }
+
+    @Override
+    @PreAuthorize("permitAll")
+    @PostMapping(value = "/import/{reapExcelDataFile}")
+    public Survey mapReapExcelDatatoDB(@PathVariable MultipartFile reapExcelDataFile) throws IOException, EntityNotFoundException, IdConflictException {
+        return surveysController.mapReapExcelDatatoDB(reapExcelDataFile);
     }
 }
