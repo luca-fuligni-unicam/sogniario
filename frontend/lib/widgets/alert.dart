@@ -64,7 +64,7 @@ class SogniarioAlert extends StatelessWidget {
                     content,
                     style: TextStyle(
                         fontSize: 17,
-                        color: Colors.black.withOpacity(0.6),
+                        color: Colors.black.withOpacity(0.7),
                         fontWeight: FontWeight.w500
                     ),
                     textAlign: TextAlign.center,
