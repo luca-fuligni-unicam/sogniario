@@ -51,6 +51,38 @@ class _AddDreamState extends State<AddDream> {
   }
 
 
+  /*
+  void listen() async {
+    _available = await speech.initialize(
+      onStatus: (val)=> print('onStatus: $val'),
+      onError: (val) => print('onError: $val'),
+    );
+
+    if(!_available) {
+      setState(() {
+      });
+      return;
+    }
+
+    return speech.listen(
+      listenFor: Duration(minutes: 10),
+      pauseFor: Duration(seconds: 5),
+      partialResults: false,
+      onResult: (val) async {
+        setState(() {
+          isListening = true;
+          dreamController.text += val.recognizedWords;
+        });
+
+        if (val.finalResult) {
+          return await speech.stop();
+        }
+
+      },
+    );
+  }
+   */
+
   @override
   Widget build(BuildContext context) {
 
@@ -112,9 +144,22 @@ class _AddDreamState extends State<AddDream> {
                       ),
                     ),
 
-                    SizedBox(
-                        height: 10
+                    SizedBox(height: 10),
+
+                    // ignore: deprecated_member_use
+                    FlatButton(
+                      onPressed: listen,
+                      child: ListTile(
+                        title: !isListening ? Text('Premi per parlare') : Text('In ascolto...'),
+                        leading: Icon(
+                          isListening ? Icons.mic_none_sharp : Icons.mic_off_rounded,
+                          color: Colors.black87,
+                          size: 26,
+                        ),
+                      ),
                     ),
+
+                    SizedBox(height: 4),
 
                     TextField(
                       maxLines: 8,
@@ -139,7 +184,7 @@ class _AddDreamState extends State<AddDream> {
                       background: Colors.green.shade50.withOpacity(0.5),
                       overlay: Colors.green.shade50,
                       onPressed: () {
-
+                        Navigator.pushNamed(context, '/report_dream');
                       },
                     ),
 
@@ -148,25 +193,6 @@ class _AddDreamState extends State<AddDream> {
 
         ),
       ),
-
-      floatingActionButton: FloatingActionButton.extended(
-        label: Row(
-          children: [
-            !isListening ? Text('Premi per parlare') : Text('In ascolto...'),
-            SizedBox(width: 10),
-            Icon(
-              isListening ? Icons.mic_none_sharp : Icons.mic_off_rounded,
-              color: Colors.black87,
-              size: 26,
-            ),
-
-          ],
-        ),
-        backgroundColor: Colors.green.shade50,
-        foregroundColor: Colors.black87,
-        elevation: 2,
-        onPressed: listen,
-      )
     );
   }
 
