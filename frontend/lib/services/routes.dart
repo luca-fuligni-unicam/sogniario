@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/views/dreams.dart';
+import 'package:frontend/views/survey/survey_dream.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:frontend/initial_page.dart';
 import 'package:frontend/views/add_dream.dart';
@@ -55,6 +57,20 @@ class Routes {
         return PageTransition(
             type: PageTransitionType.fade,
             child: SurveyChronotype()
+        );
+        break;
+
+      case '/dreams':
+        return PageTransition(
+            type: PageTransitionType.fade,
+            child: Dreams()
+        );
+        break;
+
+      case '/report_dream':
+        return PageTransition(
+            type: PageTransitionType.fade,
+            child: SurveyDream()
         );
         break;
 
