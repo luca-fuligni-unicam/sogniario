@@ -64,8 +64,8 @@ public class SurveysRestBoundary implements SurveysBoundary{
 
     @Override
     @PreAuthorize("permitAll")
-    @PostMapping(value = "/import/{reapExcelDataFile}")
-    public Survey mapReapExcelDatatoDB(@PathVariable MultipartFile reapExcelDataFile) throws IOException, EntityNotFoundException, IdConflictException {
-        return surveysController.mapReapExcelDatatoDB(reapExcelDataFile);
+    @PostMapping(value = "/import/{fileName}")
+    public Survey mapReapExcelDatatoDB(@PathVariable String fileName) throws IOException, EntityNotFoundException, IdConflictException {
+        return surveysController.mapReapExcelDatatoDB(fileName);
     }
 }

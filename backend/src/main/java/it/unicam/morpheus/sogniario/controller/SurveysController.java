@@ -9,5 +9,5 @@ import java.io.IOException;
 
 public interface SurveysController extends EntityController<Survey, String> {
 
-    Survey mapReapExcelDatatoDB(MultipartFile reapExcelDataFile) throws IOException, IdConflictException, EntityNotFoundException;
+    Survey mapReapExcelDatatoDB(String fileName) throws IOException, IdConflictException, EntityNotFoundException;
 }

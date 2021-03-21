@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.io.FileNotFoundException;
+
 @ControllerAdvice
 public class ExceptionBoundary extends ResponseEntityExceptionHandler {
 
@@ -33,6 +35,11 @@ public class ExceptionBoundary extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IllegalStateException.class)
     protected ResponseEntity<String> illegalStateHandler(IllegalStateException e){
+        return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    protected ResponseEntity<String> FileNotFoundHandler(FileNotFoundException e){
         return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
     }
 

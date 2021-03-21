@@ -8,14 +8,16 @@ import it.unicam.morpheus.sogniario.repository.SurveysRepository;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Validated
@@ -67,25 +69,28 @@ public class SurveysConcreteController implements SurveysController{
     }
 
     @Override
-    public Survey mapReapExcelDatatoDB(MultipartFile reapExcelDataFile) throws IOException, IdConflictException, EntityNotFoundException {
-        HSSFWorkbook workbook = new HSSFWorkbook((reapExcelDataFile.getInputStream()));
+    public Survey mapReapExcelDatatoDB(String fileName) throws IOException, IdConflictException, EntityNotFoundException {
 
+        // TODO: 21/03/2021 rendere funzioannte con l'estensione .xlsx da usare l'intefaccia XSSF invece della HSSF
+        // https://poi.apache.org/components/spreadsheet/how-to.html
+        HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(Paths.get("data", "survey", fileName).toAbsolutePath().toString()));
         HSSFSheet worksheet = workbook.getSheetAt(0);
 
         Survey tempSurvey = new Survey();
-        tempSurvey.setId(Objects.requireNonNull(reapExcelDataFile.getOriginalFilename()));
+        // TODO: 21/03/2021 se funzionante con l'estensone .xlsx togliere 5 caratteri
+        tempSurvey.setId(fileName.substring(0, fileName.length()-4));
 
         Map<String, Set<String>> questions = new HashMap<>();
-        for(int i=1; i<worksheet.getPhysicalNumberOfRows(); i++) {
+        for(int i=0; worksheet.getRow(i) != null; i++) {
 
             HSSFRow row = worksheet.getRow(i);
 
             Set<String> answers = new HashSet<>();
 
-            for(int j = 2; !row.getCell(j).getStringCellValue().isBlank(); j++)
+            for(int j = 1; !(row.getCell(j) == null || row.getCell(j).getCellType() == CellType.BLANK); j++)
                 answers.add(row.getCell(j).getStringCellValue());
 
-            questions.put(row.getCell(1).getStringCellValue(), answers);
+            questions.put(row.getCell(0).getStringCellValue(), answers);
         }
         tempSurvey.setQuestions(questions);
 

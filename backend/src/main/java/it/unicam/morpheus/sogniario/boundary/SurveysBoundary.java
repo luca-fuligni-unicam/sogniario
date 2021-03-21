@@ -8,5 +8,5 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface SurveysBoundary extends EntityBoundary<Survey, String> {
-    Survey mapReapExcelDatatoDB(MultipartFile reapExcelDataFile) throws IOException, EntityNotFoundException, IdConflictException;
+    Survey mapReapExcelDatatoDB(String fileName) throws IOException, EntityNotFoundException, IdConflictException;
 }
