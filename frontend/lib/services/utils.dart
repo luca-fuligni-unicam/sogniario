@@ -7,7 +7,7 @@ import 'dart:math';
 
 class Utils {
 
-  final String server = 'http://193.205.92.106:8765/gateway/';
+  final String server = 'http://193.205.92.106:8080/';
   var box = Hive.box('data');
 
 
