@@ -1,4 +1,5 @@
 import 'package:frontend/services/utils.dart';
+import 'package:frontend/models/report.dart';
 import 'package:http/http.dart' as http;
 
 import 'dart:convert';
@@ -6,17 +7,11 @@ import 'dart:convert';
 
 class ReportApi extends Utils {
 
-  /*
-      "getReports" : "reports/api/users/findReportsByNicknameAndDataRangeUser",
-    "getReportsMap" : "reports/api/users/getWordsPercent",
-    "postReport" : "reports/api/users/store/",
-   */
-
-  Future<bool> insertReport() async {
+  Future<bool> insertReport(Report report) async {
     var response = await http.post(
-      Uri.tryParse('${server}reports/api/users/store/'),
+      Uri.tryParse('${server}api/reports/createNew'),
       headers: header(getToken()),
-      body: jsonEncode({})
+      body: jsonEncode(report.dreamReport())
     );
 
     return response.statusCode == 200;
