@@ -8,10 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
-
 @Validated
 @Service
 public class CompletedSurveyChecker implements EntityChecker<CompletedSurvey> {

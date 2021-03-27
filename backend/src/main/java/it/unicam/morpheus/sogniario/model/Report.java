@@ -21,13 +21,13 @@ public class Report {
     private Dream dream;
 
     @Getter @Setter @NonNull
-    private CompletedDreamSurvey completedDreamSurvey;
+    private CompletedSurvey completedSurvey;
 
-    public Report(String dreamerId, Dream dream, CompletedDreamSurvey completedDreamSurvey){
+    public Report(String dreamerId, Dream dream, CompletedSurvey completedSurvey){
         // TODO: 16/03/2021 verificare che dream e completedDreamSurvey siano validi
         if(dreamerId.isBlank()) throw new IllegalArgumentException("Dreamer Id is blank");
         this.dream = dream;
-        this.completedDreamSurvey = completedDreamSurvey;
+        this.completedSurvey = completedSurvey;
     }
 
 }

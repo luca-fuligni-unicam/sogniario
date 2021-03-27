@@ -19,15 +19,10 @@ public class Dream {
     @Getter @Setter @NonNull
     private Calendar data;
 
-    @Getter @Setter @NonNull
-    private String reportId;
-
-    public Dream(String text, String reportId){
+    public Dream(String text){
         if(text.isBlank()) throw new IllegalArgumentException("The dream is blank");
-        if(reportId.isBlank()) throw new IllegalArgumentException("Report Id is blank");
         this.text = text;
         this.data = Calendar.getInstance();
-        this.reportId = reportId;
     }
 
 }
