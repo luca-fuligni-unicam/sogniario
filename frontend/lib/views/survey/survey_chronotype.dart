@@ -11,7 +11,7 @@ class SurveyChronotype extends StatefulWidget {
 class _SurveyChronotypeState extends State<SurveyChronotype> {
 
   PageController controller = PageController();
-  int currentIndex = 0, value = 0;
+  int currentIndex = 0;
 
   TextStyle _questionStyle = TextStyle(
       fontSize: 17,
@@ -71,20 +71,6 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
                   ),
                 ),
               ),
-
-              /*
-                    Text(
-                      'Il Cronotipo è una qualità degli esseri umani che indica quando sono o preferiscono essere maggiormente attivi durante la giornata.\n'
-                          'Vengono definite "Allodole" quelle persone che si alzano presto alla mattina e sono maggiormente attive nella prima parte del giorno, i "Gufi" quelle che sono maggiormente attive durante la sera e preferiscono andare a letto tardi.\n'
-                          'Il sequente questionario permette di identificare a quale cronotipo appartieni.\nIl questionario può richiedere alcuni minuti.',
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black87
-                      ),
-                    ),
-               */
 
               PageView.builder(
                 physics: NeverScrollableScrollPhysics(),
@@ -172,7 +158,6 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
                 },
                 itemCount: 3,
               )
-
             ]),
       ),
     );
