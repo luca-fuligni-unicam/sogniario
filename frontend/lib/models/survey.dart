@@ -1,12 +1,20 @@
 
 class Survey {
 
-  String question;
-  List<String> answers;
+  final String id;
+  final Map<String, Set<String>> questions;
 
   Survey({
-    this.question,
-    this.answers
+    this.id,
+    this.questions
   });
+
+
+  factory Survey.fromJson(Map<String, dynamic> json) {
+    return Survey(
+        id: json['id'],
+        questions: json['questions']
+    );
+  }
 
 }
