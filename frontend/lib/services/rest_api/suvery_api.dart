@@ -1,3 +1,4 @@
+import 'package:frontend/models/completed_survey.dart';
 import 'package:frontend/services/utils.dart';
 import 'package:frontend/models/survey.dart';
 import 'package:http/http.dart' as http;
@@ -7,20 +8,22 @@ import 'dart:convert';
 
 class SurveyApi extends Utils {
 
-  Future<List<Survey>> getSurveys() async {
-    var response = await http.get(
-        Uri.tryParse('${server}questionnaires/api/questGet/getAllQuestUsers'),
-        headers: header(getToken())
-    );
-
-    return [];
-  }
-
-  Future<bool> insertSurvey() async {
+  Future<Survey> getSurveys(String surveyFile) async {
     var response = await http.post(
-        Uri.tryParse('${server}questionnaires/api/questGet/getAllQuestUsers'),
+        Uri.tryParse('${server}api/survey/import/$surveyFile'),
         headers: header(getToken()),
         body: jsonEncode({})
+    );
+
+    return Survey();
+  }
+
+
+  Future<bool> insertSurvey(CompletedSurvey completedSurvey) async {
+    var response = await http.post(
+        Uri.tryParse('${server}api/survey/createNew'),
+        headers: header(getToken()),
+        body: jsonEncode(completedSurvey.completedSurvey())
     );
 
     return response.statusCode == 200;
