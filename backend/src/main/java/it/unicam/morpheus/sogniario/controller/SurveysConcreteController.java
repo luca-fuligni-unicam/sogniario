@@ -81,7 +81,7 @@ public class SurveysConcreteController implements SurveysController{
         tempSurvey.setId(fileName.substring(0, fileName.length()-4));
 
         Map<String, Set<String>> questions = new HashMap<>();
-        for(int i=0; worksheet.getRow(i) != null; i++) {
+        for(int i=0; !(worksheet.getRow(i) == null || worksheet.getRow(i).getLastCellNum() <= 0); i++) {
 
             HSSFRow row = worksheet.getRow(i);
 
