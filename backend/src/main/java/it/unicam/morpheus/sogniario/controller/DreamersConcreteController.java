@@ -1,7 +1,9 @@
 package it.unicam.morpheus.sogniario.controller;
 
+import it.unicam.morpheus.sogniario.checker.CompletedSurveyChecker;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
+import it.unicam.morpheus.sogniario.model.CompletedSurvey;
 import it.unicam.morpheus.sogniario.model.Dreamer;
 import it.unicam.morpheus.sogniario.repository.DreamersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ public class DreamersConcreteController implements DreamersController{
 
     @Autowired
     private DreamersRepository dreamersRepository;
+
+    @Autowired
+    private CompletedSurveyChecker completedSurveyChecker;
 
     @Override
     public Dreamer getInstance(String id) throws EntityNotFoundException {
@@ -51,5 +56,13 @@ public class DreamersConcreteController implements DreamersController{
     @Override
     public Page<Dreamer> getPage(int page, int size) throws EntityNotFoundException {
         return dreamersRepository.findAll(PageRequest.of(page, size));
+    }
+
+    @Override
+    public boolean addCompletedSurvey(CompletedSurvey completedSurvey, String dreamerID) throws EntityNotFoundException {
+        if(dreamerID.isBlank()) throw new IllegalArgumentException("Il campo 'ID' è vuoto");
+        if(dreamersRepository.findById(dreamerID).isEmpty()) throw new EntityNotFoundException("Nessun Dreamer trovato con l'ID: "+dreamerID);
+        completedSurveyChecker.check(completedSurvey);
+        return dreamersRepository.findById(dreamerID).get().addCompletedSurvey(completedSurvey);
     }
 }
