@@ -1,28 +1,27 @@
 package it.unicam.morpheus.sogniario.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 public class Dream {
 
     @Getter @Setter @NonNull
-    private String id;
-
-    @Getter @Setter @NonNull
     private String text;
 
     @Getter @Setter @NonNull
-    private Calendar data;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime data;
 
     public Dream(String text){
         if(text.isBlank()) throw new IllegalArgumentException("The dream is blank");
         this.text = text;
-        this.data = Calendar.getInstance();
+        this.data = LocalDateTime.now();
     }
 
 }

@@ -18,10 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Validated
 @Service
@@ -84,12 +81,12 @@ public class SurveysConcreteController implements SurveysController{
         // TODO: 21/03/2021 se funzionante con l'estensone .xlsx togliere 5 caratteri
         tempSurvey.setId(fileName.substring(0, fileName.length()-4));
 
-        Map<String, Set<String>> questions = new HashMap<>();
+        Map<String, List<String>> questions = new HashMap<>();
         for(int i=0; !(worksheet.getRow(i) == null || worksheet.getRow(i).getLastCellNum() <= 0); i++) {
 
             HSSFRow row = worksheet.getRow(i);
 
-            Set<String> answers = new HashSet<>();
+            List<String> answers = new ArrayList<>();
 
             for(int j = 1; !(row.getCell(j) == null || row.getCell(j).getCellType() == CellType.BLANK); j++)
                 answers.add(row.getCell(j).getStringCellValue());

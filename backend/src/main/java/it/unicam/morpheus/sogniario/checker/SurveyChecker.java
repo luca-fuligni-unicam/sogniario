@@ -4,8 +4,8 @@ import it.unicam.morpheus.sogniario.model.Survey;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Validated
 @Service
@@ -16,7 +16,7 @@ public class SurveyChecker implements EntityChecker<Survey>{
         if(object.getQuestions().isEmpty())
             throw new IllegalStateException("La lista delle domande del Survey è vuota");
 
-        for(Map.Entry<String, Set<String>> a: object.getQuestions().entrySet()) {
+        for(Map.Entry<String, List<String>> a: object.getQuestions().entrySet()) {
             if (a.getKey().isBlank())
                 throw new IllegalStateException("Una domanda del Survey è vuota");
             if (a.getValue().isEmpty())
