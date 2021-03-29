@@ -9,13 +9,12 @@ import 'dart:convert';
 class SurveyApi extends Utils {
 
   Future<Survey> getSurveys(String surveyFile) async {
-    var response = await http.post(
-        Uri.tryParse('${server}api/survey/import/$surveyFile'),
+    var response = await http.get(
+        Uri.tryParse('${server}api/survey/$surveyFile'),
         headers: header(getToken()),
-        body: jsonEncode({})
     );
 
-    return Survey();
+    return Survey.fromJson(jsonDecode(response.body));
   }
 
 
