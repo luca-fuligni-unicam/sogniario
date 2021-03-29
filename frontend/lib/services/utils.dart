@@ -12,10 +12,11 @@ class Utils {
 
 
   Map<String, String> header(String token) => {
-    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-    'Access-Control-Allow-Methods': 'OPTIONS, DELETE, POST, GET, PUT',
-    'token': token
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    //'token': token,
   };
 
 
