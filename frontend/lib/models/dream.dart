@@ -22,6 +22,7 @@ class Dream {
 
   Map<String, dynamic> dreamReport() => {
     'text': dream,
+    'data': DateTime.now().toString().substring(0, 19)
   };
 
 }
