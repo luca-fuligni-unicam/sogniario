@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/dream.dart';
+import 'package:frontend/views/survey/survey_dream.dart';
 import 'package:frontend/widgets/circle_decoration.dart';
 import 'package:frontend/widgets/sogniario_button.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -184,7 +186,12 @@ class _AddDreamState extends State<AddDream> {
                       background: Colors.green.shade50.withOpacity(0.5),
                       overlay: Colors.green.shade50,
                       onPressed: () {
-                        Navigator.pushNamed(context, '/report_dream');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => SurveyDream(dream: Dream(dream: dreamController.text))
+                            )
+                        );
                       },
                     ),
 
