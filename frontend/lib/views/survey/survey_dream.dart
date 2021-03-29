@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:frontend/models/completed_survey.dart';
+import 'package:frontend/models/dream.dart';
+import 'package:frontend/models/report.dart';
 import 'package:frontend/models/survey.dart';
+import 'package:frontend/services/rest_api/report_api.dart';
 import 'package:frontend/services/rest_api/suvery_api.dart';
 import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/survey_card.dart';
 
 
 class SurveyDream extends StatefulWidget {
+
+  final Dream dream;
+
+  SurveyDream({
+    this.dream
+  });
 
   @override
   _SurveyDreamState createState() => _SurveyDreamState();
@@ -16,6 +26,7 @@ class _SurveyDreamState extends State<SurveyDream> {
 
   PageController controller = PageController();
   SurveyApi surveyApi;
+  ReportApi reportApi;
   int currentIndex = 0;
 
   TextStyle _questionStyle = TextStyle(
@@ -29,6 +40,7 @@ class _SurveyDreamState extends State<SurveyDream> {
   @override
   void initState() {
     surveyApi = SurveyApi();
+    reportApi = ReportApi();
     super.initState();
   }
 
@@ -171,7 +183,47 @@ class _SurveyDreamState extends State<SurveyDream> {
                                                     return SogniarioAlert(
                                                         content: "\nConfermi le risposte date?\n",
                                                         buttonLabel: 'Conferma',
-                                                        onPressed: () {
+                                                        onPressed: () async {
+
+                                                          List<String> answer = List
+                                                              .generate(6, (index) => data.data.questions.values.toList()[index][answers[index]]);
+
+                                                          // TODO fare il fix di dreamerId e surveyId
+                                                          bool valid = await reportApi.insertReport(
+                                                            Report(
+                                                              dreamerId: '00:0a:95:9d:68:16',
+                                                              dream: widget.dream,
+                                                              completedSurvey: CompletedSurvey(
+                                                                surveyId: 'dream-survey',
+                                                                answers: answer
+                                                              )
+                                                            )
+                                                          );
+
+                                                          if (valid) {
+                                                            showDialog(
+                                                                context: context,
+                                                                builder: (context) {
+                                                                  return SogniarioAlert(
+                                                                      content: "Report mandato con successo!",
+                                                                      buttonLabel: 'Ok',
+                                                                      type: AlertDialogType.SUCCESS,
+                                                                      onPressed: () {
+                                                                        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                                                                      });
+                                                                });
+
+                                                          } else {
+                                                            showDialog(
+                                                                context: context,
+                                                                builder: (context) {
+                                                                  return SogniarioAlert(
+                                                                      content: "Problemi nel mandare il report!",
+                                                                      buttonLabel: 'Ok',
+                                                                      type: AlertDialogType.ERROR,
+                                                                      onPressed: () {});
+                                                                });
+                                                          }
 
                                                         });
                                                   });
