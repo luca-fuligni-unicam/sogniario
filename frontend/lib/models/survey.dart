@@ -2,7 +2,7 @@
 class Survey {
 
   final String id;
-  final Map<String, Set<String>> questions;
+  final Map<String, dynamic> questions;
 
   Survey({
     this.id,
