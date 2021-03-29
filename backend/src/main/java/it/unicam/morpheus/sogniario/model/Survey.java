@@ -7,8 +7,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Document(collection = "survey")
 @NoArgsConstructor
@@ -18,9 +18,9 @@ public class Survey {
     private String id;
 
     @Getter @Setter @NonNull
-    private Map<String, Set<String>> questions;
+    private Map<String, List<String>> questions;
 
-    public Survey(Map<String, Set<String>> questions) {
+    public Survey(Map<String, List<String>> questions) {
         if(questions.isEmpty()) throw new IllegalArgumentException("Questions is empty");
         this.questions = questions;
     }

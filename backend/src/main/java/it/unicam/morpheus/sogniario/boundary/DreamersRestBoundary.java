@@ -3,6 +3,7 @@ package it.unicam.morpheus.sogniario.boundary;
 import it.unicam.morpheus.sogniario.controller.DreamersController;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
+import it.unicam.morpheus.sogniario.model.CompletedSurvey;
 import it.unicam.morpheus.sogniario.model.Dreamer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,4 +59,12 @@ public class DreamersRestBoundary implements DreamersBoundary{
     public Page<Dreamer> getPage(@PathVariable int page, @PathVariable int size) throws EntityNotFoundException {
         return dreamersController.getPage(page, size);
     }
+
+    @Override
+    @PreAuthorize("permitAll")
+    @PostMapping(value = "/addCompletedSurvey/{dreamerID}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public boolean addCompletedSurvey(@RequestBody CompletedSurvey completedSurvey, @PathVariable String dreamerID) throws EntityNotFoundException {
+        return dreamersController.addCompletedSurvey(completedSurvey, dreamerID);
+    }
+
 }

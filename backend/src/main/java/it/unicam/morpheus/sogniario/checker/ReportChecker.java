@@ -22,13 +22,10 @@ public class ReportChecker implements EntityChecker<Report> {
 
     @Override
     public boolean check(Report object) throws EntityNotFoundException {
-        if(dreamersRepository.existsById(object.getDreamerId()))
-            throw new EntityNotFoundException("Il Dreamer con l'Id: " + object.getDreamerId() + "non è presente");
+        if(!dreamersRepository.existsById(object.getDreamerId()))
+            throw new EntityNotFoundException("Il Dreamer con l'Id: " + object.getDreamerId() + " non è presente");
 
         dreamChecker.check(object.getDream());
-
-        if(!object.getCompletedSurvey().getDreamId().equals(object.getDreamerId()))
-            throw new IllegalStateException("Il CompletedDreamSurvey non appartiene al Dreamer con l'Id: " + object.getDreamerId());
 
         completedSurveyChecker.check(object.getCompletedSurvey());
 

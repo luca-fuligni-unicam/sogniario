@@ -41,6 +41,7 @@ public class SurveysConcreteController implements SurveysController{
         if(exists(object.getId())) throw new IdConflictException("Id già presente");
         surveyChecker.check(object);
         return surveysRepository.save(object);
+
     }
 
     @Override
@@ -80,12 +81,12 @@ public class SurveysConcreteController implements SurveysController{
         // TODO: 21/03/2021 se funzionante con l'estensone .xlsx togliere 5 caratteri
         tempSurvey.setId(fileName.substring(0, fileName.length()-4));
 
-        Map<String, Set<String>> questions = new HashMap<>();
-        for(int i=0; worksheet.getRow(i) != null; i++) {
+        Map<String, List<String>> questions = new HashMap<>();
+        for(int i=0; !(worksheet.getRow(i) == null || worksheet.getRow(i).getLastCellNum() <= 0); i++) {
 
             HSSFRow row = worksheet.getRow(i);
 
-            Set<String> answers = new HashSet<>();
+            List<String> answers = new ArrayList<>();
 
             for(int j = 1; !(row.getCell(j) == null || row.getCell(j).getCellType() == CellType.BLANK); j++)
                 answers.add(row.getCell(j).getStringCellValue());

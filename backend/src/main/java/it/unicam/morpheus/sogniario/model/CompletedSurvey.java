@@ -11,17 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 public class CompletedSurvey {
 
-    @Id @Getter @Setter @NonNull
-    private String id;
-
     @Getter @Setter @NonNull
     private List<String> answers;
 
     @Getter @Setter @NonNull
     private String surveyId;
-
-    @Getter @Setter @NonNull
-    private String dreamId;
 
     public CompletedSurvey(String surveyId, List<String> answers){
         if(answers.isEmpty()) throw new IllegalArgumentException("Answers is empty");
