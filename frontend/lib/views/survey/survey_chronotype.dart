@@ -37,8 +37,8 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue.shade50,
-        title: Text('Questionario sul Cronotipo', style: TextStyle(color: Colors.black54)),
-        iconTheme: IconThemeData(color: Colors.black54),
+        title: Text('Questionario sul Cronotipo', style: TextStyle(color: Colors.black87.withOpacity(0.8))),
+        iconTheme: IconThemeData(color: Colors.black87.withOpacity(0.8)),
         elevation: 0,
       ),
 
@@ -90,7 +90,14 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
                     if (data.data.id == null) {
                       return Center(
                         child: NoSurvey(
-                          child: Text('No Report!'),
+                          child: Text(
+                            'No Report!',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black87.withOpacity(0.7),
+                              fontWeight: FontWeight.w500
+                            ),
+                          ),
                         ),
                       );
                     }

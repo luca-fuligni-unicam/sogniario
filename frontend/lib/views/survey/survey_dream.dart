@@ -103,7 +103,14 @@ class _SurveyDreamState extends State<SurveyDream> {
                     if (data.data.id == null) {
                       return Center(
                         child: NoSurvey(
-                          child: Text('No Report!'),
+                          child: Text(
+                            'No Report!',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black87.withOpacity(0.7),
+                                fontWeight: FontWeight.w500
+                            ),
+                          ),
                         ),
                       );
                     }
