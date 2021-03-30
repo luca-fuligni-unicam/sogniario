@@ -13,20 +13,25 @@ class NoSurvey extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(40),
-        side: BorderSide(
-          color: Colors.grey.withOpacity(0.2),
-          width: 1,
-        ),
+    return Container(
+      height: MediaQuery.of(context).size.height / 3,
+      width: MediaQuery.of(context).size.width - 40,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30)
       ),
-      child: Container(
-        color: Colors.white,
-        width: 300,
-        height: 200,
-        child: child,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+          side: BorderSide(
+            color: Colors.blue.shade200,
+            width: 1.5,
+          ),
+        ),
+        child: Center(
+            child: child
+        ),
       ),
     );
   }
+
 }
