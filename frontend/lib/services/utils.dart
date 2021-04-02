@@ -1,22 +1,20 @@
-import 'package:crypt/crypt.dart';
 import 'package:hive/hive.dart';
-
-import 'dart:convert';
-import 'dart:math';
+import 'package:uuid/uuid.dart';
 
 
 class Utils {
 
   final String server = 'http://193.205.92.106:8080/';
   var box = Hive.box('data');
+  var uuid = Uuid();
 
 
   Map<String, String> header(String token) => {
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+    'Access-Control-Allow-Methods': 'OPTIONS, DELETE, POST, GET, PUT',
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    //'token': token,
   };
 
 
@@ -25,12 +23,7 @@ class Utils {
   }
 
   void setToken() {
-    var random = Random.secure();
-    var values = List<int>.generate(20, (i) =>  random.nextInt(255));
-
-    box.put('token', Crypt.sha512(base64UrlEncode(values), rounds: 8412, salt: 'b3st_s4lt_3v3r')
-        .toString()
-        .substring(30, 60));
+    box.put('token', uuid.v1());
   }
 
 }
