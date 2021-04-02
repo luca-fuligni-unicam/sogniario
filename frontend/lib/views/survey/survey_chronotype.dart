@@ -131,7 +131,7 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
                                 RadioListTile(
                                   value: count,
                                   groupValue: answers[index],
-                                  title: Text(data.data.questions.values.toList()[index].toList()[count]),
+                                  title: Text(data.data.questions.values.toList()[index].toList()[count].toString().substring(4)),
                                   onChanged: (changed) => setState(() => answers[index] = changed),
                                 ),
 
