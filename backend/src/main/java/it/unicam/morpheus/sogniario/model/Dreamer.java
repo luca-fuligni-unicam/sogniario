@@ -31,7 +31,7 @@ public class Dreamer {
     @Getter @Setter @NonNull
     private Sex sesso;
 
-    public Dreamer(String id, LocalDate nascita, Sex sesso){
+    public Dreamer(String id, @NonNull LocalDate nascita, @NonNull Sex sesso){
         if(id.isBlank()) throw new IllegalArgumentException("Id is blank");
         this.id = id;
         this.completedSurveys = new HashSet<>();
