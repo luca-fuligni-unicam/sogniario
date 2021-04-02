@@ -32,7 +32,9 @@ public class Nomination {
     @Getter @Setter @NonNull
     private NominationStatus status;
 
-    public Nomination(@NonNull String name, String motivazione){
+    public Nomination(String email, @NonNull String name, @NonNull String motivazione){
+        if(email.isBlank()) throw new IllegalArgumentException("The email is blank");
+        this.email = email;
         if(motivazione.isBlank()) throw new IllegalArgumentException("The motivazione is blank");
         this.motivazione = motivazione;
         if(name.isBlank()) throw new IllegalArgumentException("The name is blank");

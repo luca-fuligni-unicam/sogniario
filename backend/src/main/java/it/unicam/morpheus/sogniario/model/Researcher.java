@@ -20,15 +20,11 @@ public class Researcher {
     @Getter @Setter
     private boolean isAdministrator;
 
-    public Researcher(String name){
+    public Researcher(String email, @NonNull String name){
+        if(email.isBlank()) throw new IllegalArgumentException("The email is blank");
+        this.email = email;
         if(name.isBlank()) throw new IllegalArgumentException("The name is blank");
         this.name = name;
         this.isAdministrator = false;
-    }
-
-    public Researcher(String name, boolean isAdministrator){
-        if(name.isBlank()) throw new IllegalArgumentException("The name is blank");
-        this.name = name;
-        this.isAdministrator = isAdministrator;
     }
 }
