@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
+import 'package:frontend/models/dreamer.dart';
+import 'package:frontend/services/rest_api/dreamer_api.dart';
+import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/circle_decoration.dart';
 import 'package:frontend/widgets/sogniario_button.dart';
+import 'package:hive/hive.dart';
 
 
 class GeneralInformation extends StatefulWidget {
@@ -12,9 +16,18 @@ class GeneralInformation extends StatefulWidget {
 
 class _GeneralInformationState extends State<GeneralInformation> {
 
-  // 0 uomo, 1 donna
+  // 0 male, 1 female
   int gender = 0;
   DateTime year = DateTime.now();
+  var box = Hive.box('data');
+  DreamerApi dreamerApi;
+
+  @override
+  void initState() {
+    dreamerApi = DreamerApi();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -148,10 +161,46 @@ class _GeneralInformationState extends State<GeneralInformation> {
 
                 SogniarioButton(
                     onPressed: () async {
-                      /*
-                      // TODO controllo -> year.year == DateTime.now().year
-                       */
-                      Navigator.pushNamed(context, '/home');
+
+                      if (year == null || year.year == DateTime.now().year) {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SogniarioAlert(
+                                  content: 'Inserire la data di nascita!"',
+                                  buttonLabel: 'Ok',
+                                  onPressed: () => Navigator.pop(context)
+                              );
+                            });
+
+                      } else {
+                        box.put('first_access', false);
+                        dreamerApi.setToken();
+
+                        bool registered = await dreamerApi.registered(
+                          Dreamer(
+                            id: dreamerApi.getToken(),
+                            sex: gender == 0 ? 'MALE' : 'FEMALE',
+                            birthDate: year
+                          )
+                        );
+
+                        if (registered) {
+                          Navigator.pushNamed(context, '/home');
+
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SogniarioAlert(
+                                    content: 'Problema con la registrazione!',
+                                    buttonLabel: 'Ok',
+                                    onPressed: () => Navigator.pop(context)
+                                );
+                              });
+                        }
+                      }
+
                     },
                     child: Text('Conferma'),
                     gender: 0,
