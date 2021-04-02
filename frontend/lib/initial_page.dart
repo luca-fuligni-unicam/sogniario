@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/views/intro/intro_page.dart';
 import 'package:hive/hive.dart';
 
+import 'views/home.dart';
+
 
 class InitialPage extends StatefulWidget {
 
@@ -17,18 +19,15 @@ class _InitialPageState extends State<InitialPage> {
     var box = Hive.box('data');
     bool firstAccess = box.get('first_access') ?? true;
 
-    /*
-    if (true) {
-      // box.put('first_access', false);
+
+    if (firstAccess) {
       return IntroPage();
 
     } else {
       return Home();
     }
 
-     */
-
-    return StreamBuilder(
+    /*return StreamBuilder(
       builder: (context, snapshot) {
 
         /*if (snapshot.hasError)
@@ -54,7 +53,7 @@ class _InitialPageState extends State<InitialPage> {
 
         return IntroPage();
       },
-    );
+    );*/
 
   }
 }
