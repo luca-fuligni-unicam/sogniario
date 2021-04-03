@@ -4,12 +4,16 @@ import it.unicam.morpheus.sogniario.checker.ReportChecker;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Report;
+import it.unicam.morpheus.sogniario.repository.DreamersRepository;
 import it.unicam.morpheus.sogniario.repository.ReportsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import java.util.stream.Collectors;
 
 @Validated
 @Service
@@ -20,6 +24,9 @@ public class ReportsConcreteController implements ReportsController{
 
     @Autowired
     private ReportChecker reportChecker;
+
+    @Autowired
+    private DreamersRepository dreamersRepository;
 
     @Override
     public Report getInstance(String id) throws EntityNotFoundException {
@@ -60,8 +67,13 @@ public class ReportsConcreteController implements ReportsController{
 
     @Override
     public Page<Report> getPageByDreamerId(int page, int size, String dreamerID) throws EntityNotFoundException {
-        // TODO: 17/03/2021 da implementare
-        return null;
+        if(dreamerID.isBlank()) throw new IllegalArgumentException("Il campo 'dreamerID' è vuoto");
+        if(!dreamersRepository.existsById(dreamerID))
+            throw new EntityNotFoundException("Nessun dreamer con id: "+ dreamerID);
+        return new PageImpl<>(
+                reportsRepository.findAll(PageRequest.of(page, size))
+                        .stream().filter(r -> r.getDreamerId().equals(dreamerID))
+                        .collect(Collectors.toList()));
     }
 
     @Override
