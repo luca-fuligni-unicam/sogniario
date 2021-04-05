@@ -9,7 +9,7 @@ class Utils {
   var uuid = Uuid();
 
 
-  Map<String, String> header(String token) => {
+  Map<String, String> header = {
     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
     'Access-Control-Allow-Methods': 'OPTIONS, DELETE, POST, GET, PUT',
     'Access-Control-Allow-Origin': '*',
