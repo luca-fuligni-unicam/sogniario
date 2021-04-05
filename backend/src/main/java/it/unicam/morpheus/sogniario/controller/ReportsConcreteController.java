@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Validated
@@ -78,20 +79,20 @@ public class ReportsConcreteController implements ReportsController{
     }
 
     @Override
-    public Page<Report> getPageByDreamerIdAndDate(int page, int size, String dreamerID, LocalDate data) throws EntityNotFoundException {
+    public List<Report> getByDreamerIdAndDate(String dreamerID, String data) throws EntityNotFoundException {
         if(dreamerID.isBlank()) throw new IllegalArgumentException("Il campo 'dreamerID' è vuoto");
         if(!dreamersRepository.existsById(dreamerID))
             throw new EntityNotFoundException("Nessun dreamer con id: "+ dreamerID);
-        // TODO: 05/04/2021 verificare data
-        return new PageImpl<>(
-                reportsRepository.findAll(PageRequest.of(page, size)).stream()
-                        .filter(r ->
-                                r.getDreamerId().equals(dreamerID) &&
-                                r.getDream().getData().getYear() == data.getYear() &&
-                                r.getDream().getData().getMonth().equals(data.getMonth()) &&
-                                r.getDream().getData().getDayOfMonth() == data.getDayOfMonth()
-                        )
-                        .collect(Collectors.toList()));
+        LocalDate localDate;
+        if(data.isBlank()) throw new IllegalArgumentException("Il campo 'data' è vuoto");
+        try{ localDate = LocalDate.parse(data); }
+        catch (Exception e) { throw new IllegalArgumentException("Il campo 'data' non è valido"); }
+
+        return reportsRepository.findByDreamerId(dreamerID).stream().filter(r ->
+                        r.getDream().getData().getYear() == localDate.getYear() &&
+                        r.getDream().getData().getMonth().equals(localDate.getMonth()) &&
+                        r.getDream().getData().getDayOfMonth() == localDate.getDayOfMonth())
+                .collect(Collectors.toList());
     }
 
     @Override
