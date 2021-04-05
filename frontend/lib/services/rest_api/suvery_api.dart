@@ -11,7 +11,7 @@ class SurveyApi extends Utils {
   Future<Survey> getSurveys(String surveyFile) async {
     var response = await http.get(
         Uri.tryParse('${server}api/survey/$surveyFile'),
-        headers: header(getToken()),
+        headers: header,
     );
 
     return Survey.fromJson(jsonDecode(response.body));
@@ -21,7 +21,7 @@ class SurveyApi extends Utils {
   Future<bool> insertSurvey(CompletedSurvey completedSurvey) async {
     var response = await http.post(
         Uri.tryParse('${server}api/survey/createNew'),
-        headers: header(getToken()),
+        headers: header,
         body: jsonEncode(completedSurvey.completedSurvey())
     );
 

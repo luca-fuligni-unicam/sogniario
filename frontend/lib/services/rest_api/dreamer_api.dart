@@ -10,7 +10,7 @@ class DreamerApi extends Utils {
   Future<bool> registered(Dreamer dreamer) async {
     var response = await http.post(
         Uri.tryParse('${server}api/dreamers/createNew'),
-        headers: header(getToken()),
+        headers: header,
         body: jsonEncode(dreamer.registered())
     );
 
