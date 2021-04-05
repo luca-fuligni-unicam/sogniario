@@ -12,11 +12,12 @@ class Dream {
   });
 
 
+  // TODO vedere se inserire completedSurvey per vedere il questionario compilato per quel sogno.
   factory Dream.fromJson(Map<String, dynamic> json) {
     return Dream(
       id: json['id'],
-      dream: json['text'],
-      registered: DateTime.parse(json['registered'])
+      dream: json['dream']['text'],
+      registered: DateTime.parse(json['dream']['data'])
     );
   }
 
