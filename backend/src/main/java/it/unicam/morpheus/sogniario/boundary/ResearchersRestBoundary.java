@@ -6,11 +6,9 @@ import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Researcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/researchers")
@@ -27,32 +25,37 @@ public class ResearchersRestBoundary implements ResearchersBoundary{
     }
 
     @Override
-    public Researcher create(Researcher object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 02/04/2021 implementare
-        return null;
+    @PreAuthorize("permitAll")
+    @PostMapping(value = "/createNew", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Researcher create(@RequestBody Researcher object) throws EntityNotFoundException, IdConflictException {
+        return researchersController.create(object);
     }
 
     @Override
-    public Researcher update(Researcher object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 02/04/2021 implementare
-        return null;
+    @PreAuthorize("permitAll")
+    @PutMapping(value = "/update", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Researcher update(@RequestBody Researcher object) throws EntityNotFoundException, IdConflictException {
+        return researchersController.update(object);
     }
 
     @Override
-    public boolean delete(String researcherID) {
-        // TODO: 02/04/2021 implementare
-        return false;
+    @PreAuthorize("permitAll")
+    @DeleteMapping(value = "/{researcherID}")
+    public boolean delete(@PathVariable String researcherID) {
+        return researchersController.delete(researcherID);
     }
 
     @Override
-    public boolean exists(String researcherID) {
-        // TODO: 02/04/2021 implementare
-        return false;
+    @PreAuthorize("permitAll")
+    @GetMapping("/exist/{researcherID}")
+    public boolean exists(@PathVariable String researcherID) {
+        return researchersController.exists(researcherID);
     }
 
     @Override
-    public Page<Researcher> getPage(int page, int size) throws EntityNotFoundException {
-        // TODO: 02/04/2021 implementare
-        return null;
+    @PreAuthorize("permitAll")
+    @GetMapping("/list/{page}/{size}")
+    public Page<Researcher> getPage(@PathVariable int page, @PathVariable int size) throws EntityNotFoundException {
+        return researchersController.getPage(page, size);
     }
 }

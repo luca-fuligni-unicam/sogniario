@@ -1,5 +1,6 @@
 package it.unicam.morpheus.sogniario.boundary;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import it.unicam.morpheus.sogniario.controller.ReportsController;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("api/reports")
@@ -61,9 +64,16 @@ public class ReportsRestBoundary implements ReportsBoundary{
 
     @Override
     @PreAuthorize("permitAll")
-    @GetMapping("/list/{page}/{size}/{dreamerID}")
+    @GetMapping("/listById/{page}/{size}/{dreamerID}")
     public Page<Report> getPageByDreamerId(@PathVariable int page, @PathVariable int size, @PathVariable String dreamerID) throws EntityNotFoundException {
         return reportsController.getPageByDreamerId(page, size, dreamerID);
+    }
+
+    @Override
+    @PreAuthorize("permitAll")
+    @GetMapping("/listByIdAndData/{page}/{size}/{dreamerID}")
+    public Page<Report> getPageByDreamerIdAndDate(@PathVariable int page, @PathVariable int size, @PathVariable String dreamerID, @RequestBody @JsonFormat(pattern = "yyyy-MM-dd") LocalDate data) throws EntityNotFoundException {
+        return reportsController.getPageByDreamerIdAndDate(page, size, dreamerID, data);
     }
 
     @Override
