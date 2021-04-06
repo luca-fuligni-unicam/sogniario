@@ -17,13 +17,20 @@ class NoSurvey extends StatelessWidget {
       height: MediaQuery.of(context).size.height / 3,
       width: MediaQuery.of(context).size.width - 40,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30)
+          color: Colors.blue.shade100.withOpacity(0.8),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50),
+              bottomRight: Radius.circular(50)
+          )
       ),
       child: Card(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(50),
+              bottomRight: Radius.circular(50)
+          ),
           side: BorderSide(
-            color: Colors.blue.shade200,
+            color: Colors.blue.shade200.withOpacity(0.8),
             width: 1.5,
           ),
         ),
