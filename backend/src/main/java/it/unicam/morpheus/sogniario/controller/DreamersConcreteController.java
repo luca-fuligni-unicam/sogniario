@@ -13,6 +13,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+/**
+ * The class implements the {@link DreamersController} interface
+ */
 @Validated
 @Service
 public class DreamersConcreteController implements DreamersController{

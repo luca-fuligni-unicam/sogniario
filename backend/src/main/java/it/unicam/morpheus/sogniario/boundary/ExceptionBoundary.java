@@ -10,6 +10,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.io.FileNotFoundException;
 
+/**
+ * The class takes care of managing the handlers for shared exceptions between the various Boundary interfaces.
+ */
 @ControllerAdvice
 public class ExceptionBoundary extends ResponseEntityExceptionHandler {
 

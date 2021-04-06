@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * The class implements the {@link SurveysController} interface
+ */
 @Validated
 @Service
 public class SurveysConcreteController implements SurveysController{

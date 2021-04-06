@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
+/**
+ * The class implements the {@link SurveysBoundary} interface so as to provide its API Rest.
+ */
 @RestController
 @RequestMapping("api/survey")
 public class SurveysRestBoundary implements SurveysBoundary{

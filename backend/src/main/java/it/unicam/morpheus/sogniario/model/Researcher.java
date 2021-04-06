@@ -7,6 +7,11 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * The class has as its objective the description of a researcher,
+ * who is represented through an emal that acts as an Id,
+ * the name of the resarcher and a flag indicating the possession of administrator permissions
+ */
 @Document(collection = "researcher")
 @NoArgsConstructor
 public class Researcher {

@@ -11,6 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * The class implements the {@link DreamersBoundary} interface so as to provide its API Rest.
+ */
 @RestController
 @RequestMapping("api/dreamers")
 public class DreamersRestBoundary implements DreamersBoundary{

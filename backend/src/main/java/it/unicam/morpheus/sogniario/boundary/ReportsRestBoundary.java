@@ -10,6 +10,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+/**
+ * The class implements the {@link ReportsBoundary} interface so as to provide its API Rest.
+ */
 @RestController
 @RequestMapping("api/reports")
 public class ReportsRestBoundary implements ReportsBoundary{
@@ -61,9 +66,16 @@ public class ReportsRestBoundary implements ReportsBoundary{
 
     @Override
     @PreAuthorize("permitAll")
-    @GetMapping("/list/{page}/{size}/{dreamerID}")
+    @GetMapping("/listById/{page}/{size}/{dreamerID}")
     public Page<Report> getPageByDreamerId(@PathVariable int page, @PathVariable int size, @PathVariable String dreamerID) throws EntityNotFoundException {
         return reportsController.getPageByDreamerId(page, size, dreamerID);
+    }
+
+    @Override
+    @PreAuthorize("permitAll")
+    @GetMapping("/listByIdAndData/{dreamerID}/{data}")
+    public List<Report> getByDreamerIdAndDate(@PathVariable String dreamerID, @PathVariable String data) throws EntityNotFoundException {
+        return reportsController.getByDreamerIdAndDate(dreamerID, data);
     }
 
     @Override

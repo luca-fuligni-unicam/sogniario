@@ -7,6 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+/**
+ * The class implements the {@link ResearchersController} interface
+ */
 @Validated
 @Service
 public class ResearchersConcreteController implements ResearchersController{

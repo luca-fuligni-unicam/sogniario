@@ -8,6 +8,10 @@ import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
+/**
+ * The class has as its objective the description of a CompletedSurvey that keeps within it the reference to the {@link Survey} to which it is connected
+ * and the list of answers given by the {@link Dreamer}.
+ */
 @NoArgsConstructor
 public class CompletedSurvey {
 
