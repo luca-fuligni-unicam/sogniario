@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * The class has as its objective the description of a Dream that keeps within it the text of the dream and the date of its registration.
+ */
 @NoArgsConstructor
 public class Dream {
 

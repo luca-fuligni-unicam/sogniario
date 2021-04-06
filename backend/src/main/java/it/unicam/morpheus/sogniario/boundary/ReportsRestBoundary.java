@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The class implements the {@link ReportsBoundary} interface so as to provide its API Rest.
+ */
 @RestController
 @RequestMapping("api/reports")
 public class ReportsRestBoundary implements ReportsBoundary{

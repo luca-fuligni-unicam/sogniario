@@ -17,6 +17,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The class implements the {@link ReportsController} interface
+ */
 @Validated
 @Service
 public class ReportsConcreteController implements ReportsController{

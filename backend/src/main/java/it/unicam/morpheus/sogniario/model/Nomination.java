@@ -12,6 +12,10 @@ import java.time.LocalDateTime;
 
 enum NominationStatus{PENDENTE, ACCEPTED, REJECTED}
 
+/**
+ * The class has as its objective the description of a nomination that keeps within it the email that acts as an Id,
+ * the name of the person who requested it, the date of request, the motivation and the relative {@link NominationStatus}.
+ */
 @Document(collection = "nomination")
 @NoArgsConstructor
 public class Nomination {

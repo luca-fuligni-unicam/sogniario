@@ -10,6 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * The class implements the {@link NominationsBoundary} interface so as to provide its API Rest.
+ */
 @RestController
 @RequestMapping("api/nominations")
 public class NominationsRestBoundary implements NominationsBoundary{
