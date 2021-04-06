@@ -23,6 +23,30 @@
 
 # 📝 Panoramica e funzionalità <a name = "panoramica"></a>
 
+**Implementate**:
+ - Se eseguito il primo accesso appare l'intro, dopo viene eseguita la registrazione generale dove bisogna selezionare il sesso e la data di nascita, si fa la POST che registra l'utente e viene assegnato un id univoco che rispecchia il singolo utente.
+ - Appena eseguita la registrazione si arriva alla home, e se si esce e si rientra si ritorna nella home e non viene piu fatta vedere l'intro, se si esce dalla pagina di registrazione generale senza aver salvato i dati si ritorna nella pagina di intro.
+ 
+ - Raccontare un sogno, sia tramite voce, sia scritto.
+ - Compilare il questionario che riguarda il sogno, GET che ritorna il questionario funzionante.
+ - POST che fa il submit del sogno e del questionario funzionante.
+ 
+ - Compilare il questionario sul cronotipo e POST funzionante.
+ 
+ - Vedere le informazioni che riguardano privacy e l'applicazione.
+ 
+ - Vedere tutti i sogni nelle rispettive date, tramite la GET vengono ritornati i sogni registrati in una rispettiva data.
+
+ - Vari alert, mostrati nel caso la chiamata REST non vada a buon fine, oppure nel caso viene registrato con successo sogno e questionario.
+
+
+**Non implementate**:
+ - Nuvola dei sogni e il relativo grafo del sogno.
+ - PSQI.
+ - Relativa logica che riguarda il reminder sul compilare i questionari (verrà fatto dopo aver implementato il PSQI).
+
+
+
 # ⚙ Processo di Sviluppo<a name = "processo"></a>
 
 Per sviluppare l'applicativo è stato scelto di seguire il processo standardizzato **Unified Process (UP)**, processo iterativo incrementale, utilizzando come strumento di lavoro **Visual Paradigm** basato sul **Unified Modeling Language (UML)**.
@@ -46,7 +70,15 @@ Il lato back end si basa sul linguaggio **Java** e rende disponibile per l'inter
 
 Per quanto concerne la persistenza delle informazioni processate a livello di back end si è deciso di sfruttare i servizi offerti dal DBMS non relazionale **MongoDB** e dal relativo framework per linguaggio Java.
 
-Il front end è interamente scritto utilizzando il framework **Flutter**. L'applicativo si sostanzia in un app mobile Nativa per gli ambienti IOS e Android.
+Il front end è interamente scritto utilizzando il framework **Flutter**.
+Flutter si basa su **Dart** ed offre un codice portabile. Lo sviluppo di app ibride combina elementi di app native e web. Consentono di avere un unica codebase in un unico linguaggio che può essere eseguito su più piattaforme diverse.
+
+Nello sviluppo dell'app si è utilizzato il pattern BLoC (Business Logic Component).
+Suddividendo il progetto in 4 directory:
+ - models.
+ - views, directory che contiene la UI.
+ - services, directory che contiene le API REST, eventuali route e le informazioni da tenere memorizzate che riguardano utente e server.
+ - widgets, directory che contiene i widget stateless, ovvero quei widget che non hanno uno stato, cosi da avere componenti riutilizzabili.
 
 # 🔭 Autori <a name = "autori"></a>
 
