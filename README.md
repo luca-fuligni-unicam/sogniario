@@ -23,6 +23,12 @@
 
 # 📝 Panoramica e funzionalità <a name = "panoramica"></a>
 
+**Sogniario è un'app creata per registrare e catalogare i tuoi sogni.**
+**Prende nota della qualità del tuo sonno e delle caratteristiche dei tuoi sogni. Inoltre registra vocalmente la descrizione del tuo sogno.**
+**Analizza la complessità del sogno attraverso tecniche di neurolinguistica e riporta grafi e nuvole di parole per una visualizzazione intuitiva del contenuto del sogno. Permette di tener traccia della qualità del tuo sonno e dei sogni mediante la funzione calendario.**
+
+Sogniario nasce da una collaborazione tra il Brain and Sleep Research Laboratory dell’Università di Camerino e il Molecular Mind Laboratory della Scuola IMT Alti Studi Lucca. Ha lo scopo di aiutare gli scienziati a comprendere il funzionamento del cervello alla base dell’esperienza cosciente durante il sonno.
+
 **Implementate**:
  - Se eseguito il primo accesso appare l'intro, dopo viene eseguita la registrazione generale dove bisogna selezionare il sesso e la data di nascita, si fa la POST che registra l'utente e viene assegnato un id univoco che rispecchia il singolo utente.
  - Appena eseguita la registrazione si arriva alla home, e se si esce e si rientra si ritorna nella home e non viene piu fatta vedere l'intro, se si esce dalla pagina di registrazione generale senza aver salvato i dati si ritorna nella pagina di intro.
