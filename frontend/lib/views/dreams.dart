@@ -89,26 +89,23 @@ class _MyDreamsState extends State<MyDreams> {
     return ListView(
         children: [
 
-          Container(
-            height: 360,
-            child: TableCalendar(
-              calendarController: _calendarController,
-              headerStyle: HeaderStyle(
-                  titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
-                  formatButtonTextStyle: TextStyle(color: Colors.white, fontSize: 16),
-                  formatButtonDecoration: BoxDecoration(color: Colors.white),
-                  leftChevronIcon: Icon(Icons.chevron_left_outlined, size: 28),
-                  rightChevronIcon: Icon(Icons.chevron_right_outlined, size: 28)
-              ),
-              calendarStyle: CalendarStyle(
-                  weekdayStyle: TextStyle(fontSize: 16, color: Colors.black.withOpacity(0.6)),
-                  selectedColor: Colors.blue[100],
-                  selectedStyle: TextStyle(color: Colors.black.withOpacity(0.8), fontSize: 17),
-                  todayColor: Colors.blue.shade300.withOpacity(0.8)
-              ),
-              endDay: DateTime.now(),
-              onDaySelected: (date, events, holidays) => setState(() => dreamsDate = date),
+          TableCalendar(
+            calendarController: _calendarController,
+            headerStyle: HeaderStyle(
+                titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
+                formatButtonTextStyle: TextStyle(color: Colors.white, fontSize: 16),
+                formatButtonDecoration: BoxDecoration(color: Colors.white),
+                leftChevronIcon: Icon(Icons.chevron_left_outlined, size: 28),
+                rightChevronIcon: Icon(Icons.chevron_right_outlined, size: 28)
             ),
+            calendarStyle: CalendarStyle(
+                weekdayStyle: TextStyle(fontSize: 16, color: Colors.black.withOpacity(0.6)),
+                selectedColor: Colors.blue[100],
+                selectedStyle: TextStyle(color: Colors.black.withOpacity(0.8), fontSize: 17),
+                todayColor: Colors.blue.shade300.withOpacity(0.8)
+            ),
+            endDay: DateTime.now(),
+            onDaySelected: (date, events, holidays) => setState(() => dreamsDate = date),
           ),
 
           DreamsList(
