@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/dream.dart';
 import 'package:frontend/views/survey/survey_dream.dart';
+import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/circle_decoration.dart';
 import 'package:frontend/widgets/sogniario_button.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -186,12 +187,27 @@ class _AddDreamState extends State<AddDream> {
                       background: Colors.green.shade50.withOpacity(0.5),
                       overlay: Colors.green.shade50,
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => SurveyDream(dream: Dream(dream: dreamController.text))
-                            )
-                        );
+
+                        if (dreamController.text.isEmpty) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SogniarioAlert(
+                                    content: "Non hai raccontato nessun sogno!",
+                                    buttonLabel: 'Ok',
+                                    type: AlertDialogType.INFO,
+                                    onPressed: () => Navigator.pop(context));
+                              });
+
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => SurveyDream(dream: Dream(dream: dreamController.text))
+                              )
+                          );
+                        }
+
                       },
                     ),
 
