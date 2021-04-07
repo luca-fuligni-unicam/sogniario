@@ -58,7 +58,7 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
                     decoration: BoxDecoration(
                       color: Colors.blue.shade50,
                     ),
-                    height: 150,
+                    height: 100,
                   ),
                 ),
               ),
@@ -71,7 +71,7 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
                     decoration: BoxDecoration(
                       color: Colors.blue.shade50,
                     ),
-                    height: 120,
+                    height: 100,
                   ),
                 ),
               ),

@@ -71,7 +71,7 @@ class _SurveyDreamState extends State<SurveyDream> {
                     decoration: BoxDecoration(
                       color: Colors.blue.shade50,
                     ),
-                    height: 150,
+                    height: 100,
                   ),
                 ),
               ),
@@ -84,7 +84,7 @@ class _SurveyDreamState extends State<SurveyDream> {
                     decoration: BoxDecoration(
                       color: Colors.blue.shade50,
                     ),
-                    height: 120,
+                    height: 100,
                   ),
                 ),
               ),
