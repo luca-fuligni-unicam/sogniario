@@ -4,6 +4,7 @@ import 'package:frontend/views/survey/survey_dream.dart';
 import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/circle_decoration.dart';
 import 'package:frontend/widgets/sogniario_button.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 
@@ -200,10 +201,12 @@ class _AddDreamState extends State<AddDream> {
                               });
 
                         } else {
+                          FocusScope.of(context).unfocus();
                           Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (_) => SurveyDream(dream: Dream(dream: dreamController.text))
+                              PageTransition(
+                                  type: PageTransitionType.fade,
+                                  child: SurveyDream(dream: Dream(dream: dreamController.text))
                               )
                           );
                         }
