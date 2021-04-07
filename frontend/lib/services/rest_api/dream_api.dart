@@ -13,6 +13,10 @@ class DreamApi extends Utils {
         headers: header
     );
 
+    if (response.body is String) {
+      return [Dream(id: null)];
+    }
+
     return List.from(jsonDecode(response.body))
         .map((e) => Dream.fromJson(e))
         .toList();

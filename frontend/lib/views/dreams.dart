@@ -150,13 +150,13 @@ class _DreamsListState extends State<DreamsList> {
 
           } else {
 
-            if (data.data.isEmpty) {
+            if (data.data.isEmpty || data.data[0].id == null) {
               return Container(
                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                 height: 170,
                 child: NoSurvey(
                   child: Text(
-                      'Nessun sogno registrato!',
+                      data.data.isEmpty ? 'Nessun sogno registrato!' : 'Problemi nel vedere i sogni!',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 20,
