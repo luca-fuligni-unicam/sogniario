@@ -28,16 +28,16 @@ class _HomeState extends State<Home> {
                   child: CircleDecoration(
                     height: 250,
                     width: 250,
-                    offset: Offset(2, 2),
-                    shadow: Colors.teal.shade300,
-                    gradientOne: Colors.teal.shade50,
-                    gradientTwo: Colors.teal.shade100,
+                    offset: Offset(-1, -1),
+                    shadow: Colors.blue.shade800,
+                    gradientOne: Colors.blue.shade200,
+                    gradientTwo: Colors.blue.shade100,
                   ),
                 ),
 
                 Positioned(
-                  top: 10,
-                  left: 15,
+                  top: 15,
+                  left: 20,
                   child: Text(
                     'Sogniario',
                     style: TextStyle(
@@ -55,9 +55,9 @@ class _HomeState extends State<Home> {
                     height: 150,
                     width: 200,
                     offset: Offset(1, 1),
-                    shadow: Colors.teal.shade300,
-                    gradientOne: Colors.teal.shade50,
-                    gradientTwo: Colors.teal.shade100,
+                    shadow: Colors.blue.shade800,
+                    gradientOne: Colors.blue.shade50,
+                    gradientTwo: Colors.blue.shade200,
                   ),
                 ),
 
@@ -68,9 +68,9 @@ class _HomeState extends State<Home> {
                     height: 200,
                     width: 200,
                     offset: Offset(2, 2),
-                    shadow: Colors.teal.shade300,
-                    gradientOne: Colors.teal.shade50,
-                    gradientTwo: Colors.teal.shade100,
+                    shadow: Colors.blue.shade800,
+                    gradientOne: Colors.blue.shade100,
+                    gradientTwo: Colors.blue.shade100,
                   ),
                 ),
 
