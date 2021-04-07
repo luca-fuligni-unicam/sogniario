@@ -105,22 +105,22 @@ class _AddDreamState extends State<AddDream> {
                   height: 200,
                   width: 200,
                   offset: Offset(2, 2),
-                  shadow: Colors.green.shade300,
-                  gradientOne: Colors.green.shade50,
-                  gradientTwo: Colors.green.shade100,
+                  shadow: Colors.deepOrange.shade700,
+                  gradientOne: Colors.deepOrange.shade50,
+                  gradientTwo: Colors.deepOrange.shade100,
                 ),
               ),
 
               Positioned(
-                top: MediaQuery.of(context).size.height / 3 + 30,
-                right: 0,
+                top: MediaQuery.of(context).size.height / 3 + 50,
+                right: -20,
                 child: CircleDecoration(
                   height: 200,
                   width: 200,
                   offset: Offset(0, 0),
-                  shadow: Colors.green.shade300,
-                  gradientOne: Colors.green.shade50,
-                  gradientTwo: Colors.green.shade100,
+                  shadow: Colors.deepOrange.shade700,
+                  gradientOne: Colors.deepOrange.shade50,
+                  gradientTwo: Colors.deepOrange.shade100,
                 ),
               ),
 
@@ -185,8 +185,8 @@ class _AddDreamState extends State<AddDream> {
 
                     SogniarioButton(
                       child: Text('Salva'),
-                      background: Colors.green.shade50.withOpacity(0.5),
-                      overlay: Colors.green.shade50,
+                      background: Colors.deepOrange.shade50.withOpacity(0.3),
+                      overlay: Colors.deepOrange.shade50.withOpacity(0.6),
                       onPressed: () {
 
                         if (dreamController.text.isEmpty) {
