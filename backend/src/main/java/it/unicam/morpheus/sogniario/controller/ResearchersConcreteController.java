@@ -1,9 +1,13 @@
 package it.unicam.morpheus.sogniario.controller;
 
+import it.unicam.morpheus.sogniario.checker.ResearcherChecker;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Researcher;
+import it.unicam.morpheus.sogniario.repository.ResearchersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -13,22 +17,32 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @Service
 public class ResearchersConcreteController implements ResearchersController{
+
+    @Autowired
+    private ResearchersRepository researchersRepository;
+
+    @Autowired
+    private ResearcherChecker researcherChecker;
+
     @Override
     public Researcher getInstance(String id) throws EntityNotFoundException {
-        // TODO: 02/04/2021 implementare
-        return null;
+        return researchersRepository.findById(id).orElseThrow(()->
+                new EntityNotFoundException("Nessun Researcher trovato con l'ID: "+id));
     }
 
     @Override
     public Researcher create(Researcher object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 02/04/2021 implementare
-        return null;
+        if(exists(object.getEmail())) throw new IdConflictException("Email già presente");
+        researcherChecker.check(object);
+        return researchersRepository.save(object);
     }
 
     @Override
     public Researcher update(Researcher object) throws EntityNotFoundException, IdConflictException {
-        // TODO: 02/04/2021 implementare
-        return null;
+        if(!exists(object.getEmail()))
+            throw new EntityNotFoundException("Nessun Researcher con email: "+ object.getEmail());
+        researcherChecker.check(object);
+        return researchersRepository.save(object);
     }
 
     @Override
@@ -39,13 +53,12 @@ public class ResearchersConcreteController implements ResearchersController{
 
     @Override
     public boolean exists(String id) {
-        // TODO: 02/04/2021 implementare
-        return false;
+        if(id.isBlank()) throw new IllegalArgumentException("Il campo 'Email' è vuoto");
+        return researchersRepository.existsById(id);
     }
 
     @Override
     public Page<Researcher> getPage(int page, int size) throws EntityNotFoundException {
-        // TODO: 02/04/2021 implementare
-        return null;
+        return researchersRepository.findAll(PageRequest.of(page, size));
     }
 }
