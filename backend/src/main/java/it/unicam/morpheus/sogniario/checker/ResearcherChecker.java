@@ -2,7 +2,11 @@ package it.unicam.morpheus.sogniario.checker;
 
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.model.Researcher;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
+@Service
 public class ResearcherChecker implements EntityChecker <Researcher>{
     @Override
     public boolean check(Researcher object) throws EntityNotFoundException {
