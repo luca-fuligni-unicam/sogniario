@@ -13,7 +13,7 @@ class DreamApi extends Utils {
         headers: header
     );
 
-    if (response.body is String) {
+    if (jsonDecode(response.body) is String) {
       return [Dream(id: null)];
     }
 
