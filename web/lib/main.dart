@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:web/views/auth/login_page.dart';
 
 
 void main() async {
@@ -14,14 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          child: Center(
-            child: Text('Home'),
-          ),
-        ),
-      ),
+      home: Login(),
       debugShowCheckedModeBanner: false,
     );
   }
