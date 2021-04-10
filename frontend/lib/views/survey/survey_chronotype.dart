@@ -31,6 +31,12 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
