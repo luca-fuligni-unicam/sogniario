@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/views/dreams.dart';
 import 'package:frontend/views/info/info_internet.dart';
 import 'package:frontend/views/survey/survey_dream.dart';
+import 'package:frontend/views/survey/survey_psqi.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:frontend/initial_page.dart';
 import 'package:frontend/views/add_dream.dart';
@@ -65,6 +66,13 @@ class Routes {
         return PageTransition(
             type: PageTransitionType.fade,
             child: SurveyChronotype()
+        );
+        break;
+
+      case '/psqi':
+        return PageTransition(
+            type: PageTransitionType.fade,
+            child: SurveyPSQI()
         );
         break;
 

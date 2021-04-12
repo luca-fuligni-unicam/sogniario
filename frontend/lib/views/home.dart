@@ -123,7 +123,8 @@ class _HomeState extends State<Home> {
                               content: "Questionario sulla qualità del sonno.\nNon è obbligatorio, puoi compilarlo in un secondo momento.\nÈ un questionario mensile, verrà richiesto ogni 30 giorni.",
                               buttonLabel: 'Compila',
                               onPressed: () {
-
+                                Navigator.pop(context);
+                                Navigator.pushNamed(context, '/psqi');
                               });
                           });
                       },
