@@ -4,6 +4,7 @@ import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.model.Report;
 import org.springframework.data.domain.Page;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -16,6 +17,8 @@ public interface ReportsBoundary extends EntityBoundary<Report, String> {
     List<Report> getByDreamerIdAndDate(String dreamerID, String data) throws EntityNotFoundException;
 
     int getDreamNumberOfWord(String reportID) throws EntityNotFoundException;
+
+    boolean getReportArchiveByDate(String date) throws IOException;
 
     // TODO: 17/03/2021 getDreamGraph
 

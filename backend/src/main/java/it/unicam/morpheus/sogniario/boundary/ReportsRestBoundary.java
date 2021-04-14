@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -83,5 +84,12 @@ public class ReportsRestBoundary implements ReportsBoundary{
     @GetMapping("/dreamNumberOfWord/{reportID}")
     public int getDreamNumberOfWord(@PathVariable String reportID) throws EntityNotFoundException {
         return reportsController.getDreamNumberOfWord(reportID);
+    }
+
+    @Override
+    @PreAuthorize("permitAll")
+    @GetMapping("/reportArchiveByDate/{date}")
+    public boolean getReportArchiveByDate(@PathVariable String date) throws IOException {
+        return reportsController.getReportArchiveByDate(date);
     }
 }
