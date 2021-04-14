@@ -195,13 +195,12 @@ class _SurveyDreamState extends State<SurveyDream> {
                                                           List<String> answer = List
                                                               .generate(6, (index) => data.data.questions.values.toList()[index][answers[index]]);
 
-                                                          // TODO surveyId
                                                           bool valid = await reportApi.insertReport(
                                                             Report(
                                                               dreamerId: reportApi.getToken(),
                                                               dream: widget.dream,
                                                               completedSurvey: CompletedSurvey(
-                                                                surveyId: 'dream-survey',
+                                                                surveyId: data.data.id,
                                                                 answers: answer
                                                               )
                                                             )
