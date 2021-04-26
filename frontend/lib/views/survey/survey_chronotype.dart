@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:frontend/models/completed_survey.dart';
 import 'package:frontend/models/survey.dart';
 import 'package:frontend/services/rest_api/suvery_api.dart';
+import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/survey_card.dart';
 
 
@@ -99,9 +101,9 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
                           child: Text(
                             'No Report!',
                             style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black87.withOpacity(0.7),
-                              fontWeight: FontWeight.w500
+                                fontSize: 18,
+                                color: Colors.black87.withOpacity(0.7),
+                                fontWeight: FontWeight.w500
                             ),
                           ),
                         ),
@@ -176,9 +178,63 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
                                             size: 30,
                                           ),
                                           onPressed: () {
-                                            controller.animateToPage(controller.page.ceil() + 1,
-                                                duration: Duration(milliseconds: 700),
-                                                curve: Curves.easeIn);
+                                            if (currentIndex == data.data.questions.keys.length - 1) {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return SogniarioAlert(
+                                                      content: "\nConfermi le risposte date?\n",
+                                                      buttonLabelDx: 'Conferma',
+                                                      onPressedDx: () async {
+
+                                                        List<String> answer = List
+                                                            .generate(data.data.questions.keys.length - 1, (index) => data.data.questions.values.toList()[index][answers[index]]);
+
+                                                        bool valid = await surveyApi.insert(
+                                                            surveyApi.getToken(),
+                                                            CompletedSurvey(surveyId: data.data.id, answers: answer)
+                                                        );
+
+                                                        if (valid) {
+                                                          surveyApi.setReminderChronotype();
+                                                          showDialog(
+                                                              context: context,
+                                                              builder: (context) {
+                                                                return SogniarioAlert(
+                                                                  content: "Questionario mandato con successo!",
+                                                                  buttonLabelDx: 'Ok',
+                                                                  type: AlertDialogType.SUCCESS,
+                                                                  onPressedDx: () {
+                                                                    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                                                                  },
+                                                                  onPressedSx: () => Navigator.pop(context),
+                                                                );
+                                                              });
+
+                                                        } else {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder: (context) {
+                                                                return SogniarioAlert(
+                                                                  content: "Problemi nel mandare il questionario!",
+                                                                  buttonLabelDx: 'Ok',
+                                                                  type: AlertDialogType.ERROR,
+                                                                  onPressedDx: () {},
+                                                                  onPressedSx: () => Navigator.pop(context),
+                                                                );
+                                                              });
+                                                        }
+
+                                                      },
+                                                      onPressedSx: () => Navigator.pop(context),
+                                                    );
+                                                  });
+
+                                            } else {
+                                              controller.animateToPage(controller.page.ceil() + 1,
+                                                  duration: Duration(milliseconds: 700),
+                                                  curve: Curves.easeIn);
+                                            }
                                           },
                                         ),
 
