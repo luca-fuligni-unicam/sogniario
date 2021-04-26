@@ -93,7 +93,7 @@ class _SurveyPSQIState extends State<SurveyPSQI> {
                     decoration: BoxDecoration(
                       color: Colors.blue.shade50,
                     ),
-                    height: 100,
+                    height: 80,
                   ),
                 ),
               ),
@@ -106,7 +106,7 @@ class _SurveyPSQIState extends State<SurveyPSQI> {
                     decoration: BoxDecoration(
                       color: Colors.blue.shade50,
                     ),
-                    height: 100,
+                    height: 80,
                   ),
                 ),
               ),
