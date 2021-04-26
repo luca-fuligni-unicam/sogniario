@@ -26,4 +26,21 @@ class Utils {
     box.put('token', uuid.v1());
   }
 
+
+  bool getReminderPSQI() {
+    return DateTime.now().difference(box.get('psqi')).inDays < 30;
+  }
+
+  bool getReminderChronotype() {
+    return DateTime.now().difference(box.get('chronotype')).inDays < 30;
+  }
+
+  void setReminderPSQI() {
+    box.put('psqi', DateTime.now());
+  }
+
+  void setReminderChronotype() {
+    box.put('chronotype', DateTime.now());
+  }
+
 }
