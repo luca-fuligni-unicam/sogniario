@@ -171,7 +171,7 @@ class _SurveyDreamState extends State<SurveyDream> {
                                         Container(
                                           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                           child: Text(
-                                            '${currentIndex + 1}/6',
+                                            '${currentIndex + 1}/${data.data.questions.length}',
                                             style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
                                           ),
                                         ),
@@ -183,14 +183,14 @@ class _SurveyDreamState extends State<SurveyDream> {
                                             size: 30,
                                           ),
                                           onPressed: () {
-                                            if (currentIndex == 5) {
+                                            if (currentIndex == data.data.questions.length - 1) {
                                               showDialog(
                                                   context: context,
                                                   builder: (context) {
                                                     return SogniarioAlert(
                                                         content: "\nConfermi le risposte date?\n",
-                                                        buttonLabel: 'Conferma',
-                                                        onPressed: () async {
+                                                        buttonLabelDx: 'Conferma',
+                                                        onPressedDx: () async {
 
                                                           List<String> answer = List
                                                               .generate(6, (index) => data.data.questions.values.toList()[index][answers[index]]);
@@ -212,11 +212,13 @@ class _SurveyDreamState extends State<SurveyDream> {
                                                                 builder: (context) {
                                                                   return SogniarioAlert(
                                                                       content: "Report mandato con successo!",
-                                                                      buttonLabel: 'Ok',
+                                                                      buttonLabelDx: 'Ok',
                                                                       type: AlertDialogType.SUCCESS,
-                                                                      onPressed: () {
+                                                                      onPressedDx: () {
                                                                         Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-                                                                      });
+                                                                      },
+                                                                      onPressedSx: () => Navigator.pop(context),
+                                                                  );
                                                                 });
 
                                                           } else {
@@ -225,13 +227,17 @@ class _SurveyDreamState extends State<SurveyDream> {
                                                                 builder: (context) {
                                                                   return SogniarioAlert(
                                                                       content: "Problemi nel mandare il report!",
-                                                                      buttonLabel: 'Ok',
+                                                                      buttonLabelDx: 'Ok',
                                                                       type: AlertDialogType.ERROR,
-                                                                      onPressed: () {});
+                                                                      onPressedDx: () {},
+                                                                      onPressedSx: () => Navigator.pop(context)
+                                                                  );
                                                                 });
                                                           }
 
-                                                        });
+                                                        },
+                                                        onPressedSx: () => Navigator.pop(context)
+                                                    );
                                                   });
 
                                             } else {
