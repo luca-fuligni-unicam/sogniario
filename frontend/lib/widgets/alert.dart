@@ -3,18 +3,22 @@ import 'package:flutter/material.dart';
 
 class SogniarioAlert extends StatelessWidget {
 
-  final AlertDialogType type;
   final String title;
   final String content;
-  final String buttonLabel;
-  final VoidCallback onPressed;
+  final AlertDialogType type;
+  final String buttonLabelDx;
+  final String buttonLabelSx;
+  final VoidCallback onPressedDx;
+  final VoidCallback onPressedSx;
 
   SogniarioAlert({
     this.title = "Info",
     @required this.content,
     this.type = AlertDialogType.INFO,
-    this.buttonLabel = "Ok",
-    @required this.onPressed
+    this.buttonLabelDx = "Ok",
+    this.buttonLabelSx = "Close",
+    @required this.onPressedDx,
+    @required this.onPressedSx
   });
 
 
@@ -77,16 +81,16 @@ class SogniarioAlert extends StatelessWidget {
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 3 + 10,
                         child: TextButton(
-                          child: Text('Chiudi'),
-                          onPressed: () => Navigator.pop(context),
+                          child: Text(buttonLabelSx),
+                          onPressed: onPressedSx,
                         ),
                       ),
 
                       SizedBox(
                         width: MediaQuery.of(context).size.width / 3 + 10,
                         child: TextButton(
-                          child: Text(buttonLabel),
-                          onPressed: onPressed,
+                          child: Text(buttonLabelDx),
+                          onPressed: onPressedDx,
                         ),
                       ),
 
