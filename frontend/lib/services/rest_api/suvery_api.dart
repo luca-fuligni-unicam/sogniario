@@ -18,9 +18,9 @@ class SurveyApi extends Utils {
   }
 
 
-  Future<bool> insertSurvey(CompletedSurvey completedSurvey) async {
+  Future<bool> insert(String dreamerId, CompletedSurvey completedSurvey) async {
     var response = await http.post(
-        Uri.tryParse('${server}api/survey/createNew'),
+        Uri.tryParse('${server}api/dreamers/addCompletedSurvey/$dreamerId'),
         headers: header,
         body: jsonEncode(completedSurvey.completedSurvey())
     );
