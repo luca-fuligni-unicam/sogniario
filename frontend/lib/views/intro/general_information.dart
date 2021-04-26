@@ -167,9 +167,10 @@ class _GeneralInformationState extends State<GeneralInformation> {
                             context: context,
                             builder: (context) {
                               return SogniarioAlert(
-                                  content: 'Inserire la data di nascita!"',
-                                  buttonLabel: 'Ok',
-                                  onPressed: () => Navigator.pop(context)
+                                content: 'Inserire la data di nascita!"',
+                                buttonLabelDx: 'Ok',
+                                onPressedDx: () => Navigator.pop(context),
+                                onPressedSx: () => Navigator.pop(context),
                               );
                             });
 
@@ -186,6 +187,8 @@ class _GeneralInformationState extends State<GeneralInformation> {
                         );
 
                         if (registered) {
+                          dreamerApi.setReminderChronotype();
+                          dreamerApi.setReminderPSQI();
                           Navigator.pushNamed(context, '/home');
 
                         } else {
@@ -193,9 +196,10 @@ class _GeneralInformationState extends State<GeneralInformation> {
                               context: context,
                               builder: (context) {
                                 return SogniarioAlert(
-                                    content: 'Problema con la registrazione!',
-                                    buttonLabel: 'Ok',
-                                    onPressed: () => Navigator.pop(context)
+                                  content: 'Problema con la registrazione!',
+                                  buttonLabelDx: 'Ok',
+                                  onPressedDx: () => Navigator.pop(context),
+                                  onPressedSx: () => Navigator.pop(context),
                                 );
                               });
                         }
@@ -210,8 +214,7 @@ class _GeneralInformationState extends State<GeneralInformation> {
                 ),
               ]),
 
-          ],
-        )
+          ])
       ),
     );
   }
