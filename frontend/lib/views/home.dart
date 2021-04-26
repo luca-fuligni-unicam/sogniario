@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/services/utils.dart';
 import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/card.dart';
 import 'package:frontend/widgets/circle_decoration.dart';
@@ -11,6 +12,34 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  Utils utils = Utils();
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(seconds: 1), () {
+      bool psqi = utils.getReminderPSQI(), chronotype = utils.getReminderChronotype();
+      if (psqi || chronotype) {
+        String content = psqi && chronotype ? 'Hai dei questionari da compilare!' : psqi ? 'Ricordati di compilare il PSQI!' : chronotype ? 'Ricordati di compilare il questionario sul cronotipo!' : 'Nessun questionario da compilare|';
+        showDialog(
+            context: context,
+            builder: (context) {
+              return SogniarioAlert(
+                title: 'Promemoria',
+                content: content,
+                buttonLabelDx: 'Cronotipo',
+                buttonLabelSx: 'PSQI',
+                type: AlertDialogType.INFO,
+                onPressedDx: () => chronotype ? Navigator.pushNamed(context, '/chronotype') : {},
+                onPressedSx: () => psqi ? Navigator.pushNamed(context, '/psqi') : {},
+              );
+            });
+      }
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,11 +135,13 @@ class _HomeState extends State<Home> {
                           builder: (context) {
                             return SogniarioAlert(
                               content: "Questionario usato per scoprire a quale cronotipo appartieni. Gufo o Allodola?\nNon è obbligatorio, puoi compilarlo in un secondo momento.",
-                              buttonLabel: 'Compila',
-                              onPressed: () async {
+                              buttonLabelDx: 'Compila',
+                              onPressedDx: () async {
                                 Navigator.pop(context);
                                 Navigator.pushNamed(context, '/chronotype');
-                              });
+                              },
+                              onPressedSx: () => Navigator.pop(context),
+                            );
                           });
                       },
                       listTileTitleTwo: 'Questionario sulla Qualita del Sonno',
@@ -121,11 +152,13 @@ class _HomeState extends State<Home> {
                           builder: (context) {
                             return SogniarioAlert(
                               content: "Questionario sulla qualità del sonno.\nNon è obbligatorio, puoi compilarlo in un secondo momento.\nÈ un questionario mensile, verrà richiesto ogni 30 giorni.",
-                              buttonLabel: 'Compila',
-                              onPressed: () {
+                              buttonLabelDx: 'Compila',
+                              onPressedDx: () {
                                 Navigator.pop(context);
                                 Navigator.pushNamed(context, '/psqi');
-                              });
+                              },
+                              onPressedSx: () => Navigator.pop(context),
+                            );
                           });
                       },
                     ),
