@@ -194,10 +194,12 @@ class _AddDreamState extends State<AddDream> {
                               context: context,
                               builder: (context) {
                                 return SogniarioAlert(
-                                    content: "Non hai raccontato nessun sogno!",
-                                    buttonLabel: 'Ok',
-                                    type: AlertDialogType.INFO,
-                                    onPressed: () => Navigator.pop(context));
+                                  content: "Non hai raccontato nessun sogno!",
+                                  buttonLabelDx: 'Ok',
+                                  type: AlertDialogType.INFO,
+                                  onPressedDx: () => Navigator.pop(context),
+                                  onPressedSx: () => Navigator.pop(context),
+                                );
                               });
 
                         } else {
