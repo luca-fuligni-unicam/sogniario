@@ -14,6 +14,10 @@ class SurveyApi extends Utils {
         headers: header,
     );
 
+    if (jsonDecode(response.body) is String) {
+      return Survey(id: null);
+    }
+
     return Survey.fromJson(jsonDecode(response.body));
   }
 
