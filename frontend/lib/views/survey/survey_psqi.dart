@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:frontend/models/completed_survey.dart';
 import 'package:frontend/models/survey.dart';
 import 'package:frontend/services/rest_api/suvery_api.dart';
@@ -55,211 +54,180 @@ class _SurveyPSQIState extends State<SurveyPSQI> {
         elevation: 0,
       ),
 
-      body: ConstrainedBox(
-        constraints: BoxConstraints(
-            maxHeight: MediaQuery.of(context).size.height,
-            maxWidth: MediaQuery.of(context).size.width
-        ),
-        child: Stack(
-            children: [
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: FutureBuilder(
+            future: surveyApi.getSurveys('psqi'),
+            builder: (context, AsyncSnapshot<Survey> data) {
 
-              Align(
-                alignment: Alignment.topCenter,
-                child: ClipPath(
-                  clipper: WaveClipperOne(),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
+              if (data.data == null) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+
+              } else {
+
+                if (data.data.id == null) {
+                  return Center(
+                    child: NoSurvey(
+                      child: Text(
+                        'No Report!',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black87.withOpacity(0.7),
+                            fontWeight: FontWeight.w500
+                        ),
+                      ),
                     ),
-                    height: 80,
-                  ),
-                ),
-              ),
+                  );
+                }
 
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: ClipPath(
-                  clipper: WaveClipperTwo(reverse: true, flip: true),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                    ),
-                    height: 80,
-                  ),
-                ),
-              ),
+                if (first) {
+                  finalAnswer = List.generate(data.data.questions.keys.length, (index) => data.data.questions.values.toList()[index][0]);
+                  first = false;
+                }
 
-              FutureBuilder(
-                future: surveyApi.getSurveys('psqi'),
-                builder: (context, AsyncSnapshot<Survey> data) {
+                return PageView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: controller,
+                  onPageChanged: (index) => setState(() => currentIndex = index),
+                  itemBuilder: (context, index) {
+                    return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
 
-                  if (data.data == null) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-
-                  } else {
-
-                    if (data.data.id == null) {
-                      return Center(
-                        child: NoSurvey(
-                          child: Text(
-                            'No Report!',
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black87.withOpacity(0.7),
-                                fontWeight: FontWeight.w500
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                                data.data.questions.keys.toList()[index < 15 ? index : index + 1],
+                                softWrap: true,
+                                style: _questionStyle
                             ),
                           ),
-                        ),
-                      );
-                    }
 
-                    if (first) {
-                      finalAnswer = List.generate(data.data.questions.keys.length, (index) => data.data.questions.values.toList()[index][0]);
-                      first = false;
-                    }
+                          Divider(
+                            thickness: 1,
+                            indent: 10,
+                            endIndent: 10,
+                            color: Colors.black,
+                          ),
 
-                    return PageView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      controller: controller,
-                      onPageChanged: (index) => setState(() => currentIndex = index),
-                      itemBuilder: (context, index) {
-                        return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                          index == 1 ? getMinute(index, finalAnswer) :
+                          index < 3 ? getTime(index, finalAnswer) :
+                          index > 2 && index < 5 ? HourMinute(index, finalAnswer) :
+                          index == 14 ? doubleAnswer(index, data.data.questions, finalAnswer) :
+                          index > 4 && index < 15 ? returnAnswer(index, data.data.questions, finalAnswer) :
+                          returnAnswer(index + 1, data.data.questions, finalAnswer),
 
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Text(
-                                    data.data.questions.keys.toList()[index < 15 ? index : index + 1],
-                                    softWrap: true,
-                                    style: _questionStyle
-                                ),
-                              ),
+                          Container(
+                            child: Center(
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
 
-                              Divider(
-                                thickness: 1,
-                                indent: 10,
-                                endIndent: 10,
-                                color: Colors.black,
-                              ),
+                                    TextButton(
+                                      child: Icon(
+                                        Icons.chevron_left,
+                                        color: Colors.black,
+                                        size: 30,
+                                      ),
+                                      onPressed: () {
+                                        controller.animateToPage(controller.page.ceil() - 1,
+                                            duration: Duration(milliseconds: 750),
+                                            curve: Curves.easeInQuad
+                                        );
+                                      },
+                                    ),
 
-                              index == 1 ? getMinute(index, finalAnswer) :
-                              index < 3 ? getTime(index, finalAnswer) :
-                              index > 2 && index < 5 ? HourMinute(index, finalAnswer) :
-                              index == 14 ? doubleAnswer(index, data.data.questions, finalAnswer) :
-                              index > 4 && index < 15 ? returnAnswer(index, data.data.questions, finalAnswer) :
-                                                        returnAnswer(index + 1, data.data.questions, finalAnswer),
+                                    Container(
+                                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                      child: Text(
+                                        '${currentIndex + 1}/${data.data.questions.keys.length - 1}',
+                                        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+                                      ),
+                                    ),
 
-                              Container(
-                                child: Center(
-                                  child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
+                                    TextButton(
+                                      child: Icon(
+                                        Icons.chevron_right,
+                                        color: Colors.black,
+                                        size: 30,
+                                      ),
+                                      onPressed: () {
+                                        FocusScope.of(context).unfocus();
 
-                                        TextButton(
-                                          child: Icon(
-                                            Icons.chevron_left,
-                                            color: Colors.black,
-                                            size: 30,
-                                          ),
-                                          onPressed: () {
-                                            controller.animateToPage(controller.page.ceil() - 1,
-                                                duration: Duration(milliseconds: 750),
-                                                curve: Curves.easeInQuad
-                                            );
-                                          },
-                                        ),
+                                        if (index == data.data.questions.keys.length - 2) {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return SogniarioAlert(
+                                                  content: "\nConfermi le risposte date?\n",
+                                                  buttonLabelDx: 'Conferma',
+                                                  onPressedDx: () async {
 
-                                        Container(
-                                          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                          child: Text(
-                                            '${currentIndex + 1}/${data.data.questions.keys.length - 1}',
-                                            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-                                          ),
-                                        ),
-
-                                        TextButton(
-                                          child: Icon(
-                                            Icons.chevron_right,
-                                            color: Colors.black,
-                                            size: 30,
-                                          ),
-                                          onPressed: () {
-                                            FocusScope.of(context).unfocus();
-
-                                            if (index == data.data.questions.keys.length - 2) {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return SogniarioAlert(
-                                                      content: "\nConfermi le risposte date?\n",
-                                                      buttonLabelDx: 'Conferma',
-                                                      onPressedDx: () async {
-
-                                                        bool valid = await surveyApi.insert(
-                                                            surveyApi.getToken(),
-                                                            CompletedSurvey(surveyId: data.data.id, answers: finalAnswer)
-                                                        );
-
-                                                        if (valid) {
-                                                          surveyApi.setReminderPSQI();
-                                                          showDialog(
-                                                              context: context,
-                                                              builder: (context) {
-                                                                return SogniarioAlert(
-                                                                  content: "Questionario mandato con successo!",
-                                                                  buttonLabelDx: 'Ok',
-                                                                  type: AlertDialogType.SUCCESS,
-                                                                  onPressedDx: () {
-                                                                    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-                                                                  },
-                                                                  onPressedSx: () => Navigator.pop(context),
-                                                                );
-                                                              });
-
-                                                        } else {
-                                                          showDialog(
-                                                              context: context,
-                                                              builder: (context) {
-                                                                return SogniarioAlert(
-                                                                  content: "Problemi nel mandare il questionario!",
-                                                                  buttonLabelDx: 'Ok',
-                                                                  type: AlertDialogType.ERROR,
-                                                                  onPressedDx: () {},
-                                                                  onPressedSx: () => Navigator.pop(context),
-                                                                );
-                                                              });
-                                                        }
-
-                                                      },
-                                                      onPressedSx: () => Navigator.pop(context),
+                                                    bool valid = await surveyApi.insert(
+                                                        surveyApi.getToken(),
+                                                        CompletedSurvey(surveyId: data.data.id, answers: finalAnswer)
                                                     );
-                                                  });
 
-                                            } else {
-                                              controller.animateToPage(controller.page.ceil() + 1,
-                                                  duration: Duration(milliseconds: 700),
-                                                  curve: Curves.easeIn);
-                                            }
-                                          },
-                                        ),
+                                                    if (valid) {
+                                                      surveyApi.setReminderPSQI();
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return SogniarioAlert(
+                                                              content: "Questionario mandato con successo!",
+                                                              buttonLabelDx: 'Ok',
+                                                              type: AlertDialogType.SUCCESS,
+                                                              onPressedDx: () {
+                                                                Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                                                              },
+                                                              onPressedSx: () => Navigator.pop(context),
+                                                            );
+                                                          });
 
-                                      ]),
-                                ),
-                              ),
+                                                    } else {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return SogniarioAlert(
+                                                              content: "Problemi nel mandare il questionario!",
+                                                              buttonLabelDx: 'Ok',
+                                                              type: AlertDialogType.ERROR,
+                                                              onPressedDx: () {},
+                                                              onPressedSx: () => Navigator.pop(context),
+                                                            );
+                                                          });
+                                                    }
 
-                            ]);
-                      },
-                      itemCount: data.data.questions.keys.length - 1,
-                    );
+                                                  },
+                                                  onPressedSx: () => Navigator.pop(context),
+                                                );
+                                              });
 
-                  }
-                },
-              ),
+                                        } else {
+                                          controller.animateToPage(controller.page.ceil() + 1,
+                                              duration: Duration(milliseconds: 700),
+                                              curve: Curves.easeIn);
+                                        }
+                                      },
+                                    ),
 
-            ]),
+                                  ]),
+                            ),
+                          ),
+
+                        ]);
+                  },
+                  itemCount: data.data.questions.keys.length - 1,
+                );
+
+              }
+            },
+          ),
+        ),
       )
     );
   }

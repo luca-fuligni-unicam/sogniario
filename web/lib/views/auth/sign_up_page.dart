@@ -29,94 +29,96 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Container(
-          height: 450,
-          width: 400,
-          decoration: BoxDecoration(
-              color: Colors.blue.shade100,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)
-              )
-          ),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)
+        child: SingleChildScrollView(
+          child: Container(
+            width: 360,
+            margin: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+                color: Colors.blue.shade100,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30)
+                )
+            ),
+            child: Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30)
+                ),
+                side: BorderSide(
+                  color: Colors.blue.shade200,
+                  width: 2,
+                ),
               ),
-              side: BorderSide(
-                color: Colors.blue.shade200,
-                width: 2,
+              child: Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Column(
+                      children: [
+
+                        Text(
+                          'Sogniario Sign Up',
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                        ),
+
+                        SizedBox(height: 5),
+
+                        TextField(
+                          controller: nameController,
+                          decoration: InputDecoration(labelText: 'Name'),
+                        ),
+
+                        TextField(
+                          controller: emailController,
+                          decoration: InputDecoration(labelText: 'Email'),
+                        ),
+
+                        TextField(
+                          obscureText: true,
+                          controller: passwordController,
+                          decoration: InputDecoration(labelText: 'Password'),
+                        ),
+
+                        TextField(
+                          controller: motivationController,
+                          maxLines: 3,
+                          decoration: InputDecoration(labelText: 'Motivation'),
+                        ),
+
+                        SizedBox(height: 5),
+
+                        TextButton(
+                            onPressed: () {},
+                            child: Text('Sign Up')
+                        ),
+
+                        SizedBox(height: 5),
+
+                        Divider(
+                          thickness: 0.7,
+                          color: Colors.black54,
+                          indent: 30,
+                          endIndent: 30,
+                        ),
+
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Hai già un account?'),
+                              SizedBox(width: 5),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Login'),
+                              )
+                            ])
+
+                      ])
               ),
             ),
-            child: Center(
-                child: ListView(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                    children: [
-
-                      Text(
-                        'Sogniario\nSign Up',
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-                      ),
-
-                      SizedBox(height: 5),
-
-                      TextField(
-                        controller: nameController,
-                        decoration: InputDecoration(labelText: 'Nome'),
-                      ),
-
-                      TextField(
-                        controller: emailController,
-                        decoration: InputDecoration(labelText: 'Email'),
-                      ),
-
-                      TextField(
-                        obscureText: true,
-                        controller: passwordController,
-                        decoration: InputDecoration(labelText: 'Password'),
-                      ),
-
-                      TextField(
-                        controller: motivationController,
-                        maxLines: 3,
-                        decoration: InputDecoration(labelText: 'Motivazione'),
-                      ),
-
-                      SizedBox(height: 5),
-
-                      TextButton(
-                          onPressed: () {},
-                          child: Text('Registrati')
-                      ),
-
-                      SizedBox(height: 5),
-
-                      Divider(
-                        thickness: 0.7,
-                        color: Colors.black54,
-                        indent: 30,
-                        endIndent: 30,
-                      ),
-
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Hai già un account?'),
-                            SizedBox(width: 5),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Login'),
-                            )
-                          ])
-
-                    ])
-            ),
           ),
-        ),
+        )
       ),
     );
   }

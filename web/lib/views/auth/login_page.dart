@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:web/services/routes.dart';
 import 'package:web/views/auth/sign_up_page.dart';
+import 'package:web/views/home.dart';
 
 
 class Login extends StatefulWidget {
@@ -26,87 +28,97 @@ class _LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Container(
-          height: 300,
-          width: 400,
-          decoration: BoxDecoration(
-              color: Colors.blue.shade100,
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  bottomLeft: Radius.circular(30)
-              )
-          ),
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  bottomLeft: Radius.circular(30)
-              ),
-              side: BorderSide(
-                color: Colors.blue.shade200,
-                width: 2,
-              ),
+        child: SingleChildScrollView(
+          child: Container(
+            width: 360,
+            margin: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+                color: Colors.blue.shade100,
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    bottomLeft: Radius.circular(30)
+                )
             ),
-            child: Center(
-                child: ListView(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                    children: [
+            child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(30),
+                      bottomLeft: Radius.circular(30)
+                  ),
+                  side: BorderSide(
+                    color: Colors.blue.shade200,
+                    width: 2,
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Column(
+                      children: [
 
-                      Text(
-                        'Sogniario\nLogin',
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-                      ),
+                        Text(
+                          'Sogniario Login',
+                          style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                        ),
 
-                      SizedBox(height: 5),
+                        SizedBox(height: 5),
 
-                      TextField(
-                        controller: emailController,
-                        decoration: InputDecoration(labelText: 'Email'),
-                      ),
+                        TextField(
+                          controller: emailController,
+                          decoration: InputDecoration(labelText: 'Email'),
+                        ),
 
-                      TextField(
-                        obscureText: true,
-                        controller: passwordController,
-                        decoration: InputDecoration(labelText: 'Password'),
-                      ),
+                        TextField(
+                          obscureText: true,
+                          controller: passwordController,
+                          decoration: InputDecoration(labelText: 'Password'),
+                        ),
 
-                      SizedBox(height: 5),
+                        SizedBox(height: 5),
 
-                      TextButton(
-                          onPressed: () {},
-                          child: Text('Login')
-                      ),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  Routes.home, (route) => false
+                              );
+                            },
+                            child: Text('Login')
+                        ),
 
-                      SizedBox(height: 5),
+                        SizedBox(height: 5),
 
-                      Divider(
-                        thickness: 0.7,
-                        color: Colors.black54,
-                        indent: 30,
-                        endIndent: 30,
-                      ),
+                        Divider(
+                          thickness: 0.7,
+                          color: Colors.black54,
+                          indent: 30,
+                          endIndent: 30,
+                        ),
 
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text('Non hai un account?'),
-                            SizedBox(width: 5),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (_) => SignUp())
-                                );
-                              },
-                              child: Text('Sign Up'),
-                            )
-                          ])
+                        SizedBox(height: 5),
 
-                    ])
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Non hai un account?'),
+                              SizedBox(width: 5),
+                              TextButton(
+                                onPressed: () {
+
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (_) => SignUp())
+                                  );
+                                },
+                                child: Text('Sign Up'),
+                              )
+                            ])
+
+                      ]),
+                )
             ),
           ),
         ),
-      ),
+      )
     );
   }
 }
