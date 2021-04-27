@@ -9,7 +9,7 @@ const TextStyle titleTextStyle = TextStyle(
 );
 
 const TextStyle questionTextStyle = TextStyle(
-    fontSize: 17,
+    fontSize: 18,
     color: Colors.black,
     fontWeight: FontWeight.w400
 );
@@ -25,11 +25,4 @@ const Divider divider = Divider(
   thickness: 2,
   indent: 10,
   endIndent: 10,
-);
-
-const Divider dividerTitle = Divider(
-  color: Colors.black54,
-  thickness: 2,
-  indent: 24,
-  endIndent: 24,
 );
