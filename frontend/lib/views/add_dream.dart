@@ -105,9 +105,9 @@ class _AddDreamState extends State<AddDream> {
                   height: 200,
                   width: 200,
                   offset: Offset(2, 2),
-                  shadow: Colors.deepOrange.shade700,
-                  gradientOne: Colors.deepOrange.shade50,
-                  gradientTwo: Colors.deepOrange.shade100,
+                  shadow: Colors.blue.shade600,
+                  gradientOne: Colors.blue.shade100,
+                  gradientTwo: Colors.blue.shade200.withOpacity(0.8),
                 ),
               ),
 
@@ -118,9 +118,9 @@ class _AddDreamState extends State<AddDream> {
                   height: 200,
                   width: 200,
                   offset: Offset(0, 0),
-                  shadow: Colors.deepOrange.shade700,
-                  gradientOne: Colors.deepOrange.shade50,
-                  gradientTwo: Colors.deepOrange.shade100,
+                  shadow: Colors.blue.shade700,
+                  gradientOne: Colors.blue.shade50,
+                  gradientTwo: Colors.blue.shade100,
                 ),
               ),
 
@@ -185,8 +185,8 @@ class _AddDreamState extends State<AddDream> {
 
                     SogniarioButton(
                       child: Text('Salva'),
-                      background: Colors.deepOrange.shade50.withOpacity(0.3),
-                      overlay: Colors.deepOrange.shade50.withOpacity(0.6),
+                      background: Colors.blue.shade50.withOpacity(0.4),
+                      overlay: Colors.blue.shade50.withOpacity(0.8),
                       onPressed: () {
 
                         if (dreamController.text.isEmpty) {
