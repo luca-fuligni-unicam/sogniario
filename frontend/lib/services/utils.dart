@@ -28,11 +28,15 @@ class Utils {
 
 
   bool getReminderPSQI() {
-    return DateTime.now().difference(box.get('psqi')).inDays < 30;
+    return box.get('psqi') == null ? true : DateTime
+        .now().difference(box.get('psqi'))
+        .inDays > 30;
   }
 
   bool getReminderChronotype() {
-    return DateTime.now().difference(box.get('chronotype')).inDays < 30;
+    return box.get('chronotype') == null ? true : DateTime
+        .now().difference(box.get('chronotype'))
+        .inDays > 30;
   }
 
   void setReminderPSQI() {

@@ -187,8 +187,6 @@ class _GeneralInformationState extends State<GeneralInformation> {
                         );
 
                         if (registered) {
-                          dreamerApi.setReminderChronotype();
-                          dreamerApi.setReminderPSQI();
                           Navigator.pushNamed(context, '/home');
 
                         } else {

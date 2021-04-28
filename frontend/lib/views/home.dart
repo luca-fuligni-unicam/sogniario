@@ -19,10 +19,10 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       bool psqi = utils.getReminderPSQI(), chronotype = utils.getReminderChronotype();
       if (psqi || chronotype) {
-        String content = psqi && chronotype ? 'Hai dei questionari da compilare!' : psqi ? 'Ricordati di compilare il PSQI!' : chronotype ? 'Ricordati di compilare il questionario sul cronotipo!' : 'Nessun questionario da compilare|';
+        String content = psqi && chronotype ? 'Hai dei questionari da compilare!' : psqi ? 'Ricordati di compilare il PSQI!' : chronotype ? 'Ricordati di compilare il questionario sul cronotipo!' : '';
         showDialog(
             context: context,
             builder: (context) {
@@ -65,19 +65,6 @@ class _HomeState extends State<Home> {
                 ),
 
                 Positioned(
-                  top: 15,
-                  left: 20,
-                  child: Text(
-                    'Sogniario',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black87.withOpacity(0.7),
-                        fontSize: 26
-                    ),
-                  ),
-                ),
-
-                Positioned(
                   bottom: -10,
                   right: -50,
                   child: CircleDecoration(
@@ -104,8 +91,17 @@ class _HomeState extends State<Home> {
                 ),
 
                 ListView(
-                  padding: EdgeInsets.fromLTRB(10, 50, 10, 10),
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                   children: [
+
+                    Text(
+                      'Sogniario',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black87,
+                          fontSize: 26
+                      ),
+                    ),
 
                     SogniarioCard(
                       title: 'Sogni',
