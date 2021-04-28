@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/common/constants.dart';
 
 
 class SogniarioAlert extends StatelessWidget {
@@ -45,11 +46,7 @@ class SogniarioAlert extends StatelessWidget {
 
                       Text(
                         title,
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black.withOpacity(0.7),
-                            fontWeight: FontWeight.w600
-                        ),
+                        style: titleTextStyle,
                         textAlign: TextAlign.center,
                       ),
 
@@ -66,11 +63,7 @@ class SogniarioAlert extends StatelessWidget {
 
                   Text(
                     content,
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.black.withOpacity(0.7),
-                        fontWeight: FontWeight.w500
-                    ),
+                    style: questionTextStyle,
                     textAlign: TextAlign.center,
                   ),
 
