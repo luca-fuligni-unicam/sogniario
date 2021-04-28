@@ -4,8 +4,14 @@ import it.unicam.morpheus.sogniario.checker.ReportChecker;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Report;
+import it.unicam.morpheus.sogniario.model.Survey;
 import it.unicam.morpheus.sogniario.repository.DreamersRepository;
 import it.unicam.morpheus.sogniario.repository.ReportsRepository;
+import it.unicam.morpheus.sogniario.repository.SurveysRepository;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -13,8 +19,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +41,9 @@ public class ReportsConcreteController implements ReportsController{
 
     @Autowired
     private DreamersRepository dreamersRepository;
+
+    @Autowired
+    private SurveysRepository surveysRepository;
 
     @Override
     public Report getInstance(String id) throws EntityNotFoundException {
@@ -104,5 +116,56 @@ public class ReportsConcreteController implements ReportsController{
             throw new EntityNotFoundException("Nessun report con id: "+ reportID);
         // TODO: 17/03/2021 da implementare
         return 0;
+    }
+
+    @Override
+    public boolean getReportArchiveByDate(String date) throws IOException {
+
+        LocalDate localDate;
+        if(date.isBlank()) throw new IllegalArgumentException("Il campo 'date' è vuoto");
+        try{ localDate = LocalDate.parse(date); }
+        catch (Exception e) { throw new IllegalArgumentException("Il campo 'date' non è valido"); }
+
+        List<Report> reportList = reportsRepository.findAll().stream().filter(r ->
+                        r.getDream().getData().getYear() == localDate.getYear() &&
+                        r.getDream().getData().getMonth().equals(localDate.getMonth()))
+                .collect(Collectors.toList());
+
+        if(reportList.isEmpty()) return false;
+
+        for(Report r: reportList){
+            PDDocument document = new PDDocument();
+            PDPage page = new PDPage();
+            document.addPage(page);
+
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+            contentStream.setFont(PDType1Font.COURIER, 12);
+            contentStream.beginText();
+
+            contentStream.showText("Dreamer ID: " + r.getDreamerId() + "\n");
+
+            contentStream.showText("Dream:\n" + r.getDream().getText() + "\n");
+
+            contentStream.showText("Data registrazione sogno: " + r.getDream().getData() + "\n");
+
+            Optional<Survey> survey = surveysRepository.findById(r.getCompletedSurvey().getSurveyId());
+            if(survey.isPresent()){
+                contentStream.showText("Survey:\n");
+                int i=0;
+                for(Map.Entry<String, List<String>> e: survey.get().getQuestions().entrySet()){
+                    contentStream.showText( e.getKey() + "\n" + r.getCompletedSurvey().getAnswers().get(i) + "\n");
+                    i++;
+                }
+            }
+
+            contentStream.endText();
+            contentStream.close();
+
+            document.save(r.getId() + ".pdf");
+            document.close();
+        }
+
+        return true;
     }
 }
