@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:web/widgets/alert.dart';
 
 
 class CandidatesPage extends StatefulWidget {
@@ -26,15 +27,12 @@ class _CandidatesPageState extends State<CandidatesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-
-          SingleChildScrollView(
-            child:Container(
-                margin: EdgeInsets.symmetric(horizontal: 12),
-                padding: EdgeInsets.all(12),
-                child: Column(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child:Container(
+              margin: EdgeInsets.symmetric(horizontal: 12),
+              padding: EdgeInsets.all(12),
+              child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
@@ -67,10 +65,8 @@ class _CandidatesPageState extends State<CandidatesPage> {
                           }),
                     ),
                   ])
-            ),
           ),
-
-        ])
+        ),
     );
   }
 
@@ -122,7 +118,17 @@ class _CandidatesPageState extends State<CandidatesPage> {
                               color: Colors.blue,
                               size: 18,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return Alert(
+                                      type: AlertDialogType.SUCCESS,
+                                      content: 'Candidate accepted successfully!'
+                                  );
+                                }
+                              );
+                            },
                           )
                         ),
 
@@ -136,7 +142,17 @@ class _CandidatesPageState extends State<CandidatesPage> {
                               color: Colors.blue,
                               size: 18,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return Alert(
+                                        type: AlertDialogType.SUCCESS,
+                                        content: 'Candidate deleted successfully!'
+                                    );
+                                  }
+                              );
+                            },
                           ),
                         ),
 
