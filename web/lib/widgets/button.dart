@@ -25,24 +25,27 @@ class CustomButton extends StatelessWidget {
           return MouseRegion(
             onHover: (event) => setState(() => over = true),
             onExit: (event) => setState(() => over = false),
-            child: Container(
-              decoration: BoxDecoration(
+            child: SizedBox(
+              width: 420,
+              child: Container(
+                decoration: BoxDecoration(
                   color: !over ? Colors.transparent : Colors.blue.shade50,
                   border: Border.all(color: Colors.blue.shade100, width: 1.5),
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(20),
                       bottomLeft: Radius.circular(20)
                   ),
-              ),
-              child: ListTile(
-                trailing: icon,
-                title: child,
-                onTap: onPressed,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
+                ),
+                child: ListTile(
+                  trailing: icon,
+                  title: child,
+                  onTap: onPressed,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                  ),
                 ),
               ),
-            ),
+            )
           );
         }
     );
