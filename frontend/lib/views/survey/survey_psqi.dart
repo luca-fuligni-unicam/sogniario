@@ -1,13 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 import 'package:frontend/common/constants.dart';
 import 'package:frontend/models/completed_survey.dart';
 import 'package:frontend/models/survey.dart';
 import 'package:frontend/services/rest_api/suvery_api.dart';
 import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/survey_card.dart';
+
+import 'dart:convert';
 
 
 class SurveyPSQI extends StatefulWidget {
@@ -182,6 +184,7 @@ class _SurveyPSQIState extends State<SurveyPSQI> {
                                           FocusScope.of(context).unfocus();
 
                                           if (index == data.data.questions.keys.length - 2) {
+                                            print(finalAnswer);
                                             showDialog(
                                                 context: context,
                                                 builder: (context) {
@@ -279,16 +282,35 @@ class _SurveyPSQIState extends State<SurveyPSQI> {
 
 
   Widget getMinute(int index, List<String> finalAnswer) {
+
+    var time = '''
+    [
+      ${List.generate(121, (index) => '$index')}
+    ]
+    ''';
+
     return Padding(
       padding: EdgeInsets.all(10),
-      child: TextField(
-        decoration: InputDecoration(labelText: 'Minuti?'),
-        keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        onChanged: (changed) {
-          finalAnswer[index] = changed;
+      child: TextButton(
+        child: Text('Minuti?', style: buttonTextStyle),
+        onPressed: () {
+          Picker(
+              adapter: PickerDataAdapter<String>(
+                  pickerdata: JsonDecoder().convert(time),
+                  isArray: true
+              ),
+              hideHeader: true,
+              selectedTextStyle: TextStyle(color: Colors.blue.shade500),
+              confirmText: 'Conferma',
+              confirmTextStyle: TextStyle(fontSize: 17, color: Colors.blue.shade500),
+              cancelTextStyle: TextStyle(fontSize: 17, color: Colors.blue.shade500),
+              title: Text('Minuti'),
+              onConfirm: (Picker picker, List value) {
+                finalAnswer[index] = picker.getSelectedValues()[0];
+              }
+          ).showDialog(context);
         },
-      ),
+      )
     );
   }
 
@@ -314,7 +336,7 @@ class _SurveyPSQIState extends State<SurveyPSQI> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(height: 25),
-                  Text('Premi per selezionare l\'ora'),
+                  Text('Premi per selezionare l\'ora', style: buttonTextStyle),
                   SizedBox(height: 25)
                 ]),
           ),
@@ -418,70 +440,44 @@ class HourMinute extends StatefulWidget {
 
 class _HourMinuteState extends State<HourMinute> {
 
-  Map<int, String> hours = {0: '4', 1: '5', 2: '6', 3: '7', 4: '8', 5: '9', 6: '10', 7: '11', 8: '12', 9: '13', 10: '14'};
-  Map<int, String> minutes = {0: '00', 1: '05', 2: '10', 3: '15', 4: '20', 5: '25', 6: '30', 7: '35', 8: '40', 9: '45', 10: '50', 11: '55'};
-  int hour = 4, minute = 6;
-
+  var time = '''
+    [
+      [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]
+    ]
+    ''';
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(10),
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-
-            DropdownButton(
-                value: hour,
-                elevation: 2,
-                icon: Icon(Icons.keyboard_arrow_down),
-                iconSize: 28,
-                style: TextStyle(
-                    color: Colors.black.withOpacity(0.7),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17
-                ),
-                items: [
-                  for (int index = 0; index < hours.length; index++)
-                    DropdownMenuItem(
-                      child: Text('${hours[index]}'),
-                      value: hours.keys.toList()[index],
-                    ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    hour = value;
-                    widget.finalAnswer[widget.index] = '${hours[hour]}:${minutes[minute]}';
-                  });
-                }),
-
-            SizedBox(width: 20),
-
-            DropdownButton(
-                value: minute,
-                elevation: 2,
-                icon: Icon(Icons.keyboard_arrow_down),
-                iconSize: 28,
-                style: TextStyle(
-                    color: Colors.black.withOpacity(0.7),
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17
-                ),
-                items: [
-                  for (int index = 0; index < minutes.length; index++)
-                    DropdownMenuItem(
-                      child: Text('${minutes[index]}'),
-                      value: minutes.keys.toList()[index],
-                    ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    minute = value;
-                    widget.finalAnswer[widget.index] = '${hours[hour]}:${minutes[minute]}';
-                  });
-                })
-
-          ]),
+      child: TextButton(
+        child: Text('Ore?', style: buttonTextStyle),
+        onPressed: () {
+          showPickerArray(context);
+        },
+      ),
     );
+  }
+
+  showPickerArray(BuildContext context) {
+    Picker(
+        adapter: PickerDataAdapter<String>(
+            pickerdata: JsonDecoder().convert(time),
+            isArray: true
+        ),
+        hideHeader: true,
+        selectedTextStyle: TextStyle(color: Colors.blue.shade500),
+        confirmText: 'Conferma',
+        confirmTextStyle: TextStyle(fontSize: 17, color: Colors.blue.shade500),
+        cancelTextStyle: TextStyle(fontSize: 17, color: Colors.blue.shade500),
+        title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [ Text('Ore'), Text(':'), Text('Minuti') ]
+        ),
+        onConfirm: (Picker picker, List value) {
+          widget.finalAnswer[widget.index] = '${picker.getSelectedValues()[0]}:${picker.getSelectedValues()[1]}';
+        }
+    ).showDialog(context);
   }
 }
