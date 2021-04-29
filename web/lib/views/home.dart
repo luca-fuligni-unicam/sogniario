@@ -26,6 +26,7 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.all(12),
               child: Column(
                   mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
 
                     MenuBar(),
@@ -67,24 +68,26 @@ class _HomeState extends State<Home> {
                     CustomButton(
                       icon: Icon(Icons.download_rounded, color: Colors.black),
                       child: Text(
-                        'DOWNLOAD SURVEYS',
+                        'DOWNLOAD DATA\n2021/03/14 - 2021/04/29',
                         style: const TextStyle(
                           color: Colors.black87,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 0.8,
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+
+                      },
                     ),
 
                     SizedBox(
-                      height: 4,
+                      height: 8,
                     ),
 
                     CustomButton(
                       icon: Icon(Icons.people, color: Colors.black),
                       child: Text(
-                        'SEE CANDIDATES',
+                        'MANAGE USERS',
                         style: const TextStyle(
                           color: Colors.black87,
                           fontWeight: FontWeight.bold,
@@ -97,13 +100,13 @@ class _HomeState extends State<Home> {
                     ),
 
                     SizedBox(
-                      height: 4,
+                      height: 8,
                     ),
 
                     CustomButton(
                       icon: Icon(Icons.list_alt_outlined, color: Colors.black),
                       child: Text(
-                        'CHANGE SURVEY',
+                        'CHANGE QUESTIONNAIRES',
                         style: const TextStyle(
                           color: Colors.black87,
                           fontWeight: FontWeight.bold,
