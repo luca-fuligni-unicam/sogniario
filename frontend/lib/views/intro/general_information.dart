@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rounded_date_picker/rounded_picker.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 import 'package:frontend/models/dreamer.dart';
 import 'package:frontend/services/rest_api/dreamer_api.dart';
 import 'package:frontend/widgets/alert.dart';
@@ -119,18 +119,22 @@ class _GeneralInformationState extends State<GeneralInformation> {
                 ),
 
                 SogniarioButton(
-                    onPressed: () async {
-                      DateTime newDateTime = await showRoundedDatePicker(
-                          context: context,
-                          height: MediaQuery.of(context).size.height / 2 + 25,
-                          initialDatePickerMode: DatePickerMode.year,
-                          initialDate: DateTime(DateTime.now().year - 14),
-                          firstDate: DateTime(DateTime.now().year - 80),
-                          lastDate: DateTime(DateTime.now().year - 13),
-                          theme: ThemeData(primarySwatch: Colors.grey),
-                      );
-
-                      setState(() => year = newDateTime);
+                    onPressed: () {
+                      Picker(
+                          hideHeader: true,
+                          adapter: DateTimePickerAdapter(),
+                          title: Text("Data di nascita?"),
+                          selectedTextStyle: TextStyle(color: Colors.blue),
+                          confirmText: 'Conferma',
+                          confirmTextStyle: TextStyle(fontSize: 17, color: Colors.blue.shade500),
+                          cancelTextStyle: TextStyle(fontSize: 17, color: Colors.blue.shade500),
+                          itemExtent: 32,
+                          onConfirm: (Picker picker, List value) {
+                            setState(() {
+                              year = (picker.adapter as DateTimePickerAdapter).value;
+                            });
+                          }
+                      ).showDialog(context);
                     },
                     child: Text('Seleziona'),
                     gender: 0,
@@ -162,12 +166,13 @@ class _GeneralInformationState extends State<GeneralInformation> {
                 SogniarioButton(
                     onPressed: () async {
 
-                      if (year == null || year.year == DateTime.now().year) {
+                      if (year == null || year.year == DateTime.now().year || year.difference(DateTime.now()).inHours > 0) {
                         showDialog(
                             context: context,
                             builder: (context) {
                               return SogniarioAlert(
-                                content: 'Inserire la data di nascita!"',
+                                type: AlertDialogType.WARNING,
+                                content: 'Inserire una data di nascita valida!',
                                 buttonLabelDx: 'Ok',
                                 onPressedDx: () => Navigator.pop(context),
                                 onPressedSx: () => Navigator.pop(context),
@@ -194,6 +199,7 @@ class _GeneralInformationState extends State<GeneralInformation> {
                               context: context,
                               builder: (context) {
                                 return SogniarioAlert(
+                                  type: AlertDialogType.ERROR,
                                   content: 'Problema con la registrazione!',
                                   buttonLabelDx: 'Ok',
                                   onPressedDx: () => Navigator.pop(context),
