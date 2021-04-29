@@ -192,7 +192,7 @@ class _GeneralInformationState extends State<GeneralInformation> {
                         );
 
                         if (registered) {
-                          Navigator.pushNamed(context, '/home');
+                          Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
 
                         } else {
                           showDialog(
