@@ -39,9 +39,6 @@ class MyApp extends StatelessWidget {
             case Routes.home:
               return Home();
 
-            case Routes.survey:
-              return SizedBox.shrink();
-
             case Routes.candidates:
               return CandidatesPage();
 
