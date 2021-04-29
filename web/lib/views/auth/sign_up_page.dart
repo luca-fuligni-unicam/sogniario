@@ -104,7 +104,7 @@ class _SignUpState extends State<SignUp> {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Hai già un account?'),
+                              Text('Do you have an account?'),
                               SizedBox(width: 5),
                               TextButton(
                                 onPressed: () {

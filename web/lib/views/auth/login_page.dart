@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:web/services/routes.dart';
 import 'package:web/views/auth/sign_up_page.dart';
-import 'package:web/views/home.dart';
 
 
 class Login extends StatefulWidget {
@@ -99,7 +98,7 @@ class _LoginState extends State<Login> {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('Non hai un account?'),
+                              Text('Do not have an account?'),
                               SizedBox(width: 5),
                               TextButton(
                                 onPressed: () {
