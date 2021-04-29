@@ -20,6 +20,12 @@ const TextStyle answerTextStyle = TextStyle(
     fontWeight: FontWeight.w400
 );
 
+const TextStyle buttonTextStyle = TextStyle(
+    fontSize: 17,
+    color: Colors.blue,
+    fontWeight: FontWeight.w500
+);
+
 const Divider divider = Divider(
   color: Colors.black54,
   thickness: 2,
