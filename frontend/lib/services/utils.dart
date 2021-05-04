@@ -15,15 +15,25 @@ class Utils {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
     'Accept': 'application/json',
+    // 'Authorization:'
   };
+
+
+  String getId() {
+    return box.get('id');
+  }
+
+  void setId() {
+    box.put('id', uuid.v1());
+  }
 
 
   String getToken() {
     return box.get('token');
   }
 
-  void setToken() {
-    box.put('token', uuid.v1());
+  void setToken(String token) {
+    box.put('token', token);
   }
 
 
