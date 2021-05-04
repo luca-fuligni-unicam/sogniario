@@ -181,11 +181,11 @@ class _GeneralInformationState extends State<GeneralInformation> {
 
                       } else {
                         box.put('first_access', false);
-                        dreamerApi.setToken();
+                        dreamerApi.setId();
 
                         bool registered = await dreamerApi.registered(
                           Dreamer(
-                            id: dreamerApi.getToken(),
+                            id: dreamerApi.getId(),
                             sex: gender == 0 ? 'MALE' : 'FEMALE',
                             birthDate: year
                           )

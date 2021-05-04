@@ -191,7 +191,7 @@ class _SurveyDreamState extends State<SurveyDream> {
 
                                                         bool valid = await reportApi.insertReport(
                                                             Report(
-                                                                dreamerId: reportApi.getToken(),
+                                                                dreamerId: reportApi.getId(),
                                                                 dream: widget.dream,
                                                                 completedSurvey: CompletedSurvey(
                                                                     surveyId: data.data.id,

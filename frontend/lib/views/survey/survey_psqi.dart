@@ -194,7 +194,7 @@ class _SurveyPSQIState extends State<SurveyPSQI> {
                                                     onPressedDx: () async {
 
                                                       bool valid = await surveyApi.insert(
-                                                          surveyApi.getToken(),
+                                                          surveyApi.getId(),
                                                           CompletedSurvey(surveyId: data.data.id, answers: finalAnswer)
                                                       );
 

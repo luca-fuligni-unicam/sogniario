@@ -184,7 +184,7 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
                                                           .generate(data.data.questions.keys.length - 1, (index) => data.data.questions.values.toList()[index][answers[index]]);
 
                                                       bool valid = await surveyApi.insert(
-                                                          surveyApi.getToken(),
+                                                          surveyApi.getId(),
                                                           CompletedSurvey(surveyId: data.data.id, answers: answer)
                                                       );
 
