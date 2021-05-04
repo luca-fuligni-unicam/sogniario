@@ -2,11 +2,9 @@ package it.unicam.morpheus.sogniario.checker;
 
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.model.Dream;
-import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.stereotype.Component;
 
-@Validated
-@Service
+@Component
 public class DreamChecker implements EntityChecker <Dream>{
 
     @Override

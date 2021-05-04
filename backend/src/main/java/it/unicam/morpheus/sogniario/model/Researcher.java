@@ -1,11 +1,15 @@
 package it.unicam.morpheus.sogniario.model;
 
+import it.unicam.morpheus.sogniario.auth.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * The class has as its objective the description of a researcher,
@@ -14,22 +18,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document(collection = "researcher")
 @NoArgsConstructor
-public class Researcher {
+@Getter @Setter @NonNull
+public class Researcher extends User {
 
-    @Id @Getter @Setter @NonNull
-    private String email;
-
-    @Getter @Setter @NonNull
     private String name;
 
-    @Getter @Setter
-    private boolean isAdministrator;
-
-    public Researcher(String email, @NonNull String name){
-        if(email.isBlank()) throw new IllegalArgumentException("The email is blank");
-        this.email = email;
+    public Researcher(String username, String password, Set<? extends GrantedAuthority> grantedAuthorities, String name) {
+        super(username, password, grantedAuthorities);
         if(name.isBlank()) throw new IllegalArgumentException("The name is blank");
         this.name = name;
-        this.isAdministrator = false;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.getGrantedAuthorities();
     }
 }
