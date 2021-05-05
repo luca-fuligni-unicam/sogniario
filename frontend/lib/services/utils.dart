@@ -9,13 +9,21 @@ class Utils {
   var uuid = Uuid();
 
 
-  Map<String, String> header = {
-    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-    'Access-Control-Allow-Methods': 'OPTIONS, DELETE, POST, GET, PUT',
+  Map<String, String> header(String token) => {
+    'Authorization': token,
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    // 'Authorization:'
+    'Accept': '*/*',
+    'Cache-Control': 'no-cache',
+    'Accept-Encoding': 'gzip, deflate, br',
+  };
+
+  Map<String, String> headerFirstAccess = {
+    'Content-Type': 'application/json',
+    'Accept': '*/*',
+    'Cache-Control': 'no-cache',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive'
   };
 
 

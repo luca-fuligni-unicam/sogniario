@@ -11,12 +11,14 @@ class SurveyApi extends Utils {
   Future<Survey> getSurveys(String surveyFile) async {
     var response = await http.get(
         Uri.tryParse('${server}api/survey/$surveyFile'),
-        headers: header,
+        headers: header(getToken()),
     );
 
     if (jsonDecode(response.body) is String) {
       return Survey(id: null);
     }
+
+    print(response.body);
 
     return Survey.fromJson(jsonDecode(response.body));
   }
@@ -25,7 +27,7 @@ class SurveyApi extends Utils {
   Future<bool> insert(String dreamerId, CompletedSurvey completedSurvey) async {
     var response = await http.post(
         Uri.tryParse('${server}api/dreamers/addCompletedSurvey/$dreamerId'),
-        headers: header,
+        headers: header(getToken()),
         body: jsonEncode(completedSurvey.completedSurvey())
     );
 

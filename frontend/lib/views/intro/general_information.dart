@@ -180,18 +180,26 @@ class _GeneralInformationState extends State<GeneralInformation> {
                             });
 
                       } else {
-                        box.put('first_access', false);
-                        dreamerApi.setId();
 
-                        bool registered = await dreamerApi.registered(
-                          Dreamer(
-                            id: dreamerApi.getId(),
-                            sex: gender == 0 ? 'MALE' : 'FEMALE',
-                            birthDate: year
-                          )
+                        bool registered = await dreamerApi.login(
+                          Dreamer().firstLogin(), true
+                        );
+
+                        dreamerApi.setId();
+                        registered = await dreamerApi.registered(
+                            Dreamer(
+                                id: dreamerApi.getId(),
+                                sex: gender == 0 ? 'MALE' : 'FEMALE',
+                                birthDate: year
+                            )
+                        );
+
+                        registered = await dreamerApi.login(
+                            Dreamer(id: dreamerApi.getId()).login(), false
                         );
 
                         if (registered) {
+                          box.put('first_access', false);
                           Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
 
                         } else {
