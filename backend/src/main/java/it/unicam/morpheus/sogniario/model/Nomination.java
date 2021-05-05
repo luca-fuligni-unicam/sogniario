@@ -18,22 +18,19 @@ enum NominationStatus{PENDENTE, ACCEPTED, REJECTED}
  */
 @Document(collection = "nomination")
 @NoArgsConstructor
+@Getter @Setter @NonNull
 public class Nomination {
 
-    @Id @Getter @Setter @NonNull
+    @Id
     private String email;
 
-    @Getter @Setter @NonNull
     private String name;
 
-    @Getter @Setter @NonNull
     private String motivazione;
 
-    @Getter @Setter @NonNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime data;
 
-    @Getter @Setter @NonNull
     private NominationStatus status;
 
     public Nomination(String email, @NonNull String name, @NonNull String motivazione){
@@ -47,3 +44,4 @@ public class Nomination {
         this.status = NominationStatus.PENDENTE;
     }
 }
+

@@ -13,18 +13,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document(collection = "report")
 @NoArgsConstructor
+@Getter @Setter @NonNull
 public class Report {
 
-    @Id @Getter @Setter @NonNull
+    @Id
     private String id;
 
-    @Getter @Setter @NonNull
     private String dreamerId;
 
-    @Getter @Setter @NonNull
     private Dream dream;
 
-    @Getter @Setter @NonNull
     private CompletedSurvey completedSurvey;
 
     public Report(String dreamerId, Dream dream, CompletedSurvey completedSurvey){

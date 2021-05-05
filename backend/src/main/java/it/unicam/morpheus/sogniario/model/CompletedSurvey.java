@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
@@ -13,15 +12,14 @@ import java.util.List;
  * and the list of answers given by the {@link Dreamer}.
  */
 @NoArgsConstructor
+@Getter @Setter @NonNull
 public class CompletedSurvey {
 
-    @Getter @Setter @NonNull
     private List<String> answers;
 
-    @Getter @Setter @NonNull
     private String surveyId;
 
-    public CompletedSurvey(String surveyId, List<String> answers){
+    public CompletedSurvey(@NonNull String surveyId, List<String> answers){
         if(answers.isEmpty()) throw new IllegalArgumentException("Answers is empty");
         if(surveyId.isBlank()) throw new IllegalArgumentException("Survey Id is blank");
         this.surveyId = surveyId;

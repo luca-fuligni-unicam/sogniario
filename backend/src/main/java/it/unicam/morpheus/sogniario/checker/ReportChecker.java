@@ -2,23 +2,23 @@ package it.unicam.morpheus.sogniario.checker;
 
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.model.Report;
-import it.unicam.morpheus.sogniario.repository.DreamersRepository;
+import it.unicam.morpheus.sogniario.repositories.DreamersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.stereotype.Component;
 
-@Validated
-@Service
+@Component
 public class ReportChecker implements EntityChecker<Report> {
 
-    @Autowired
-    private DreamersRepository dreamersRepository;
+    private final DreamersRepository dreamersRepository;
+    private final DreamChecker dreamChecker;
+    private final CompletedSurveyChecker completedSurveyChecker;
 
     @Autowired
-    private DreamChecker dreamChecker;
-
-    @Autowired
-    private CompletedSurveyChecker completedSurveyChecker;
+    public ReportChecker(DreamersRepository dreamersRepository, DreamChecker dreamChecker, CompletedSurveyChecker completedSurveyChecker) {
+        this.dreamersRepository = dreamersRepository;
+        this.dreamChecker = dreamChecker;
+        this.completedSurveyChecker = completedSurveyChecker;
+    }
 
     @Override
     public boolean check(Report object) throws EntityNotFoundException {
