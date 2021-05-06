@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/common/constants.dart';
 import 'package:frontend/services/utils.dart';
 import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/card.dart';
@@ -130,7 +131,7 @@ class _HomeState extends State<Home> {
                           context: context,
                           builder: (context) {
                             return SogniarioAlert(
-                              content: "Questionario usato per scoprire a quale cronotipo appartieni. Gufo o Allodola?\nNon è obbligatorio, puoi compilarlo in un secondo momento.",
+                              content: meqContent,
                               buttonLabelDx: 'Compila',
                               onPressedDx: () async {
                                 Navigator.pop(context);
@@ -147,7 +148,7 @@ class _HomeState extends State<Home> {
                           context: context,
                           builder: (context) {
                             return SogniarioAlert(
-                              content: "Questionario sulla qualità del sonno.\nNon è obbligatorio, puoi compilarlo in un secondo momento.\nÈ un questionario mensile, verrà richiesto ogni 30 giorni.",
+                              content: psqiContent,
                               buttonLabelDx: 'Compila',
                               onPressedDx: () {
                                 Navigator.pop(context);
