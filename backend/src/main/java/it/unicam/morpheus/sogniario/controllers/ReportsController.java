@@ -7,6 +7,7 @@ import it.unicam.morpheus.sogniario.services.ReportsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,9 +83,9 @@ public class ReportsController {
     }
 
     @PreAuthorize("hasAuthority('reports:read')")
-    @GetMapping("/reportArchiveByDate/{date}")
-    public boolean getReportArchiveByDate(@PathVariable String date) throws IOException {
-        return reportsService.getReportArchiveByDate(date);
+    @GetMapping("/reportArchiveByYearAndSemester/{year}/{semester}")
+    public ResponseEntity<byte[]> getReportArchiveByYearAndSemester(@PathVariable int year, @PathVariable int semester) throws IllegalStateException, IOException {
+        return reportsService.getReportArchiveByYearAndSemester(year, semester);
     }
 
 }

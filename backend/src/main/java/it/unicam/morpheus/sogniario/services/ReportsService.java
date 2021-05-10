@@ -3,6 +3,8 @@ package it.unicam.morpheus.sogniario.services;
 import it.unicam.morpheus.sogniario.checker.ReportChecker;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
+import it.unicam.morpheus.sogniario.model.CompletedSurvey;
+import it.unicam.morpheus.sogniario.model.Dreamer;
 import it.unicam.morpheus.sogniario.model.Report;
 import it.unicam.morpheus.sogniario.model.Survey;
 import it.unicam.morpheus.sogniario.repositories.DreamersRepository;
@@ -11,19 +13,24 @@ import it.unicam.morpheus.sogniario.repositories.SurveysRepository;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.Month;
+import java.time.chrono.ChronoLocalDate;
+import java.time.temporal.TemporalAccessor;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * The interface extends {@link EntityService} and adds operations to better manage instances of the {@link Report} class.
@@ -115,6 +122,8 @@ public class ReportsService implements EntityService<Report, String>{
         return 0;
     }
 
+
+    /*
     public boolean getReportArchiveByDate(String date) throws IOException {
 
         LocalDate localDate;
@@ -163,6 +172,155 @@ public class ReportsService implements EntityService<Report, String>{
         }
 
         return true;
+    }
+
+     */
+
+    public ResponseEntity<byte[]> getReportArchiveByDate(String date) throws IllegalStateException, IOException {
+
+        //comtrollo la data
+        LocalDate localDate;
+        if(date.isBlank()) throw new IllegalArgumentException("Il campo 'date' è vuoto");
+        try{ localDate = LocalDate.parse(date); }
+        catch (Exception e) { throw new IllegalArgumentException("Il campo 'date' non è valido"); }
+
+        List<Report> reportList = reportsRepository.findAll().stream().filter(r ->
+                r.getDream().getData().getYear() == localDate.getYear() &&
+                        r.getDream().getData().getMonth().equals(localDate.getMonth()))
+                .collect(Collectors.toList());
+
+        if(reportList.isEmpty()) throw new IllegalStateException("There are no reports of that date");
+
+
+        //creo il file zip
+        //File f = new File(localDate.getYear() + localDate.getMonth().toString() + ".zip");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ZipOutputStream zos = new ZipOutputStream(bos);
+
+
+        //creo le entry
+        for(Report r: reportList){
+
+            //creo il pdf
+            PDDocument document = new PDDocument();
+            PDPage page = new PDPage();
+            document.addPage(page);
+
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+            contentStream.setFont(PDType1Font.COURIER, 12);
+            contentStream.beginText();
+
+            contentStream.showText("Dreamer ID: " + r.getDreamerId() + "");
+
+            contentStream.showText("Dream:" + r.getDream().getText() + "");
+
+            contentStream.showText("Data registrazione sogno: " + r.getDream().getData() + "");
+
+            /*
+            Optional<Survey> survey = surveysRepository.findById(r.getCompletedSurvey().getSurveyId());
+            if(survey.isPresent()){
+                contentStream.showText("Survey:");
+                int i=0;
+                for(Map.Entry<String, List<String>> e: survey.get().getQuestions().entrySet()){
+                    contentStream.showText( e.getKey() + "" + r.getCompletedSurvey().getAnswers().get(i) + "");
+                    i++;
+                }
+            }
+
+             */
+
+            contentStream.endText();
+            contentStream.close();
+
+            //document.save(r.getId() + ".pdf");
+
+            //inizializzo la entry
+            ZipEntry e = new ZipEntry(r.getId() + ".pdf");
+            zos.putNextEntry(e);
+
+            //trasformo il documento in un flusso di byte
+            PDStream pdStream = new PDStream(document);
+            byte[] data = pdStream.toByteArray();
+
+            //byte[] data = sb.toString().getBytes();
+            zos.write(data, 0, data.length);
+            zos.closeEntry();
+
+            //chiudo il documento
+            document.close();
+
+        }
+
+        //chiudo il file zip
+        zos.close();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment().filename(localDate.getYear() + localDate.getMonth().toString() + ".zip").build().toString());
+        return ResponseEntity.ok().headers(httpHeaders).body(bos.toByteArray());
+    }
+
+
+    public ResponseEntity<byte[]> getReportArchiveByYearAndSemester(int year, int semester) throws IllegalStateException, IOException {
+
+        if(semester <1 || semester > 2) throw new IllegalArgumentException("Semester must be between 1 and 2");
+
+        List<Report> reportList = reportsRepository.findAll().stream()
+                .filter(r -> r.getDream().getData().getYear() == year && (semester == 1) == (r.getDream().getData().getMonth().getValue() <= 6))
+                //.filter(r -> r.getDream().getData().getYear() == year && (semester == 1 ? r.getDream().getData().getMonth().getValue() <= 6 : r.getDream().getData().getMonth().getValue() > 6))
+                .collect(Collectors.toList());
+
+        if(reportList.isEmpty()) throw new IllegalStateException("There are no reports for this semester of this year");
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ZipOutputStream zos = new ZipOutputStream(bos);
+
+        for(Report r: reportList){
+
+            String report = "";
+            report = report.concat("Dreamer ID: " + r.getDreamerId() + "\n");
+            report = report.concat("Dream:" + r.getDream().getText() + "\n");
+            report = report.concat("Data registrazione sogno: " + r.getDream().getData() + "\n");
+
+            Optional<Survey> survey = surveysRepository.findById(r.getCompletedSurvey().getSurveyId());
+            if(survey.isPresent()){
+                report = report.concat("Survey:\n");
+                List<String> quest = new ArrayList<>(survey.get().getQuestions().keySet());
+                for(int i=0; i <= r.getCompletedSurvey().getAnswers().size() -1; i++)
+                    report = report.concat( quest.get(i) + "\n" + r.getCompletedSurvey().getAnswers().get(i) + "\n");
+            }
+
+            ZipEntry e = new ZipEntry(r.getDreamerId() + "/Report/" + r.getId() + ".txt");
+            zos.putNextEntry(e);
+            byte[] data = report.getBytes();
+            zos.write(data, 0, data.length);
+            zos.closeEntry();
+        }
+
+        for(Dreamer d: dreamersRepository.findAll()){
+            for(CompletedSurvey c: d.getCompletedSurveys().stream().filter(c -> c.getData().getYear() == year && (semester == 1) == (c.getData().getMonth().getValue() <= 6)).collect(Collectors.toSet())){
+                Optional<Survey> survey = surveysRepository.findById(c.getSurveyId());
+                String completedSurvey = "";
+                if(survey.isPresent()){
+                    List<String> quest = new ArrayList<>(survey.get().getQuestions().keySet());
+                    for(int i=0; i <= c.getAnswers().size() -1; i++)
+                        completedSurvey = completedSurvey.concat( quest.get(i) + "\n" + c.getAnswers().get(i) + "\n");
+                }
+                ZipEntry e = new ZipEntry(d.getUsername() + "/" + c.getSurveyId()+ "/" + c.getData() + ".txt");
+                zos.putNextEntry(e);
+                byte[] data = completedSurvey.getBytes();
+                zos.write(data, 0, data.length);
+                zos.closeEntry();
+            }
+        }
+
+        zos.close();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment().filename(year + (semester == 1 ? "First" : "Second") + "Semester.zip").build().toString());
+        return ResponseEntity.ok().headers(httpHeaders).body(bos.toByteArray());
     }
 }
 
