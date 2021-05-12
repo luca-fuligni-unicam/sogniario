@@ -3,6 +3,7 @@ package it.unicam.morpheus.sogniario.controllers;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Nomination;
+import it.unicam.morpheus.sogniario.model.Researcher;
 import it.unicam.morpheus.sogniario.services.NominationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,5 +59,17 @@ public class NominationsController {
     @GetMapping("/list/{page}/{size}")
     public Page<Nomination> getPage(@PathVariable int page, @PathVariable int size) throws EntityNotFoundException {
         return nominationsService.getPage(page, size);
+    }
+
+    @PreAuthorize("hasAuthority('nominations:write')")
+    @PostMapping("/acceptNomination/{nominationID}")
+    public Researcher acceptNomination(@PathVariable String nominationID) throws EntityNotFoundException{
+        return nominationsService.acceptNomination(nominationID);
+    }
+
+    @PreAuthorize("hasAuthority('nominations:write')")
+    @PostMapping("/rejectNomination/{nominationID}")
+    public void rejectNomination(@PathVariable String nominationID) throws EntityNotFoundException{
+        nominationsService.rejectNomination(nominationID);
     }
 }

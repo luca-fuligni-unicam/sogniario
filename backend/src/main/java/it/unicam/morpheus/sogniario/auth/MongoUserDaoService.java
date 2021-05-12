@@ -61,6 +61,13 @@ public class MongoUserDaoService implements UserDao{
                         passwordEncoder.encode("guest_dreamer"),
                         UserRole.GUEST_DREAMER.getGrantedAuthorities(),
                         "Guest Dreamer"
+                ),
+
+                new Researcher(
+                        "guest_researcher",
+                        passwordEncoder.encode("guest_researcher"),
+                        UserRole.GUEST_RESEARCHER.getGrantedAuthorities(),
+                        "Guest Researcher"
                 )
         );
     }
