@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 
 import static it.unicam.morpheus.sogniario.security.UserPermission.*;
 
+/**
+ * The enumeration is responsible for managing the roles within the system.
+ * Each role is assigned one or more permissions defined within the {@link UserPermission} enumeration.
+ */
 public enum UserRole {
 
     ADMIN(Sets.newHashSet(

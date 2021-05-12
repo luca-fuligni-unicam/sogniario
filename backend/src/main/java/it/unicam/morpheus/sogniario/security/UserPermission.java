@@ -1,5 +1,8 @@
 package it.unicam.morpheus.sogniario.security;
 
+/**
+ * The enumeration has the task of managing the permissions within the system.
+ */
 public enum UserPermission {
 
     //API researchers

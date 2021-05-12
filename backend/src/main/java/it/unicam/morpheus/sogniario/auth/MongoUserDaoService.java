@@ -2,6 +2,7 @@ package it.unicam.morpheus.sogniario.auth;
 
 import com.google.common.collect.Lists;
 import it.unicam.morpheus.sogniario.model.Researcher;
+import it.unicam.morpheus.sogniario.model.Dreamer;
 import it.unicam.morpheus.sogniario.repositories.DreamersRepository;
 import it.unicam.morpheus.sogniario.repositories.ResearchersRepository;
 import it.unicam.morpheus.sogniario.security.UserRole;
@@ -12,6 +13,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The class takes care of recovering users from the appropriate repositories depending on whether they are {@link Researcher} or {@link Dreamer}.
+ * In addition, it manages any users residing within the system code.
+ */
 @Repository("mongoUserDao")
 public class MongoUserDaoService implements UserDao{
 

@@ -17,8 +17,8 @@ import java.util.Set;
 enum Sex {MALE, FEMALE, OTHER}
 
 /**
- * The class has as its objective the description of a Dreamer who keeps inside the email that acts as an Id,
- * the name of the Dreamer, the date of birth, the {@link Sex} of the Dreamer and the reference to the {@link CompletedSurvey} he has compiled.
+ * The class has the objective of representing a Researcher, the class extends the {@link User} class from which it derives the properties for authentication.
+ * in addition, the class adds the date of birth, the {@link Sex} of the Dreamer and the reference to the {@link CompletedSurvey} he has compiled.
  */
 @Document(collection = "dreamer")
 @NoArgsConstructor

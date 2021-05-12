@@ -23,6 +23,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * The class takes care of verifying the JWT token.
+ */
 public class JwtTokenVerifier extends OncePerRequestFilter {
 
     private final SecretKey secretKey;
