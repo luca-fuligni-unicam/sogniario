@@ -10,15 +10,13 @@ class SurveyApi extends Utils {
 
   Future<Survey> getSurveys(String surveyFile) async {
     var response = await http.get(
-        Uri.tryParse('${server}api/survey/$surveyFile'),
+        Uri.tryParse('${server}api/surveys/$surveyFile'),
         headers: header(getToken()),
     );
 
     if (jsonDecode(response.body) is String) {
       return Survey(id: null);
     }
-
-    print(response.body);
 
     return Survey.fromJson(jsonDecode(response.body));
   }
