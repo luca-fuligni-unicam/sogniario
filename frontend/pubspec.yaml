@@ -72,6 +72,8 @@ flutter:
     - assets/background.jpg
     - assets/survey.png
     - assets/sogniario_icon.png
+    - assets/lark.jpg
+    - assets/owl.png
 
     - assets/intro/intro_1.jpg
     - assets/intro/intro_2.jpg
