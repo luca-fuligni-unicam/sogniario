@@ -14,6 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
  * The interface extends {@link EntityService} and adds operations to better manage instances of the {@link Nomination} class.
  */
@@ -41,6 +44,7 @@ public class NominationsService implements EntityService<Nomination, String>{
 
     @Override
     public Nomination create(Nomination object) throws EntityNotFoundException, IdConflictException {
+        if(researchersRepository.existsById(object.getEmail())) throw new IdConflictException("Email già presente nel sistema");
         if(exists(object.getEmail())) throw new IdConflictException("Email già presente");
         //nominationChecker.check(object);
         return nominationsRepository.save(
@@ -78,8 +82,10 @@ public class NominationsService implements EntityService<Nomination, String>{
         return nominationsRepository.findAll(PageRequest.of(page, size));
     }
 
-    public Researcher acceptNomination(String nominationID) throws EntityNotFoundException {
+    public Researcher acceptNomination(String nominationID) throws EntityNotFoundException, IdConflictException {
         checkNominationId(nominationID);
+
+        if(researchersRepository.existsById(nominationID)) throw new IdConflictException("Email già presente nel sistema");
 
         Nomination nomination = nominationsRepository.findById(nominationID).get();
         nomination.acceptNomination();
@@ -102,5 +108,10 @@ public class NominationsService implements EntityService<Nomination, String>{
             throw new EntityNotFoundException("nomination not Exist");
         if (!nominationsRepository.findById(nominationID).get().isPendente())
             throw new IllegalStateException("lo status della nomination è già determinato");
+    }
+
+
+    public Set<Nomination> getNominationPendenti(){
+        return nominationsRepository.findAll().stream().filter(Nomination::isPendente).collect(Collectors.toSet());
     }
 }

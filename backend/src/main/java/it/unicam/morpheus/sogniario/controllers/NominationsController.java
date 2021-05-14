@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 /**
  * The class provides Rest APIs to manage instances of the {@link Nomination} class
  */
@@ -63,7 +65,7 @@ public class NominationsController {
 
     @PreAuthorize("hasAuthority('nominations:write')")
     @PostMapping("/acceptNomination/{nominationID}")
-    public Researcher acceptNomination(@PathVariable String nominationID) throws EntityNotFoundException{
+    public Researcher acceptNomination(@PathVariable String nominationID) throws EntityNotFoundException, IdConflictException {
         return nominationsService.acceptNomination(nominationID);
     }
 
@@ -71,5 +73,11 @@ public class NominationsController {
     @PostMapping("/rejectNomination/{nominationID}")
     public void rejectNomination(@PathVariable String nominationID) throws EntityNotFoundException{
         nominationsService.rejectNomination(nominationID);
+    }
+
+    @PreAuthorize("hasAuthority('nominations:read')")
+    @GetMapping("/NominationPendenti")
+    public Set<Nomination> getNominationPendenti(){
+        return nominationsService.getNominationPendenti();
     }
 }
