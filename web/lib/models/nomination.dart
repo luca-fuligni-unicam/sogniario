@@ -3,23 +3,38 @@ class Nomination {
 
   final String name;
   final String email;
-  final String motivazione;
+  final String password;
+  final String motivation;
   final DateTime data;
-  final NominationStatus status;
-
 
   Nomination({
     this.name,
     this.email,
-    this.motivazione,
+    this.password,
+    this.motivation,
     this.data,
-    this.status
   });
 
-}
 
-enum NominationStatus{
-  PENDENTE,
-  ACCEPTED,
-  REJECTED
+  factory Nomination.fromJson(Map<String, dynamic> json) {
+    return Nomination(
+      name: json['name'],
+      email: json['email'],
+      motivation: json['motivazione'],
+      data: DateTime.parse(json['data'])
+    );
+  }
+
+  Map<String, dynamic> login() => {
+    'username': email,
+    'password': password,
+  };
+  
+  Map<String, String> registered() => {
+    'name': name,
+    'email': email,
+    'password': password,
+    'motivazione': motivation
+  };
+
 }
