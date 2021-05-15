@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:web/services/rest_api/login_api.dart';
 import 'package:web/services/routes.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 import 'package:web/views/auth/sign_up_page.dart';
+import 'package:web/widgets/alert.dart';
 
 
 class Login extends StatefulWidget {
@@ -11,16 +14,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
-
+  String email = '';
+  String password = '';
+  LoginApi loginApi = LoginApi();
 
   @override
   Widget build(BuildContext context) {
@@ -62,24 +58,62 @@ class _LoginState extends State<Login> {
                         SizedBox(height: 5),
 
                         TextField(
-                          controller: emailController,
                           decoration: InputDecoration(labelText: 'Email'),
+                          onChanged: (_email) {
+                            email = _email;
+                          },
                         ),
 
                         TextField(
                           obscureText: true,
-                          controller: passwordController,
                           decoration: InputDecoration(labelText: 'Password'),
+                          onChanged: (_password) {
+                            password = _password;
+                          },
                         ),
 
                         SizedBox(height: 5),
 
                         TextButton(
-                            onPressed: () {
-                              Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  Routes.home, (route) => false
-                              );
+                            onPressed: () async {
+
+                              bool logged = await loginApi.login({
+                                'username': email,
+                                'password': password,
+                              }, true);
+
+
+                              if (logged) {
+                                Map<String, dynamic> payload = Jwt.parseJwt(loginApi.getToken().substring(7));
+
+                                if (payload['authorities'].length < 8) {
+                                  // Researcher
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      Routes.home, (route) => false
+                                  );
+                                } else {
+                                  // Admin
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      Routes.home, (route) => false
+                                  );
+                                }
+
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (_) {
+                                      return Alert(
+                                          type: AlertDialogType.WARNING,
+                                          content: 'Problem with the login!\n'
+                                              ' - Check your username or password.\n'
+                                              ' - If the username and password are correct, you wait to be accepted by the admin!'
+                                      );
+                                    }
+                                );
+                              }
+
                             },
                             child: Text('Login')
                         ),
