@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:web/services/routes.dart';
 import 'package:web/views/auth/login_page.dart';
 import 'package:web/views/candidates_page.dart';
 import 'package:web/views/home.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 
 void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox('data');
   runApp(MyApp());
 }
 
