@@ -88,6 +88,7 @@ public class DreamersService implements EntityService<Dreamer, String> {
 
         if(dreamersRepository.findById(dreamerID).isPresent()){
             Dreamer d = dreamersRepository.findById(dreamerID).get();
+            completedSurvey.setData(LocalDateTime.now());
             d.addCompletedSurvey(completedSurvey);
             dreamersRepository.save(d);
         } else throw new EntityNotFoundException("Nessun Dreamer trovato con l'ID: "+dreamerID);
