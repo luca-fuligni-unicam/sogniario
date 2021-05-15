@@ -7,6 +7,13 @@ import 'package:web/widgets/menu.dart';
 
 class Home extends StatefulWidget {
 
+  final isAdmin;
+
+  Home({
+    @required this.isAdmin
+  });
+
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -84,36 +91,42 @@ class _HomeState extends State<Home> {
                       height: 8,
                     ),
 
-                    CustomButton(
-                      icon: Icon(Icons.people, color: Colors.black),
-                      child: Text(
-                        'MANAGE USERS',
-                        style: const TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.8,
+                    Visibility(
+                      visible: widget.isAdmin,
+                      child: CustomButton(
+                        icon: Icon(Icons.people, color: Colors.black),
+                        child: Text(
+                          'MANAGE USERS',
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.8,
+                          ),
                         ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.candidates);
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.candidates);
-                      },
                     ),
 
                     SizedBox(
                       height: 8,
                     ),
 
-                    CustomButton(
-                      icon: Icon(Icons.list_alt_outlined, color: Colors.black),
-                      child: Text(
-                        'CHANGE QUESTIONNAIRES',
-                        style: const TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.8,
+                    Visibility(
+                      visible: widget.isAdmin,
+                      child: CustomButton(
+                        icon: Icon(Icons.list_alt_outlined, color: Colors.black),
+                        child: Text(
+                          'CHANGE QUESTIONNAIRES',
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.8,
+                          ),
                         ),
+                        onPressed: () {},
                       ),
-                      onPressed: () {},
                     ),
 
                   ]),

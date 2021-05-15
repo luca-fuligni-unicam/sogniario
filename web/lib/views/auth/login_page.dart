@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:web/services/rest_api/login_api.dart';
-import 'package:web/services/routes.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:web/views/auth/sign_up_page.dart';
+import 'package:web/views/home.dart';
 import 'package:web/widgets/alert.dart';
 
 
@@ -87,16 +87,14 @@ class _LoginState extends State<Login> {
                                 Map<String, dynamic> payload = Jwt.parseJwt(loginApi.getToken().substring(7));
 
                                 if (payload['authorities'].length < 8) {
-                                  // Researcher
-                                  Navigator.pushNamedAndRemoveUntil(
+                                  Navigator.pushAndRemoveUntil(
                                       context,
-                                      Routes.home, (route) => false
+                                      MaterialPageRoute(builder: (_) => Home(isAdmin: false)), (route) => false
                                   );
                                 } else {
-                                  // Admin
-                                  Navigator.pushNamedAndRemoveUntil(
+                                  Navigator.pushAndRemoveUntil(
                                       context,
-                                      Routes.home, (route) => false
+                                      MaterialPageRoute(builder: (_) => Home(isAdmin: true)), (route) => false
                                   );
                                 }
 
