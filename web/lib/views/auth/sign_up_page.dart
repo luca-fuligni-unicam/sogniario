@@ -110,7 +110,7 @@ class _SignUpState extends State<SignUp> {
                                 Nomination(
                                   name: name,
                                   email: email,
-                                  password: password,
+                                  password: nominationApi.sha512Encrypt(password),
                                   motivation: motivation
                                 )
                               );

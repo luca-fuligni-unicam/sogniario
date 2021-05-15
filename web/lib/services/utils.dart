@@ -1,3 +1,4 @@
+import 'package:crypt/crypt.dart';
 import 'package:hive/hive.dart';
 
 
@@ -30,6 +31,13 @@ class Utils {
 
   void setToken(String token) {
     box.put('token', token);
+  }
+
+
+  String sha512Encrypt(String password) {
+    return Crypt.sha512(password, rounds: 21841, salt: 'gg_m4n_g00d_g4m3!!')
+        .toString()
+        .substring(40);
   }
 
 }

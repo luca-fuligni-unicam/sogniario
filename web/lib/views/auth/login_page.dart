@@ -79,7 +79,7 @@ class _LoginState extends State<Login> {
 
                               bool logged = await loginApi.login({
                                 'username': email,
-                                'password': password,
+                                'password': loginApi.sha512Encrypt(password),
                               }, true);
 
 
