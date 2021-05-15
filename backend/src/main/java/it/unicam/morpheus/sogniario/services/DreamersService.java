@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 /**
  * The interface extends {@link EntityService} and adds operations to better manage instances of the {@link Dreamer} class.
  */
