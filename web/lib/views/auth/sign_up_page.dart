@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:web/models/nomination.dart';
+import 'package:web/services/rest_api/login_api.dart';
+import 'package:web/services/rest_api/nomination_api.dart';
+import 'package:web/widgets/alert.dart';
 
 
 class SignUp extends StatefulWidget {
@@ -9,18 +13,18 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController motivationController = TextEditingController();
+  String name = '';
+  String email = '';
+  String password = '';
+  String motivation = '';
+  NominationApi nominationApi;
+  LoginApi loginApi;
 
   @override
-  void dispose() {
-    nameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    motivationController.dispose();
-    super.dispose();
+  void initState() {
+    nominationApi = NominationApi();
+    loginApi = LoginApi();
+    super.initState();
   }
 
 
@@ -64,31 +68,76 @@ class _SignUpState extends State<SignUp> {
                         SizedBox(height: 5),
 
                         TextField(
-                          controller: nameController,
                           decoration: InputDecoration(labelText: 'Name'),
+                          onChanged: (_name) {
+                            name = _name;
+                          },
                         ),
 
                         TextField(
-                          controller: emailController,
                           decoration: InputDecoration(labelText: 'Email'),
+                          onChanged: (_email) {
+                            email = _email;
+                          },
                         ),
 
                         TextField(
                           obscureText: true,
-                          controller: passwordController,
                           decoration: InputDecoration(labelText: 'Password'),
+                          onChanged: (_password) {
+                            password = _password;
+                          },
                         ),
 
                         TextField(
-                          controller: motivationController,
                           maxLines: 3,
                           decoration: InputDecoration(labelText: 'Motivation'),
+                          onChanged: (_motivation) {
+                            motivation = _motivation;
+                          },
                         ),
 
                         SizedBox(height: 5),
 
                         TextButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              bool logged = await loginApi.login({
+                                'username': 'guest_researcher',
+                                'password': 'guest_researcher',
+                              }, true);
+
+                              logged = await nominationApi.registered(
+                                Nomination(
+                                  name: name,
+                                  email: email,
+                                  password: password,
+                                  motivation: motivation
+                                )
+                              );
+
+                              if (logged) {
+                                showDialog(
+                                    context: context,
+                                    builder: (_) {
+                                      return Alert(
+                                          type: AlertDialogType.SUCCESS,
+                                          content: 'Registered successfully, now you have to wait to be accepted by the admin!'
+                                      );
+                                    }
+                                );
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (_) {
+                                      return Alert(
+                                          type: AlertDialogType.SUCCESS,
+                                          content: 'Problem with the registration!'
+                                      );
+                                    }
+                                );
+                              }
+
+                            },
                             child: Text('Sign Up')
                         ),
 
