@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:web/services/rest_api/report_api.dart';
 import 'package:web/services/routes.dart';
 import 'package:web/widgets/button.dart';
 import 'package:web/widgets/menu.dart';
@@ -19,6 +20,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  ReportApi reportApi = ReportApi();
+  bool semesterOne = false;
+  bool semesterTwo = false;
 
   @override
   Widget build(BuildContext context) {
@@ -74,16 +79,69 @@ class _HomeState extends State<Home> {
 
                     CustomButton(
                       icon: Icon(Icons.download_rounded, color: Colors.black),
-                      child: Text(
-                        'DOWNLOAD DATA\n2021/03/14 - 2021/04/29',
-                        style: const TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.8,
-                        ),
-                      ),
-                      onPressed: () {
+                      child: Column(
+                        children: [
+                          Text(
+                            'DOWNLOAD DATA',
+                            style: const TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.8,
+                            ),
+                          ),
 
+                          SizedBox(height: 8),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+
+                              Text(
+                                'Semester - January / June ?',
+                                style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.black.withOpacity(0.6)),
+                              ),
+
+                              SizedBox(width: 6),
+
+                              Checkbox(
+                                onChanged: (value) {
+                                  setState(() {
+                                    if (!semesterTwo) {
+                                      semesterOne = value;
+                                    }
+                                  });
+                                },
+                                value: semesterOne,
+                                activeColor: Colors.green.withOpacity(0.6),
+                              )
+                            ]),
+
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+
+                                Text(
+                                  'Second - July / December ?',
+                                  style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.black.withOpacity(0.6)),
+                                ),
+
+                                SizedBox(width: 6),
+
+                                Checkbox(
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (!semesterOne) {
+                                        semesterTwo = value;
+                                      }
+                                    });
+                                  },
+                                  value: semesterTwo,
+                                  activeColor: Colors.green.withOpacity(0.6),
+                                )
+                              ]),
+                        ]),
+                      onPressed: () {
+                        reportApi.download(semesterOne);
                       },
                     ),
 
