@@ -130,7 +130,7 @@ class _SignUpState extends State<SignUp> {
                                     context: context,
                                     builder: (_) {
                                       return Alert(
-                                          type: AlertDialogType.SUCCESS,
+                                          type: AlertDialogType.ERROR,
                                           content: 'Problem with the registration!'
                                       );
                                     }
