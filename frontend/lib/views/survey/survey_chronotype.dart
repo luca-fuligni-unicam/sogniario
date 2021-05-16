@@ -3,6 +3,7 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:frontend/models/completed_survey.dart';
 import 'package:frontend/models/survey.dart';
 import 'package:frontend/services/rest_api/suvery_api.dart';
+import 'package:frontend/views/survey/score_page.dart';
 import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/survey_card.dart';
 import 'package:frontend/common/constants.dart';
@@ -182,6 +183,7 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
 
                                                       List<String> answer = List
                                                           .generate(data.data.questions.keys.length - 1, (index) => data.data.questions.values.toList()[index][answers[index]]);
+                                                      double score = answer.map((e) => double.tryParse(e[1])).reduce((value, element) => value + element);
 
                                                       bool valid = await surveyApi.insert(
                                                           surveyApi.getId(),
@@ -195,10 +197,13 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
                                                             builder: (context) {
                                                               return SogniarioAlert(
                                                                 content: "Questionario mandato con successo!",
-                                                                buttonLabelDx: 'Ok',
+                                                                buttonLabelDx: 'Controlla',
                                                                 type: AlertDialogType.SUCCESS,
                                                                 onPressedDx: () {
-                                                                  Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                                                                  Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(builder: (_) => ScorePage(score: score))
+                                                                  );
                                                                 },
                                                                 onPressedSx: () => Navigator.pop(context),
                                                               );
