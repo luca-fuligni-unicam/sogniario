@@ -12,9 +12,9 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * The class has as its objective the description of a researcher,
- * who is represented through an emal that acts as an Id,
- * the name of the resarcher and a flag indicating the possession of administrator permissions
+ * The class has the objective of representing a Researcher,
+ * the class extends the {@link User} class from which it derives the properties for authentication.
+ * in addition, the class adds the name of the Researcher to better identify it.
  */
 @Document(collection = "researcher")
 @NoArgsConstructor

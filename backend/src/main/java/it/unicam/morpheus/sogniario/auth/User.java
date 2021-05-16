@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Set;
 
+/**
+ * The abstract class is concerned with managing users outside the system.
+ */
 @NoArgsConstructor
 @Getter @Setter @NonNull
 public abstract class User implements UserDetails {

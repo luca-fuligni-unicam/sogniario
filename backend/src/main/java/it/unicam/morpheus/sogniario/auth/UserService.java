@@ -7,6 +7,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * The class that deals with retrieving users through the username using a service that implements the {@link UserDao} interface
+ */
 @Service
 public class UserService implements UserDetailsService {
 

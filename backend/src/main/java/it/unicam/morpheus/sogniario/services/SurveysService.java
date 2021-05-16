@@ -96,8 +96,12 @@ public class SurveysService implements EntityService<Survey, String> {
 
             List<String> answers = new ArrayList<>();
 
-            for(int j = 1; !(row.getCell(j) == null || row.getCell(j).getCellType() == CellType.BLANK); j++)
-                answers.add(row.getCell(j).getStringCellValue());
+            for(int j = 1; !(row.getCell(j) == null || row.getCell(j).getCellType().equals(CellType.BLANK)); j++)
+                answers.add(
+                        row.getCell(j).getCellType().equals(CellType.STRING) ?
+                                row.getCell(j).getStringCellValue():
+                                Double.toString(row.getCell(j).getNumericCellValue())
+                );
 
             questions.put(row.getCell(0).getStringCellValue(), answers);
         }

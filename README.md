@@ -55,7 +55,7 @@ Sogniario nasce da una collaborazione tra il Brain and Sleep Research Laboratory
 
 # ⚙ Processo di Sviluppo<a name = "processo"></a>
 
-Per sviluppare l'applicativo è stato scelto di seguire il processo standardizzato **Unified Process (UP)**, processo iterativo incrementale, utilizzando come strumento di lavoro **Visual Paradigm** basato sul **Unified Modeling Language (UML)**.
+Per sviluppare l'applicativo è stato scelto di seguire il processo standardizzato **Unified Process (UP)**, processo iterativo incrementale, utilizzando come strumento di lavoro [**Visual Paradigm**](https://www.visual-paradigm.com/) basato sul **Unified Modeling Language (UML)**.
 
 Attualmente sono state svolta un'iterazione dove è stato possibile effettuare l'analisi dei requisiti, la progettazione del sistema, l'implementazione.
 
@@ -72,11 +72,13 @@ Le varie iterazioni hanno dato origine ai seguenti artefatti:
 
 # 🧰 Tecnologie utilizzate<a name = "tecno"></a>
 
-Il lato back end si basa sul linguaggio **Java** e rende disponibile per l'interazione delle **Api Rest**, la cui scrittura e gestione, anche sotto l'ottica della sicurezza, sono state rese possibili grazie al framework **Spring Boot**. Per il building automatizzato del sistema si è impiegato il tool **Gradle**. Inoltre, poter rendere più agevole la scrittura del codice tramite l'uso di annotazioni, si è deciso di impiegare la libreria Java **Lombok**.
+Il lato back end si basa sul linguaggio **Java** nella versione LTS 11 e rende disponibile per l'interazione delle **Api Rest**, la cui scrittura e gestione, anche sotto l'ottica della sicurezza, sono state rese possibili grazie al framework [**Spring Boot**](https://spring.io/). Per il building automatizzato del sistema si è impiegato il tool [**Gradle**](https://gradle.org/). Inoltre, poter rendere più agevole la scrittura del codice tramite l'uso di annotazioni, si è deciso di impiegare la libreria Java [**Lombok**](https://projectlombok.org/).
 
-Per quanto concerne la persistenza delle informazioni processate a livello di back end si è deciso di sfruttare i servizi offerti dal DBMS non relazionale **MongoDB** e dal relativo framework per linguaggio Java.
+Per quanto concerne la persistenza delle informazioni processate a livello di back end si è deciso di sfruttare i servizi offerti dal DBMS non relazionale [**MongoDB**](https://www.mongodb.com) e dal relativo framework per linguaggio Java.
 
-Il front end è interamente scritto utilizzando il framework **Flutter**.
+Per quanto concerne l'autenticazione all'interno del sistema si è deciso di utilizzare le tecnologie messe a disposizione da **Spring Boot Security** e sfruttare lo standard **JSON Web Token (JWT)** utilizzando la libreria [**Java JWT**](https://github.com/jwtk/jjwt).
+
+Il front end è interamente scritto utilizzando il framework [**Flutter**](https://flutter.dev).
 Flutter si basa su **Dart** ed offre un codice portabile. Lo sviluppo di app ibride combina elementi di app native e web. Consentono di avere un unica codebase in un unico linguaggio che può essere eseguito su più piattaforme diverse.
 
 Nello sviluppo dell'app si è utilizzato il pattern BLoC (Business Logic Component).

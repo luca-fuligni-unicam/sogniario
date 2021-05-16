@@ -1,6 +1,7 @@
 package it.unicam.morpheus.sogniario.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -24,6 +25,9 @@ public class Nomination {
     @Id
     private String email;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+
     private String name;
 
     private String motivazione;
@@ -33,9 +37,11 @@ public class Nomination {
 
     private NominationStatus status;
 
-    public Nomination(String email, @NonNull String name, @NonNull String motivazione){
+    public Nomination(String email, @NonNull String password, @NonNull String name, @NonNull String motivazione){
         if(email.isBlank()) throw new IllegalArgumentException("The email is blank");
         this.email = email;
+        if(password.isBlank()) throw new IllegalArgumentException("The password is blank");
+        this.password = password;
         if(motivazione.isBlank()) throw new IllegalArgumentException("The motivazione is blank");
         this.motivazione = motivazione;
         if(name.isBlank()) throw new IllegalArgumentException("The name is blank");
@@ -43,5 +49,11 @@ public class Nomination {
         this.data = LocalDateTime.now();
         this.status = NominationStatus.PENDENTE;
     }
+
+    public boolean isPendente(){ return this.status.equals(NominationStatus.PENDENTE); }
+
+    public void acceptNomination(){ this.status = NominationStatus.ACCEPTED; }
+
+    public void rejectNomination(){ this.status = NominationStatus.REJECTED; }
 }
 

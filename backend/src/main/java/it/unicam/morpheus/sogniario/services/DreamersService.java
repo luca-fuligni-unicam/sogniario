@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 /**
  * The interface extends {@link EntityService} and adds operations to better manage instances of the {@link Dreamer} class.
  */
@@ -88,6 +89,7 @@ public class DreamersService implements EntityService<Dreamer, String> {
 
         if(dreamersRepository.findById(dreamerID).isPresent()){
             Dreamer d = dreamersRepository.findById(dreamerID).get();
+            completedSurvey.setData(LocalDateTime.now());
             d.addCompletedSurvey(completedSurvey);
             dreamersRepository.save(d);
         } else throw new EntityNotFoundException("Nessun Dreamer trovato con l'ID: "+dreamerID);

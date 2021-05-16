@@ -3,12 +3,15 @@ package it.unicam.morpheus.sogniario.controllers;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import it.unicam.morpheus.sogniario.model.Nomination;
+import it.unicam.morpheus.sogniario.model.Researcher;
 import it.unicam.morpheus.sogniario.services.NominationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 /**
  * The class provides Rest APIs to manage instances of the {@link Nomination} class
@@ -58,5 +61,23 @@ public class NominationsController {
     @GetMapping("/list/{page}/{size}")
     public Page<Nomination> getPage(@PathVariable int page, @PathVariable int size) throws EntityNotFoundException {
         return nominationsService.getPage(page, size);
+    }
+
+    @PreAuthorize("hasAuthority('nominations:write')")
+    @PostMapping("/acceptNomination/{nominationID}")
+    public Researcher acceptNomination(@PathVariable String nominationID) throws EntityNotFoundException, IdConflictException {
+        return nominationsService.acceptNomination(nominationID);
+    }
+
+    @PreAuthorize("hasAuthority('nominations:write')")
+    @PostMapping("/rejectNomination/{nominationID}")
+    public void rejectNomination(@PathVariable String nominationID) throws EntityNotFoundException{
+        nominationsService.rejectNomination(nominationID);
+    }
+
+    @PreAuthorize("hasAuthority('nominations:read')")
+    @GetMapping("/NominationPendenti")
+    public Set<Nomination> getNominationPendenti(){
+        return nominationsService.getNominationPendenti();
     }
 }

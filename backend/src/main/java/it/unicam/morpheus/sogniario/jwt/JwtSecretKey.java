@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.crypto.SecretKey;
 
+/**
+ * The class takes care of maintaining the secretKey of the jwt token of the system.
+ */
 @Configuration
 public class JwtSecretKey {
 
