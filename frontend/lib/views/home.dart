@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/common/constants.dart';
+import 'package:frontend/models/dreamer.dart';
+import 'package:frontend/services/rest_api/dreamer_api.dart';
 import 'package:frontend/services/utils.dart';
 import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/card.dart';
 import 'package:frontend/widgets/circle_decoration.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 
 class Home extends StatefulWidget {
@@ -15,10 +18,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   Utils utils = Utils();
+  DreamerApi dreamerApi = DreamerApi();
   bool psqi, chronotype;
 
   @override
   void initState() {
+    tokenIsExpired();
     super.initState();
 
     Future.delayed(const Duration(seconds: 1), () {
@@ -42,6 +47,14 @@ class _HomeState extends State<Home> {
             });
       }
     });
+  }
+
+  void tokenIsExpired() async {
+    if (JwtDecoder.isExpired(utils.getToken())) {
+      await dreamerApi.login(
+          Dreamer(id: dreamerApi.getId()).login(), true
+      );
+    }
   }
 
 
