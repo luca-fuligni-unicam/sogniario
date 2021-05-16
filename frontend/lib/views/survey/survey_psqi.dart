@@ -184,7 +184,6 @@ class _SurveyPSQIState extends State<SurveyPSQI> {
                                           FocusScope.of(context).unfocus();
 
                                           if (index == data.data.questions.keys.length - 2) {
-                                            print(finalAnswer);
                                             showDialog(
                                                 context: context,
                                                 builder: (context) {
