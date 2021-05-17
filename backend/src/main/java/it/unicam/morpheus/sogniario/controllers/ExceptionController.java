@@ -4,6 +4,7 @@ import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,18 +38,23 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.PARTIAL_CONTENT);
     }
 
-    @ExceptionHandler(IllegalStateException.class)
-    protected ResponseEntity<String> illegalStateHandler(IllegalStateException e){
-        return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
-    }
-
     @ExceptionHandler(FileNotFoundException.class)
     protected ResponseEntity<String> FileNotFoundHandler(FileNotFoundException e){
-        return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     protected ResponseEntity<String> UsernameNotFoundHandler(UsernameNotFoundException e){
+        return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ResponseEntity<String> AccessDeniedHandler(AccessDeniedException e){
+        return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    protected ResponseEntity<String> IllegalStateHandler(IllegalStateException e){
         return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
     }
 }
