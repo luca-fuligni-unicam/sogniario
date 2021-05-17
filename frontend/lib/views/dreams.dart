@@ -89,26 +89,23 @@ class _MyDreamsState extends State<MyDreams> {
     return ListView(
         children: [
 
-          Container(
-            height: 360,
-            child: TableCalendar(
-              calendarController: _calendarController,
-              headerStyle: HeaderStyle(
-                  titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
-                  formatButtonTextStyle: TextStyle(color: Colors.white, fontSize: 16),
-                  formatButtonDecoration: BoxDecoration(color: Colors.white),
-                  leftChevronIcon: Icon(Icons.chevron_left_outlined, size: 28),
-                  rightChevronIcon: Icon(Icons.chevron_right_outlined, size: 28)
-              ),
-              calendarStyle: CalendarStyle(
-                  weekdayStyle: TextStyle(fontSize: 16, color: Colors.black.withOpacity(0.6)),
-                  selectedColor: Colors.blue[100],
-                  selectedStyle: TextStyle(color: Colors.black.withOpacity(0.8), fontSize: 17),
-                  todayColor: Colors.blue.shade300.withOpacity(0.8)
-              ),
-              endDay: DateTime.now(),
-              onDaySelected: (date, events, holidays) => setState(() => dreamsDate = date),
+          TableCalendar(
+            calendarController: _calendarController,
+            headerStyle: HeaderStyle(
+                titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
+                formatButtonTextStyle: TextStyle(color: Colors.white, fontSize: 16),
+                formatButtonDecoration: BoxDecoration(color: Colors.white),
+                leftChevronIcon: Icon(Icons.chevron_left_outlined, size: 28),
+                rightChevronIcon: Icon(Icons.chevron_right_outlined, size: 28)
             ),
+            calendarStyle: CalendarStyle(
+                weekdayStyle: TextStyle(fontSize: 16, color: Colors.black.withOpacity(0.6)),
+                selectedColor: Colors.blue[100],
+                selectedStyle: TextStyle(color: Colors.black.withOpacity(0.8), fontSize: 17),
+                todayColor: Colors.blue.shade300.withOpacity(0.8)
+            ),
+            endDay: DateTime.now(),
+            onDaySelected: (date, events, holidays) => setState(() => dreamsDate = date),
           ),
 
           DreamsList(
@@ -153,13 +150,13 @@ class _DreamsListState extends State<DreamsList> {
 
           } else {
 
-            if (data.data.isEmpty) {
+            if (data.data.isEmpty || data.data[0].id == null) {
               return Container(
                 padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                 height: 170,
                 child: NoSurvey(
                   child: Text(
-                      'Nessun sogno registrato!',
+                      data.data.isEmpty ? 'Nessun sogno registrato!' : 'Problemi nel vedere i sogni!',
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 20,
@@ -229,10 +226,3 @@ class _DreamsListState extends State<DreamsList> {
   }
 
 }
-
-/*
-var time = await showTimePicker(
-  context: context,
-  initialTime: TimeOfDay(hour: 7, minute: 15),
-);
-*/

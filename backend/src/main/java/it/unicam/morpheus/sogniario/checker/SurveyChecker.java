@@ -1,15 +1,14 @@
 package it.unicam.morpheus.sogniario.checker;
 
 import it.unicam.morpheus.sogniario.model.Survey;
-import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
-@Validated
-@Service
+@Component
 public class SurveyChecker implements EntityChecker<Survey>{
+
     @Override
     public boolean check(Survey object) {
 
@@ -28,3 +27,4 @@ public class SurveyChecker implements EntityChecker<Survey>{
         return true;
     }
 }
+

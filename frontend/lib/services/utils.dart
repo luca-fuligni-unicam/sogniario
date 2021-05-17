@@ -9,21 +9,60 @@ class Utils {
   var uuid = Uuid();
 
 
-  Map<String, String> header = {
-    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-    'Access-Control-Allow-Methods': 'OPTIONS, DELETE, POST, GET, PUT',
+  Map<String, String> header(String token) => {
+    'Authorization': token,
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
-    'Accept': 'application/json',
+    'Accept': '*/*',
+    'Cache-Control': 'no-cache',
+    'Accept-Encoding': 'gzip, deflate, br',
   };
+
+  Map<String, String> headerFirstAccess = {
+    'Content-Type': 'application/json',
+    'Accept': '*/*',
+    'Cache-Control': 'no-cache',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive'
+  };
+
+
+  String getId() {
+    return box.get('id');
+  }
+
+  void setId() {
+    box.put('id', uuid.v1());
+  }
 
 
   String getToken() {
     return box.get('token');
   }
 
-  void setToken() {
-    box.put('token', uuid.v1());
+  void setToken(String token) {
+    box.put('token', token);
+  }
+
+
+  bool getReminderPSQI() {
+    return box.get('psqi') == null ? true : DateTime
+        .now().difference(box.get('psqi'))
+        .inDays > 30;
+  }
+
+  bool getReminderChronotype() {
+    return box.get('chronotype') == null ? true : DateTime
+        .now().difference(box.get('chronotype'))
+        .inDays > 30;
+  }
+
+  void setReminderPSQI() {
+    box.put('psqi', DateTime.now());
+  }
+
+  void setReminderChronotype() {
+    box.put('chronotype', DateTime.now());
   }
 
 }

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/common/constants.dart';
+import 'package:frontend/models/dreamer.dart';
+import 'package:frontend/services/rest_api/dreamer_api.dart';
+import 'package:frontend/services/utils.dart';
 import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/card.dart';
 import 'package:frontend/widgets/circle_decoration.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 
 class Home extends StatefulWidget {
@@ -11,6 +16,47 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  Utils utils = Utils();
+  DreamerApi dreamerApi = DreamerApi();
+  bool psqi, chronotype;
+
+  @override
+  void initState() {
+    tokenIsExpired();
+    super.initState();
+
+    Future.delayed(const Duration(seconds: 1), () {
+      psqi = utils.getReminderPSQI();
+      chronotype = utils.getReminderChronotype();
+
+      if (psqi || chronotype) {
+        String content = psqi && chronotype ? 'Hai dei questionari da compilare!' : psqi ? 'Ricordati di compilare il PSQI!' : chronotype ? 'Ricordati di compilare il questionario sul cronotipo!' : '';
+        showDialog(
+            context: context,
+            builder: (context) {
+              return SogniarioAlert(
+                title: 'Promemoria',
+                content: content,
+                buttonLabelDx: 'Cronotipo',
+                buttonLabelSx: 'PSQI',
+                type: AlertDialogType.INFO,
+                onPressedDx: () => chronotype ? Navigator.pushNamed(context, '/chronotype') : {},
+                onPressedSx: () => psqi ? Navigator.pushNamed(context, '/psqi') : {},
+              );
+            });
+      }
+    });
+  }
+
+  void tokenIsExpired() async {
+    if (JwtDecoder.isExpired(utils.getToken())) {
+      await dreamerApi.login(
+          Dreamer(id: dreamerApi.getId()).login(), true
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,23 +74,10 @@ class _HomeState extends State<Home> {
                   child: CircleDecoration(
                     height: 250,
                     width: 250,
-                    offset: Offset(2, 2),
-                    shadow: Colors.teal.shade300,
-                    gradientOne: Colors.teal.shade50,
-                    gradientTwo: Colors.teal.shade100,
-                  ),
-                ),
-
-                Positioned(
-                  top: 10,
-                  left: 15,
-                  child: Text(
-                    'Sogniario',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black87.withOpacity(0.7),
-                        fontSize: 26
-                    ),
+                    offset: Offset(-1, -1),
+                    shadow: Colors.blue.shade600,
+                    gradientOne: Colors.blue.shade200.withOpacity(0.4),
+                    gradientTwo: Colors.blue.shade100,
                   ),
                 ),
 
@@ -55,9 +88,9 @@ class _HomeState extends State<Home> {
                     height: 150,
                     width: 200,
                     offset: Offset(1, 1),
-                    shadow: Colors.teal.shade300,
-                    gradientOne: Colors.teal.shade50,
-                    gradientTwo: Colors.teal.shade100,
+                    shadow: Colors.blue.shade800,
+                    gradientOne: Colors.blue.shade100,
+                    gradientTwo: Colors.blue.shade200.withOpacity(0.6),
                   ),
                 ),
 
@@ -68,15 +101,24 @@ class _HomeState extends State<Home> {
                     height: 200,
                     width: 200,
                     offset: Offset(2, 2),
-                    shadow: Colors.teal.shade300,
-                    gradientOne: Colors.teal.shade50,
-                    gradientTwo: Colors.teal.shade100,
+                    shadow: Colors.blue.shade700,
+                    gradientOne: Colors.blue.shade100,
+                    gradientTwo: Colors.blue.shade100,
                   ),
                 ),
 
                 ListView(
-                  padding: EdgeInsets.fromLTRB(10, 50, 10, 10),
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                   children: [
+
+                    Text(
+                      'Sogniario',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black87,
+                          fontSize: 26
+                      ),
+                    ),
 
                     SogniarioCard(
                       title: 'Sogni',
@@ -101,31 +143,62 @@ class _HomeState extends State<Home> {
                       listTileTitleOne: 'Questionario sul Cronotipo',
                       listTileIconOne: Icon(Icons.list_alt_rounded, color: Colors.black54),
                       listTileOnTapOne: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return SogniarioAlert(
-                              content: "Questionario usato per scoprire a quale cronotipo appartieni. Gufo o Allodola?\nNon è obbligatorio, puoi compilarlo in un secondo momento.",
-                              buttonLabel: 'Compila',
-                              onPressed: () async {
-                                Navigator.pop(context);
-                                Navigator.pushNamed(context, '/chronotype');
+                        if (chronotype) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SogniarioAlert(
+                                  content: 'Questionario sul Cronotipo già compilato!',
+                                  buttonLabelDx: 'Ok',
+                                  onPressedDx: () => Navigator.pop(context),
+                                  onPressedSx: () => Navigator.pop(context),
+                                );
                               });
-                          });
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SogniarioAlert(
+                                  content: meqContent,
+                                  buttonLabelDx: 'Compila',
+                                  onPressedDx: () {
+                                    Navigator.pop(context);
+                                    Navigator.pushNamed(context, '/chronotype');
+                                  },
+                                  onPressedSx: () => Navigator.pop(context),
+                                );
+                              });
+                        }
                       },
                       listTileTitleTwo: 'Questionario sulla Qualita del Sonno',
                       listTileIconTwo: Icon(Icons.view_list_outlined, color: Colors.green.shade300),
                       listTileOnTapTwo: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return SogniarioAlert(
-                              content: "Questionario sulla qualità del sonno.\nNon è obbligatorio, puoi compilarlo in un secondo momento.\nÈ un questionario mensile, verrà richiesto ogni 30 giorni.",
-                              buttonLabel: 'Compila',
-                              onPressed: () {
-
+                        if (psqi) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SogniarioAlert(
+                                  content: 'PSQI già compilato!',
+                                  buttonLabelDx: 'Ok',
+                                  onPressedDx: () => Navigator.pop(context),
+                                  onPressedSx: () => Navigator.pop(context),
+                                );
                               });
-                          });
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SogniarioAlert(
+                                  content: psqiContent,
+                                  buttonLabelDx: 'Compila',
+                                  onPressedDx: () {
+                                    Navigator.pop(context);
+                                    Navigator.pushNamed(context, '/psqi');
+                                  },
+                                  onPressedSx: () => Navigator.pop(context),
+                                );
+                              });
+                        }
                       },
                     ),
 

@@ -12,12 +12,11 @@ import java.time.LocalDateTime;
  * The class has as its objective the description of a Dream that keeps within it the text of the dream and the date of its registration.
  */
 @NoArgsConstructor
+@Getter @Setter @NonNull
 public class Dream {
 
-    @Getter @Setter @NonNull
     private String text;
 
-    @Getter @Setter @NonNull
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime data;
 

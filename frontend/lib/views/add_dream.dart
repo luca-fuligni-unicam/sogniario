@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/dream.dart';
 import 'package:frontend/views/survey/survey_dream.dart';
+import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/circle_decoration.dart';
 import 'package:frontend/widgets/sogniario_button.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 
@@ -103,22 +105,22 @@ class _AddDreamState extends State<AddDream> {
                   height: 200,
                   width: 200,
                   offset: Offset(2, 2),
-                  shadow: Colors.green.shade300,
-                  gradientOne: Colors.green.shade50,
-                  gradientTwo: Colors.green.shade100,
+                  shadow: Colors.blue.shade600,
+                  gradientOne: Colors.blue.shade100,
+                  gradientTwo: Colors.blue.shade200.withOpacity(0.8),
                 ),
               ),
 
               Positioned(
-                top: MediaQuery.of(context).size.height / 3 + 30,
-                right: 0,
+                top: MediaQuery.of(context).size.height / 3 + 50,
+                right: -20,
                 child: CircleDecoration(
                   height: 200,
                   width: 200,
                   offset: Offset(0, 0),
-                  shadow: Colors.green.shade300,
-                  gradientOne: Colors.green.shade50,
-                  gradientTwo: Colors.green.shade100,
+                  shadow: Colors.blue.shade700,
+                  gradientOne: Colors.blue.shade50,
+                  gradientTwo: Colors.blue.shade100,
                 ),
               ),
 
@@ -183,15 +185,34 @@ class _AddDreamState extends State<AddDream> {
 
                     SogniarioButton(
                       child: Text('Salva'),
-                      background: Colors.green.shade50.withOpacity(0.5),
-                      overlay: Colors.green.shade50,
+                      background: Colors.blue.shade50.withOpacity(0.4),
+                      overlay: Colors.blue.shade50.withOpacity(0.8),
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => SurveyDream(dream: Dream(dream: dreamController.text))
-                            )
-                        );
+
+                        if (dreamController.text.isEmpty) {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SogniarioAlert(
+                                  content: "Non hai raccontato nessun sogno!",
+                                  buttonLabelDx: 'Ok',
+                                  type: AlertDialogType.INFO,
+                                  onPressedDx: () => Navigator.pop(context),
+                                  onPressedSx: () => Navigator.pop(context),
+                                );
+                              });
+
+                        } else {
+                          FocusScope.of(context).unfocus();
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.fade,
+                                  child: SurveyDream(dream: Dream(dream: dreamController.text))
+                              )
+                          );
+                        }
+
                       },
                     ),
 

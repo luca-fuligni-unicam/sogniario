@@ -16,12 +16,12 @@ import java.util.Map;
  */
 @Document(collection = "survey")
 @NoArgsConstructor
+@Getter @Setter @NonNull
 public class Survey {
 
-    @Id @Getter @Setter @NonNull
+    @Id
     private String id;
 
-    @Getter @Setter @NonNull
     private Map<String, List<String>> questions;
 
     public Survey(Map<String, List<String>> questions) {

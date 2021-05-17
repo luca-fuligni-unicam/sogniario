@@ -2,8 +2,10 @@ package it.unicam.morpheus.sogniario.checker;
 
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.model.Nomination;
+import org.springframework.stereotype.Component;
 
-public class NominationChecker implements EntityChecker <Nomination>{
+@Component
+public class NominationChecker implements EntityChecker<Nomination>{
     @Override
     public boolean check(Nomination object) throws EntityNotFoundException {
 

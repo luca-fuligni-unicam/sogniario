@@ -9,9 +9,13 @@ class DreamApi extends Utils {
 
   Future<List<Dream>> getDreams(String date) async {
     var response = await http.get(
-        Uri.tryParse('${server}api/reports/listByIdAndData/${getToken()}/$date'),
-        headers: header
+        Uri.tryParse('${server}api/reports/listByIdAndData/${getId()}/$date'),
+        headers: header(getToken())
     );
+
+    if (jsonDecode(response.body) is String) {
+      return [Dream(id: null)];
+    }
 
     return List.from(jsonDecode(response.body))
         .map((e) => Dream.fromJson(e))

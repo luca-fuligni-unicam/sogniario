@@ -9,22 +9,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * The class has as its objective the description of a report that keeps within it the references to its {@link Dream} and {@link CompletedSurvey}.
- * In addition, it keeps the date of the registration of the report and the ID of the {@link Dreamer} who registered it.
+ * In addition, it keeps the ID of the {@link Dreamer} who registered it.
  */
 @Document(collection = "report")
 @NoArgsConstructor
+@Getter @Setter @NonNull
 public class Report {
 
-    @Id @Getter @Setter @NonNull
+    @Id
     private String id;
 
-    @Getter @Setter @NonNull
     private String dreamerId;
 
-    @Getter @Setter @NonNull
     private Dream dream;
 
-    @Getter @Setter @NonNull
     private CompletedSurvey completedSurvey;
 
     public Report(String dreamerId, Dream dream, CompletedSurvey completedSurvey){
