@@ -60,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll();
-                //.antMatchers("/assets/*", "/icons/*", "main.dart", "flutter_service_worker", "manifest", "version").permitAll();
+                // se attivo i parametri commentati mi chiederà di essere autenticato anche dove non serve
                 //.anyRequest()
                 //.authenticated();
     }
