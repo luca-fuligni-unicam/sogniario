@@ -45,12 +45,22 @@ Sogniario nasce da una collaborazione tra il Brain and Sleep Research Laboratory
 
  - Vari alert, mostrati nel caso la chiamata REST non vada a buon fine, oppure nel caso viene registrato con successo sogno e questionario.
 
+ - Questionario PSQI.
+
+ - Pagina che mostra il punteggio dopo aver compilato il questionario MEQ.
+   
+ - Relativa logica che riguarda il reminder sul compilare i questionari.
+ 
+ - Autenticazione mediante token JWT, dove è stato aggiunto in tutte le chiamate GET/POST.
+
+ - Parte Web accessibile qui [Sogniario](http://193.205.92.106:8080/).
+ - Nella parte Web è stata implementata la view del Researcher e quella dell' Admin.
+ - L' Admin gestisce le candidature, scarica i dati e cambia le domande dei questionari, mentre il Researcher può solo scaricare i dati.
+
 
 **Non implementate**:
  - Nuvola dei sogni e il relativo grafo del sogno.
- - PSQI.
- - Relativa logica che riguarda il reminder sul compilare i questionari (verrà fatto dopo aver implementato il PSQI).
-
+ - Possibilità di aggiornare i questionari dalla pagina web.
 
 
 # ⚙ Processo di Sviluppo<a name = "processo"></a>
