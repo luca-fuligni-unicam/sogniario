@@ -98,7 +98,7 @@ class _HomeState extends State<Home> {
 
                               Text(
                                 'Semester - January / June ?',
-                                style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.black.withOpacity(0.6)),
+                                style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.black.withOpacity(0.8)),
                               ),
 
                               SizedBox(width: 6),
@@ -112,7 +112,7 @@ class _HomeState extends State<Home> {
                                   });
                                 },
                                 value: semesterOne,
-                                activeColor: Colors.green.withOpacity(0.6),
+                                activeColor: Colors.blue.shade200,
                               )
                             ]),
 
@@ -122,7 +122,7 @@ class _HomeState extends State<Home> {
 
                                 Text(
                                   'Second - July / December ?',
-                                  style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.black.withOpacity(0.6)),
+                                  style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.black.withOpacity(0.8)),
                                 ),
 
                                 SizedBox(width: 6),
@@ -136,7 +136,7 @@ class _HomeState extends State<Home> {
                                     });
                                   },
                                   value: semesterTwo,
-                                  activeColor: Colors.green.withOpacity(0.6),
+                                  activeColor: Colors.blue.shade200,
                                 )
                               ]),
                         ]),
