@@ -59,9 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
                 .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                .anyRequest()
-                .authenticated();
+                .antMatchers("/", "index", "/css/*", "/js/*").permitAll();
+                // se attivo i parametri commentati mi chiederà di essere autenticato anche dove non serve
+                //.anyRequest()
+                //.authenticated();
     }
 
     @Override
