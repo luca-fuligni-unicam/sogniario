@@ -1,12 +1,17 @@
 package it.unicam.morpheus.sogniario.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import edu.stanford.nlp.simple.Document;
+import edu.stanford.nlp.simple.Sentence;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The class has as its objective the description of a Dream that keeps within it the text of the dream and the date of its registration.
@@ -26,4 +31,19 @@ public class Dream {
         this.data = LocalDateTime.now();
     }
 
+    public Map<String, List<String>> getGraph() throws IOException {
+
+
+        Graph graph = new Graph();
+
+        Document doc = new Document(this.text);
+        for (Sentence sent : doc.sentences()){
+            for(int i=1; i <= sent.words().size(); i++){
+                if(i != sent.words().size()) graph.addEdge(sent.word(i-1), sent.word(i));
+                else graph.addEdge(sent.word(i-1), null);
+            }
+        }
+
+        return graph.getAdj();
+    }
 }

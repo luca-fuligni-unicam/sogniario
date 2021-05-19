@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -179,6 +180,12 @@ public class ReportsService implements EntityService<Report, String>{
         httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
         httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment().filename(year + (semester == 1 ? "First" : "Second") + "Semester.zip").build().toString());
         return ResponseEntity.ok().headers(httpHeaders).body(bos.toByteArray());
+    }
+
+    public Map<String, List<String>> getGraph(String reportId) throws IOException, EntityNotFoundException {
+
+        if(reportsRepository.findById(reportId).isEmpty()) throw new EntityNotFoundException("Report not exist");
+        return reportsRepository.findById(reportId).get().getDream().getGraph();
     }
 }
 
