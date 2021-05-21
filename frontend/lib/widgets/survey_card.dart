@@ -35,7 +35,7 @@ class NoSurvey extends StatelessWidget {
           ),
         ),
         child: Center(
-            child: child
+            child: Padding(padding: EdgeInsets.all(8), child: child)
         ),
       ),
     );
