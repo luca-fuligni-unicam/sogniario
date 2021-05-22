@@ -32,13 +32,12 @@ public class Dream {
     }
 
     public Map<String, List<String>> getGraph() throws IOException {
-
-
         Graph graph = new Graph();
+        List<String> wordList = new WordsFilter("graph.txt").getList();
 
-        Document doc = new Document(this.text);
+        Document doc = new Document(this.text.toLowerCase());
         for (Sentence sent : doc.sentences()){
-            for(int i=1; i <= sent.words().size(); i++){
+            for(int i=1; i <= sent.words().size() && !wordList.contains(sent.word(i)) && !wordList.contains(sent.word(i+1)); i++){
                 if(i != sent.words().size()) graph.addEdge(sent.word(i-1), sent.word(i));
                 else graph.addEdge(sent.word(i-1), null);
             }

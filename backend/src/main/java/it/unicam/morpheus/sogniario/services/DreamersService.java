@@ -6,10 +6,7 @@ import it.unicam.morpheus.sogniario.checker.CompletedSurveyChecker;
 import it.unicam.morpheus.sogniario.checker.DreamerChecker;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
-import it.unicam.morpheus.sogniario.model.CompletedSurvey;
-import it.unicam.morpheus.sogniario.model.Dream;
-import it.unicam.morpheus.sogniario.model.Dreamer;
-import it.unicam.morpheus.sogniario.model.Report;
+import it.unicam.morpheus.sogniario.model.*;
 import it.unicam.morpheus.sogniario.repositories.DreamersRepository;
 import it.unicam.morpheus.sogniario.repositories.ReportsRepository;
 import it.unicam.morpheus.sogniario.security.UserRole;
@@ -113,11 +110,12 @@ public class DreamersService implements EntityService<Dreamer, String> {
         if(!exists(dreamerId)) throw new EntityNotFoundException("Dreamer not exist");
 
         Map<String, Integer> cloud = new HashMap<>();
+        WordsFilter wordsFilter = new WordsFilter("cloud.txt");
 
         for(Dream d: reportsRepository.findAll().stream().filter(r -> r.getDreamerId().equals(dreamerId)).map(Report::getDream).collect(Collectors.toSet())){
-            Document doc = new Document(d.getText());
+            Document doc = new Document(d.getText().toLowerCase());
             for (Sentence sent : doc.sentences())
-                for(int i=0; i < sent.words().size(); i++){
+                for(int i=0; i < sent.words().size() && !wordsFilter.getList().contains(sent.word(i)); i++){
                     if (cloud.get(sent.word(i)) == null) cloud.put(sent.word(i), 1);
                     else cloud.put(sent.word(i), cloud.get(sent.word(i))+1);
                 }
