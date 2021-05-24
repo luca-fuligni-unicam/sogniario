@@ -1,6 +1,7 @@
 package it.unicam.morpheus.sogniario.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.stanford.nlp.simple.Document;
 import edu.stanford.nlp.simple.Sentence;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Dream {
         this.data = LocalDateTime.now();
     }
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public Map<String, List<String>> getGraph() throws IOException {
         Graph graph = new Graph();
         List<String> wordList = new WordsFilter("graph.txt").getList();
