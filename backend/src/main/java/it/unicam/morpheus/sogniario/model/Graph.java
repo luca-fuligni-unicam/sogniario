@@ -2,10 +2,7 @@ package it.unicam.morpheus.sogniario.model;
 
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Graph {
 
@@ -13,7 +10,7 @@ public class Graph {
     private final Map<String, List<String>> adj;
 
     public Graph() {
-        this.adj = new HashMap<>();
+        this.adj = new LinkedHashMap<>();
     }
 
     void addEdge(String u, String v) {

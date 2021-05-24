@@ -39,9 +39,15 @@ public class Dream {
 
         Document doc = new Document(this.text.toLowerCase());
         for (Sentence sent : doc.sentences()){
-            for(int i=1; i <= sent.words().size() && !wordList.contains(sent.word(i)) && !wordList.contains(sent.word(i+1)); i++){
-                if(i != sent.words().size()) graph.addEdge(sent.word(i-1), sent.word(i));
-                else graph.addEdge(sent.word(i-1), null);
+            for(int i=0, j=1; i < sent.words().size() ; i++, j++){
+                if(!wordList.contains(sent.word(i)))
+                    graph.addEdge(sent.word(i),
+                            j == sent.words().size() ?
+                                    null :
+                                    !wordList.contains(sent.word(j)) ?
+                                            sent.word(j):
+                                            sent.word(j +1 )
+                    );
             }
         }
 

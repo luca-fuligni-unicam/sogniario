@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -109,15 +109,17 @@ public class DreamersService implements EntityService<Dreamer, String> {
 
         if(!exists(dreamerId)) throw new EntityNotFoundException("Dreamer not exist");
 
-        Map<String, Integer> cloud = new HashMap<>();
+        Map<String, Integer> cloud = new LinkedHashMap<>();
         WordsFilter wordsFilter = new WordsFilter("cloud.txt");
 
         for(Dream d: reportsRepository.findAll().stream().filter(r -> r.getDreamerId().equals(dreamerId)).map(Report::getDream).collect(Collectors.toSet())){
             Document doc = new Document(d.getText().toLowerCase());
             for (Sentence sent : doc.sentences())
-                for(int i=0; i < sent.words().size() && !wordsFilter.getList().contains(sent.word(i)); i++){
-                    if (cloud.get(sent.word(i)) == null) cloud.put(sent.word(i), 1);
-                    else cloud.put(sent.word(i), cloud.get(sent.word(i))+1);
+                for(int i=0; i < sent.words().size(); i++){
+                    if(!wordsFilter.getList().contains(sent.word(i))){
+                        if (cloud.get(sent.word(i)) == null) cloud.put(sent.word(i), 1);
+                        else cloud.put(sent.word(i), cloud.get(sent.word(i))+1);
+                    }
                 }
         }
         return cloud;
