@@ -39,7 +39,9 @@ public class Dream {
 
         Document doc = new Document(this.text.toLowerCase());
         for (Sentence sent : doc.sentences()){
-            for(int i=0, j=1; i < sent.words().size() ; i++, j++){
+            for(int i=0, j=1; i < sent.words().size(); i++, j++){
+                /*
+                //non funziona se l'ultima parola è un simbolo
                 if(!wordList.contains(sent.word(i)))
                     graph.addEdge(sent.word(i),
                             j == sent.words().size() ?
@@ -48,6 +50,18 @@ public class Dream {
                                             sent.word(j):
                                             sent.word(j +1 )
                     );
+
+                 */
+                if(!wordList.contains(sent.word(i))){
+                    String sJ = null;
+                    for(int z = j; z<sent.words().size(); z++){
+                        if(!wordList.contains(sent.word(z))) {
+                            sJ = sent.word(z);
+                            break;
+                        }
+                    }
+                    graph.addEdge(sent.word(i), j == sent.words().size() ? null : sJ);
+                }
             }
         }
 
