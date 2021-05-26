@@ -17,4 +17,14 @@ class ReportApi extends Utils {
     return response.statusCode == 200;
   }
 
+
+  Future<Map<dynamic, dynamic>> getReportGraph(String reportId) async {
+    var response = await http.get(
+        Uri.tryParse('${server}api/reports/getGraph/$reportId'),
+        headers: header(getToken()),
+    );
+
+    return Map.from(jsonDecode(response.body));
+  }
+
 }
