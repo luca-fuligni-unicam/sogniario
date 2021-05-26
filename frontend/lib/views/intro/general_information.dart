@@ -182,7 +182,7 @@ class _GeneralInformationState extends State<GeneralInformation> {
                       } else {
 
                         bool registered = await dreamerApi.login(
-                          Dreamer().firstLogin(), true
+                          Dreamer().firstLogin(), false
                         );
 
                         dreamerApi.setId();
