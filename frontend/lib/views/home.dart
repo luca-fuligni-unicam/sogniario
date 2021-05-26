@@ -143,7 +143,7 @@ class _HomeState extends State<Home> {
                       listTileTitleOne: 'Questionario sul Cronotipo',
                       listTileIconOne: Icon(Icons.list_alt_rounded, color: Colors.black54),
                       listTileOnTapOne: () {
-                        if (chronotype) {
+                        if (!chronotype) {
                           showDialog(
                               context: context,
                               builder: (context) {
@@ -173,7 +173,7 @@ class _HomeState extends State<Home> {
                       listTileTitleTwo: 'Questionario sulla Qualita del Sonno',
                       listTileIconTwo: Icon(Icons.view_list_outlined, color: Colors.green.shade300),
                       listTileOnTapTwo: () {
-                        if (psqi) {
+                        if (!psqi) {
                           showDialog(
                               context: context,
                               builder: (context) {
