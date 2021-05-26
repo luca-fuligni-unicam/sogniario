@@ -32,4 +32,14 @@ class DreamerApi extends Utils {
     return response.statusCode == 200;
   }
 
+
+  Future<Map<String, int>> getCloud() async {
+    var response = await http.get(
+        Uri.tryParse('${server}api/dreamers/cloud/${getId()}'),
+        headers: header(getToken()),
+    );
+
+    return Map.from(jsonDecode(response.body));
+  }
+
 }

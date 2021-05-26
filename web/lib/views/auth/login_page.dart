@@ -17,6 +17,7 @@ class _LoginState extends State<Login> {
   String email = '';
   String password = '';
   LoginApi loginApi = LoginApi();
+  bool log = false;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +77,7 @@ class _LoginState extends State<Login> {
 
                         TextButton(
                             onPressed: () async {
-
+                              setState(() => log = true);
                               bool logged = await loginApi.login({
                                 'username': email,
                                 'password': loginApi.sha512Encrypt(password),
@@ -84,6 +85,7 @@ class _LoginState extends State<Login> {
 
 
                               if (logged) {
+                                setState(() => log = false);
                                 Map<String, dynamic> payload = Jwt.parseJwt(loginApi.getToken().substring(7));
 
                                 if (payload['authorities'].length < 8) {
@@ -99,6 +101,7 @@ class _LoginState extends State<Login> {
                                 }
 
                               } else {
+                                setState(() => log = false);
                                 showDialog(
                                     context: context,
                                     builder: (_) {
@@ -113,7 +116,12 @@ class _LoginState extends State<Login> {
                               }
 
                             },
-                            child: Text('Login')
+                            child: log ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue.shade400),
+                                )) : Text('Login')
                         ),
 
                         SizedBox(height: 5),

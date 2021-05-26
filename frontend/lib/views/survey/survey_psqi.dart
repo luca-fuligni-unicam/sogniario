@@ -6,6 +6,7 @@ import 'package:frontend/common/constants.dart';
 import 'package:frontend/models/completed_survey.dart';
 import 'package:frontend/models/survey.dart';
 import 'package:frontend/services/rest_api/suvery_api.dart';
+import 'package:frontend/views/survey/score_psqi.dart';
 import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/survey_card.dart';
 
@@ -207,7 +208,7 @@ class _SurveyPSQIState extends State<SurveyPSQI> {
                                                                 buttonLabelDx: 'Ok',
                                                                 type: AlertDialogType.SUCCESS,
                                                                 onPressedDx: () {
-                                                                  Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                                                                  Navigator.push(context, MaterialPageRoute(builder: (_) => ScorePage(score: finalAnswer)));
                                                                 },
                                                                 onPressedSx: () => Navigator.pop(context),
                                                               );

@@ -19,6 +19,7 @@ class _SignUpState extends State<SignUp> {
   String motivation = '';
   NominationApi nominationApi;
   LoginApi loginApi;
+  bool log = false;
 
   @override
   void initState() {
@@ -101,6 +102,7 @@ class _SignUpState extends State<SignUp> {
 
                         TextButton(
                             onPressed: () async {
+                              setState(() => log = true);
                               bool logged = await loginApi.login({
                                 'username': 'guest_researcher',
                                 'password': 'guest_researcher',
@@ -116,6 +118,7 @@ class _SignUpState extends State<SignUp> {
                               );
 
                               if (logged) {
+                                setState(() => log = false);
                                 showDialog(
                                     context: context,
                                     builder: (_) {
@@ -126,6 +129,7 @@ class _SignUpState extends State<SignUp> {
                                     }
                                 );
                               } else {
+                                setState(() => log = false);
                                 showDialog(
                                     context: context,
                                     builder: (_) {
@@ -138,7 +142,12 @@ class _SignUpState extends State<SignUp> {
                               }
 
                             },
-                            child: Text('Sign Up')
+                            child: log ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue.shade400),
+                                )) : Text('Sign Up'),
                         ),
 
                         SizedBox(height: 5),
