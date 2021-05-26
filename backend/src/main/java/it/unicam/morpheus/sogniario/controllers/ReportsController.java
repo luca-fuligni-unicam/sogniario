@@ -2,6 +2,7 @@ package it.unicam.morpheus.sogniario.controllers;
 
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
+import it.unicam.morpheus.sogniario.model.Graph;
 import it.unicam.morpheus.sogniario.model.Report;
 import it.unicam.morpheus.sogniario.services.ReportsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The class provides Rest APIs to manage instances of the {@link Report} class
@@ -86,6 +88,12 @@ public class ReportsController {
     @GetMapping("/reportArchiveByYearAndSemester/{year}/{semester}")
     public ResponseEntity<byte[]> getReportArchiveByYearAndSemester(@PathVariable int year, @PathVariable int semester) throws IllegalStateException, IOException {
         return reportsService.getReportArchiveByYearAndSemester(year, semester);
+    }
+
+    @PreAuthorize("hasAuthority('reports:read')")
+    @GetMapping("/getGraph/{reportId}")
+    public Map<String, List<String>> getGraph(@PathVariable String reportId) throws IOException, EntityNotFoundException {
+        return reportsService.getGraph(reportId);
     }
 
 }
