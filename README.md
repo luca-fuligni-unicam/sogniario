@@ -15,7 +15,7 @@
 </b></p>
 
 <p align="center" >
-  <img src="doc/screenshot/image.png">
+  <img src="doc/screenshot/image.png" width="700" height="700" >
 </p>
 
 # 📔 Tabella dei contenuti
