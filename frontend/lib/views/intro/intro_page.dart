@@ -50,7 +50,7 @@ class _IntroPageState extends State<IntroPage> {
               Container(
                   alignment: Alignment.center,
                   child: Image.asset(
-                    'assets/background.jpg',
+                    'assets/background.png',
                     fit: BoxFit.contain,
                   )
               ),
