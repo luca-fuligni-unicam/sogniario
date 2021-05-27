@@ -1,5 +1,5 @@
 <p align="center" >
-  <img src="frontend/assets/sogniario_icon.png" style="max-width: 20%">
+  <img src="frontend/assets/sogniario_logo.png" width="200" height="200">
 </p>
 
 ---
