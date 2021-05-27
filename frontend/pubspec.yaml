@@ -57,9 +57,9 @@ dev_dependencies:
   build_runner: ^1.11.5
 
 flutter_icons:
-  image_path: "assets/sogniario_icon.png"
+  image_path: "assets/sogniario_logo.png"
   android: true
-  ios: "Example-Icon"
+  ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
