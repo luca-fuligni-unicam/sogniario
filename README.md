@@ -14,6 +14,10 @@
 <a href="https://github.com/GiorgioPaoletti-Unicam/sogniario">• Sogniario</img></a>
 </b></p>
 
+<p align="center" >
+  <img src="doc/screenshot/image.png" width="700" height="700" >
+</p>
+
 # 📔 Tabella dei contenuti
 
 - [Panoramica e funzionalità](#panoramica)
