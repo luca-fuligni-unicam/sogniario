@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +89,12 @@ public class ReportsController {
     @GetMapping("/reportArchiveByYearAndSemester/{year}/{semester}")
     public ResponseEntity<byte[]> getReportArchiveByYearAndSemester(@PathVariable int year, @PathVariable int semester) throws IllegalStateException, IOException {
         return reportsService.getReportArchiveByYearAndSemester(year, semester);
+    }
+
+    @PreAuthorize("hasAuthority('reports:read')")
+    @GetMapping("/getReportArchiveBetweenTwoDates/{date1}/{date2}")
+    public ResponseEntity<byte[]> getReportArchiveBetweenTwoDates(@PathVariable LocalDate date1, @PathVariable LocalDate date2) throws IllegalStateException, IOException {
+        return reportsService.getReportArchiveBetweenTwoDates(date1, date2);
     }
 
     @PreAuthorize("hasAuthority('reports:read')")
