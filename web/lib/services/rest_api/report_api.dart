@@ -7,11 +7,12 @@ import 'dart:html' as html;
 
 class ReportApi extends Utils {
 
-  void download(bool semester) async {
-    int _semester = semester ? 1 : 2;
-    var uri = '${server}api/reports/reportArchiveByYearAndSemester/${DateTime.now().year}/$_semester';
-
-    var response = await http.get(Uri.parse(uri), headers: header(getToken()));
+  void download(DateTime before, DateTime after) async {
+    var uri = '${server}api/reports/getReportArchiveBetweenTwoDates/${before.toString().substring(0, 10)}/${after.toString().substring(0, 10)}';
+    var response = await http.get(
+        Uri.parse(uri),
+        headers: header(getToken())
+    );
 
     if (response.statusCode == 200) {
       final blob = html.Blob([response.bodyBytes]);
@@ -19,7 +20,8 @@ class ReportApi extends Utils {
       final anchor = html.document.createElement('a') as html.AnchorElement
         ..href = url
         ..style.display = 'none'
-        ..download = 'semester_$_semester.zip';
+        ..download = 'release_${DateTime.now().toString().substring(0, 10)}.zip';
+
       html.document.body.children.add(anchor);
       anchor.click();
 
