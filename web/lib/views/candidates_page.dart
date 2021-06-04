@@ -167,7 +167,7 @@ class _CandidateState extends State<Candidate> {
                           style: TextStyle(color: Colors.black, fontSize: 36),
                           children: [
                             TextSpan(text: 'Date: ', style: TextStyle(color: Colors.black87, fontSize: 13)),
-                            TextSpan(text: widget.nomination.data.toString(), style: TextStyle(fontSize: 13)),
+                            TextSpan(text: widget.nomination.data.toString().substring(0, 19), style: TextStyle(fontSize: 13)),
                           ]),
                     ),
 
