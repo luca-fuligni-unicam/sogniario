@@ -14,8 +14,8 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  String email = '';
-  String password = '';
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
   LoginApi loginApi = LoginApi();
   bool log = false;
 
@@ -60,17 +60,13 @@ class _LoginState extends State<Login> {
 
                         TextField(
                           decoration: InputDecoration(labelText: 'Email'),
-                          onChanged: (_email) {
-                            email = _email;
-                          },
+                          controller: email,
                         ),
 
                         TextField(
                           obscureText: true,
                           decoration: InputDecoration(labelText: 'Password'),
-                          onChanged: (_password) {
-                            password = _password;
-                          },
+                          controller: password,
                         ),
 
                         SizedBox(height: 5),
@@ -79,14 +75,14 @@ class _LoginState extends State<Login> {
                             onPressed: () async {
                               setState(() => log = true);
                               bool logged = await loginApi.login({
-                                'username': email,
-                                'password': loginApi.sha512Encrypt(password),
-                              }, true);
+                                'username': email.text,
+                                'password': loginApi.sha512Encrypt(password.text),
+                              }, false);
 
 
                               if (logged) {
-                                setState(() => log = false);
                                 Map<String, dynamic> payload = Jwt.parseJwt(loginApi.getToken().substring(7));
+                                setState(() => log = false);
 
                                 if (payload['authorities'].length < 8) {
                                   Navigator.pushAndRemoveUntil(
