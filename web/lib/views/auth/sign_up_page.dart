@@ -110,6 +110,11 @@ class _SignUpState extends State<SignUp> {
                               );
 
                               if (logged) {
+                                name.clear();
+                                email.clear();
+                                password.clear();
+                                motivation.clear();
+
                                 setState(() => log = false);
                                 showDialog(
                                     context: context,
