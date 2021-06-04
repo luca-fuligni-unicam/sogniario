@@ -89,7 +89,7 @@ public class SurveysService implements EntityService<Survey, String> {
         tempSurvey.setId(fileName.substring(0, fileName.length()-4));
 
         Map<String, List<String>> questions = new LinkedHashMap<>();
-        for(int i=0; !(worksheet.getRow(i) == null || worksheet.getRow(i).getLastCellNum() <= 0); i++) {
+        for(int i=0; !(worksheet.getRow(i) == null || worksheet.getRow(i).getLastCellNum() <= 0 || worksheet.getRow(i).getCell(0).getCellType().equals(CellType.BLANK)); i++) {
 
             HSSFRow row = worksheet.getRow(i);
 
