@@ -1,5 +1,5 @@
 <p align="center" >
-  <img src="frontend/assets/sogniario_icon.png" style="max-width: 20%">
+  <img src="frontend/assets/sogniario_logo.png" style="max-width: 20%">
 </p>
 
 ---
@@ -15,7 +15,7 @@
 </b></p>
 
 <p align="center" >
-  <img src="doc/screenshot/image.png" width="700" height="700" >
+  <img src="doc/screenshot/image.png" style="max-width: 20%">
 </p>
 
 # 📔 Tabella dei contenuti
