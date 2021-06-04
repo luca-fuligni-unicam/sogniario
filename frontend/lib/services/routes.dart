@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/views/dreams.dart';
-import 'package:frontend/views/info/info_internet.dart';
 import 'package:frontend/views/survey/survey_dream.dart';
 import 'package:frontend/views/survey/survey_psqi.dart';
 import 'package:page_transition/page_transition.dart';
@@ -45,13 +44,6 @@ class Routes {
         return PageTransition(
             type: PageTransitionType.fade,
             child: InfoApp()
-        );
-        break;
-
-      case '/internet':
-        return PageTransition(
-            type: PageTransitionType.fade,
-            child: InfoInternet()
         );
         break;
 
