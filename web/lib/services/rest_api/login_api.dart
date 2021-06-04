@@ -8,8 +8,8 @@ class LoginApi extends Utils {
 
   Future<bool> login(Map<String, String> login, bool first) async {
     var response = await http.post(
-      Uri.tryParse('${server}login'),
-      headers: first ? headerFirstAccess : header(getToken()),
+      Uri.parse('${server}login'),
+      headers: !first ? headerFirstAccess : header(getToken()),
       body: jsonEncode(login)
     );
 
