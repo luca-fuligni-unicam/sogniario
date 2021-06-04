@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                       child: Container(
                         margin: EdgeInsets.only(bottom: 12),
                         child: Text(
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+                          'Sogniario is an open access data repository of dream reports collected over the Italian national territory. Reports are in Italian. Besides dream reports, the repository contains data on dream emotion content and levels of conscious control of dreams, and data on chronotype (Morningness-Eveningness Questionnaire) and sleep quality (Pittsburgh Scale Quality Index) for each subject enrolled. All data are anonymized and encrypted and available for download  For information please send an email to michele.bellesi@unicam.it.',
                           style: TextStyle(
                               fontSize: 14,
                               color: Colors.black87,
