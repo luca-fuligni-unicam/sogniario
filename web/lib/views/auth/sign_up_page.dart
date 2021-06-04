@@ -17,8 +17,8 @@ class _SignUpState extends State<SignUp> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController motivation = TextEditingController();
-  NominationApi nominationApi;
-  LoginApi loginApi;
+  NominationApi? nominationApi;
+  LoginApi? loginApi;
   bool log = false;
 
   @override
@@ -95,16 +95,16 @@ class _SignUpState extends State<SignUp> {
                         TextButton(
                             onPressed: () async {
                               setState(() => log = true);
-                              bool logged = await loginApi.login({
+                              bool logged = await loginApi!.login({
                                 'username': 'guest_researcher',
                                 'password': 'guest_researcher',
                               }, false);
 
-                              logged = await nominationApi.registered(
+                              logged = await nominationApi!.registered(
                                 Nomination(
                                   name: name.text,
                                   email: email.text,
-                                  password: nominationApi.sha512Encrypt(password.text),
+                                  password: nominationApi!.sha512Encrypt(password.text),
                                   motivation: motivation.text
                                 )
                               );

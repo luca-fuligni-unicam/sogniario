@@ -10,9 +10,9 @@ class CustomButton extends StatelessWidget {
   final Color color;
 
   const CustomButton({
-    @required this.onPressed,
-    @required this.child,
-    @required this.icon,
+    required this.onPressed,
+    required this.child,
+    required this.icon,
     this.color = Colors.black,
   });
 

@@ -22,10 +22,10 @@ class ReportApi extends Utils {
         ..style.display = 'none'
         ..download = 'release_${DateTime.now().toString().substring(0, 10)}.zip';
 
-      html.document.body.children.add(anchor);
+      html.document.body!.children.add(anchor);
       anchor.click();
 
-      html.document.body.children.remove(anchor);
+      html.document.body!.children.remove(anchor);
       html.Url.revokeObjectUrl(url);
     }
   }

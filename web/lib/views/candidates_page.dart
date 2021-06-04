@@ -51,7 +51,7 @@ class _CandidatesPageState extends State<CandidatesPage> {
                       width: double.infinity,
                       child: FutureBuilder(
                         future: nominationApi.nominations(),
-                        builder: (context, data) {
+                        builder: (context, AsyncSnapshot<List<Nomination>> data) {
 
                           if (data.data == null) {
                             return Center(
@@ -61,7 +61,7 @@ class _CandidatesPageState extends State<CandidatesPage> {
 
                           else {
 
-                            if (data.data.isEmpty) {
+                            if (data.data!.isEmpty) {
                               return Center(
                                 child: SizedBox(
                                   height: 120,
@@ -88,10 +88,10 @@ class _CandidatesPageState extends State<CandidatesPage> {
                             }
 
                             return ListView.builder(
-                                itemCount: data.data.length,
+                                itemCount: data.data!.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Candidate(
-                                    nomination: data.data[index],
+                                    nomination: data.data![index],
                                     nominationApi: nominationApi,
                                   );
                                 });
@@ -111,8 +111,8 @@ class _CandidatesPageState extends State<CandidatesPage> {
 
 class Candidate extends StatefulWidget {
 
-  final Nomination nomination;
-  final NominationApi nominationApi;
+  final Nomination? nomination;
+  final NominationApi? nominationApi;
 
   Candidate({
     this.nomination,
@@ -149,7 +149,7 @@ class _CandidateState extends State<Candidate> {
                           style: TextStyle(color: Colors.black, fontSize: 36),
                           children: [
                             TextSpan(text: 'Name: ', style: TextStyle(color: Colors.black87, fontSize: 14)),
-                            TextSpan(text: widget.nomination.name, style: TextStyle(fontSize: 14)),
+                            TextSpan(text: widget.nomination!.name, style: TextStyle(fontSize: 14)),
                           ]),
                     ),
 
@@ -158,7 +158,7 @@ class _CandidateState extends State<Candidate> {
                           style: TextStyle(color: Colors.black, fontSize: 36),
                           children: [
                             TextSpan(text: 'Motivation: ', style: TextStyle(color: Colors.black87, fontSize: 14)),
-                            TextSpan(text: widget.nomination.motivation, style: TextStyle(fontSize: 14)),
+                            TextSpan(text: widget.nomination!.motivation, style: TextStyle(fontSize: 14)),
                           ]),
                     ),
 
@@ -167,7 +167,7 @@ class _CandidateState extends State<Candidate> {
                           style: TextStyle(color: Colors.black, fontSize: 36),
                           children: [
                             TextSpan(text: 'Date: ', style: TextStyle(color: Colors.black87, fontSize: 13)),
-                            TextSpan(text: widget.nomination.data.toString().substring(0, 19), style: TextStyle(fontSize: 13)),
+                            TextSpan(text: widget.nomination!.data.toString().substring(0, 19), style: TextStyle(fontSize: 13)),
                           ]),
                     ),
 
@@ -187,7 +187,7 @@ class _CandidateState extends State<Candidate> {
                                     ),
                                     onPressed: () async  {
 
-                                      bool accepted = await widget.nominationApi.accept(widget.nomination.email);
+                                      bool accepted = await widget.nominationApi!.accept(widget.nomination!.email);
 
                                       if (accepted) {
                                         setState(() => accept = true);
@@ -228,7 +228,7 @@ class _CandidateState extends State<Candidate> {
                                   ),
                                   onPressed: () async {
 
-                                    bool rejected = await widget.nominationApi.reject(widget.nomination.email);
+                                    bool rejected = await widget.nominationApi!.reject(widget.nomination!.email);
 
                                     if (rejected) {
                                       setState(() => accept = true);

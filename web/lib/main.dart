@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Sogniario',
       builder: (context, widget) => ResponsiveWrapper.builder(
-          BouncingScrollWrapper.builder(context, widget),
+          BouncingScrollWrapper.builder(context, widget!),
           maxWidth: MediaQuery.of(context).size.width,
           minWidth: 480,
           defaultScale: true,

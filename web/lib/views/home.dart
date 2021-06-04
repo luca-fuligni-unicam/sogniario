@@ -22,7 +22,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   ReportApi reportApi = ReportApi();
-  DateTime before, after, now = DateTime.now();
+  DateTime? before, after, now = DateTime.now();
   final list = <DateTime>[
     DateTime(2021, 1, 1),
     DateTime(2021, 4, 30),
@@ -119,7 +119,7 @@ class _HomeState extends State<Home> {
                                                   reportApi.download(list[index], list[index + 1]);
                                                 },
                                                 child: Text(
-                                                  'RELEASE   ${list[index + 1].isAfter(now) ? now.toString().substring(0, 10) : list[index + 1].toString().substring(0, 10)}',
+                                                  'RELEASE   ${list[index + 1].isAfter(now!) ? now.toString().substring(0, 10) : list[index + 1].toString().substring(0, 10)}',
                                                   style: TextStyle(
                                                     color: Colors.black87.withOpacity(0.8),
                                                     fontWeight: FontWeight.w400,
