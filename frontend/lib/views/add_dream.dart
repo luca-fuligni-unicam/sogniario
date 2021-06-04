@@ -189,12 +189,12 @@ class _AddDreamState extends State<AddDream> {
                       overlay: Colors.blue.shade50.withOpacity(0.8),
                       onPressed: () {
 
-                        if (dreamController.text.isEmpty) {
+                        if (dreamController.text.isEmpty || dreamController.text.split(' ').length < 3) {
                           showDialog(
                               context: context,
                               builder: (context) {
                                 return SogniarioAlert(
-                                  content: "Non hai raccontato nessun sogno!",
+                                  content: dreamController.text.split(' ').length < 3 ? "Sogno troppo corto!" : "Non hai raccontato nessun sogno!",
                                   buttonLabelDx: 'Ok',
                                   type: AlertDialogType.INFO,
                                   onPressedDx: () => Navigator.pop(context),
