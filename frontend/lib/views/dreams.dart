@@ -223,21 +223,10 @@ class _DreamsListState extends State<DreamsList> {
             TextButton(
               onPressed: () async {
 
-                /*
-                if (dream.dream.split(' ').length < 8) {
-                  Map<dynamic, dynamic> graph = await reportApi.getReportGraph(dream.id);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => SmallGraph(graph: graph))
-                  );
-
-                } else {
-                 */
                   Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => ReportGraphPage(ReportGraph(dream.dream)))
                   );
-                //}
 
               },
               child: Text('Dettagli'),
