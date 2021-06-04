@@ -98,7 +98,7 @@ class _SignUpState extends State<SignUp> {
                               bool logged = await loginApi!.login({
                                 'username': 'guest_researcher',
                                 'password': 'guest_researcher',
-                              }, false);
+                              });
 
                               logged = await nominationApi!.registered(
                                 Nomination(
