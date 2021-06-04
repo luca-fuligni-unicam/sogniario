@@ -118,7 +118,7 @@ int getScore(Map<String, int> component, List<String> list) {
   int scoreThree = componentThree(list);
   int scoreFour = componentFour(list);
   int scoreFive = componentFive(component, list);
-  int scoreSix= componentSix(component, list);
+  int scoreSix = componentSix(component, list);
   int scoreSeven = componentSeven(component, list);
 
   return scoreOne + scoreTwo + scoreThree + scoreFour + scoreFive + scoreSix + scoreSeven;
@@ -141,7 +141,7 @@ int componentOne(List<String> list) {
 }
 
 int componentTwo(Map<String, int> component, List<String> list) {
-  int answerTwo = int.parse(list[1].substring(0, list[1].indexOf('.')));
+  int answerTwo = int.parse(list[1]);
   int scoreTwo = answerTwo > 60 ? 3 : answerTwo <= 60 && answerTwo > 30 ? 2 : answerTwo < 31 && answerTwo > 15 ? 1 : 0;
   int scoreFiveA = component[list[5]];
 
