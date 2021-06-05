@@ -34,7 +34,7 @@ dependencies:
   page_transition: ^1.1.7+6
   http: ^0.13.0
   flutter_custom_clippers: ^1.1.2
-  speech_to_text: ^3.1.0
+  speech_to_text: ^4.2.1
   table_calendar: ^2.3.3
   uuid: ^3.0.3
   flutter_picker: ^2.0.1
