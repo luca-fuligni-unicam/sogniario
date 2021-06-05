@@ -6,10 +6,10 @@ import 'dart:convert';
 
 class LoginApi extends Utils {
 
-  Future<bool> login(Map<String, String> login, bool first) async {
+  Future<bool> login(Map<String, String> login) async {
     var response = await http.post(
-      Uri.tryParse('${server}login'),
-      headers: first ? headerFirstAccess : header(getToken()),
+      Uri.parse('${server}login'),
+      headers: headerFirstAccess,
       body: jsonEncode(login)
     );
 

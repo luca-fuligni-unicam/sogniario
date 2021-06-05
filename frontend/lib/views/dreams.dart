@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/common/constants.dart';
 import 'package:frontend/models/dream.dart';
 import 'package:frontend/services/rest_api/dream_api.dart';
 import 'package:frontend/services/rest_api/report_api.dart';
@@ -213,7 +214,7 @@ class _DreamsListState extends State<DreamsList> {
             SizedBox(height: 4),
 
             Text(
-              dream.dream,
+              insertAccent(dream.dream),
               style: TextStyle(
                   fontSize: 16,
                   color: Colors.black54
@@ -222,23 +223,10 @@ class _DreamsListState extends State<DreamsList> {
 
             TextButton(
               onPressed: () async {
-
-                /*
-                if (dream.dream.split(' ').length < 8) {
-                  Map<dynamic, dynamic> graph = await reportApi.getReportGraph(dream.id);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => SmallGraph(graph: graph))
-                  );
-
-                } else {
-                 */
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => ReportGraphPage(ReportGraph(dream.dream)))
-                  );
-                //}
-
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => ReportGraphPage(ReportGraph(deleteAccent(dream.dream))))
+                );
               },
               child: Text('Dettagli'),
             )

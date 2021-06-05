@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/common/constants.dart';
 import 'package:frontend/models/dream.dart';
 import 'package:frontend/views/survey/survey_dream.dart';
 import 'package:frontend/widgets/alert.dart';
@@ -189,12 +190,12 @@ class _AddDreamState extends State<AddDream> {
                       overlay: Colors.blue.shade50.withOpacity(0.8),
                       onPressed: () {
 
-                        if (dreamController.text.isEmpty) {
+                        if (dreamController.text.isEmpty || dreamController.text.split(' ').length < 3) {
                           showDialog(
                               context: context,
                               builder: (context) {
                                 return SogniarioAlert(
-                                  content: "Non hai raccontato nessun sogno!",
+                                  content: dreamController.text.split(' ').length < 3 ? "Sogno troppo corto!" : "Non hai raccontato nessun sogno!",
                                   buttonLabelDx: 'Ok',
                                   type: AlertDialogType.INFO,
                                   onPressedDx: () => Navigator.pop(context),
@@ -208,7 +209,7 @@ class _AddDreamState extends State<AddDream> {
                               context,
                               PageTransition(
                                   type: PageTransitionType.fade,
-                                  child: SurveyDream(dream: Dream(dream: dreamController.text))
+                                  child: SurveyDream(dream: Dream(dream: deleteAccent(dreamController.text)))
                               )
                           );
                         }

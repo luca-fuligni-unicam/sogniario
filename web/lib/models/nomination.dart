@@ -3,15 +3,15 @@ class Nomination {
 
   final String name;
   final String email;
-  final String password;
+  final String? password;
   final String motivation;
-  final DateTime data;
+  final DateTime? data;
 
   Nomination({
-    this.name,
-    this.email,
+    required this.name,
+    required this.email,
     this.password,
-    this.motivation,
+    required this.motivation,
     this.data,
   });
 
@@ -33,7 +33,7 @@ class Nomination {
   Map<String, String> registered() => {
     'name': name,
     'email': email,
-    'password': password,
+    'password': password!,
     'motivazione': motivation
   };
 

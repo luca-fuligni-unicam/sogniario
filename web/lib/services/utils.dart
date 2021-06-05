@@ -29,7 +29,7 @@ class Utils {
     return box.get('token');
   }
 
-  void setToken(String token) {
+  void setToken(String? token) {
     box.put('token', token);
   }
 

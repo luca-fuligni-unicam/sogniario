@@ -9,12 +9,11 @@ class Alert extends StatelessWidget {
   final String buttonLabel;
 
   Alert({
-    Key key,
     this.title = "Info",
-    @required this.content,
+    required this.content,
     this.type = AlertDialogType.INFO,
     this.buttonLabel = "Ok"
-  }) : super(key: key);
+  });
 
   
   @override
