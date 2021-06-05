@@ -150,10 +150,10 @@ class ReportGraphPageState extends State<ReportGraphPage>{
       if (height > 20)
         height -= 1;
 
-      if (width > 50)
+      if (width > 40)
         width -= 5;
 
-      if (_s > 10)
+      if (_s > 8)
         _s -= 0.5;
 
     } else if (index == 2) {
