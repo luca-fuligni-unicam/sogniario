@@ -25,9 +25,9 @@ class _HomeState extends State<Home> {
   DateTime? before, after, now = DateTime.now();
   final list = <DateTime>[
     DateTime(2021, 1, 1),
-    DateTime(2021, 4, 30),
-    DateTime(2021, 5, 31),
     DateTime(2021, 6, 30),
+    DateTime(2022, 1, 1),
+    DateTime(2022, 6, 30),
     DateTime(2023, 1, 1),
     DateTime(2023, 6, 30),
   ];
