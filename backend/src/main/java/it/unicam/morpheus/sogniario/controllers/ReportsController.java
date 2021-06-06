@@ -93,7 +93,7 @@ public class ReportsController {
 
     @PreAuthorize("hasAuthority('reports:read')")
     @GetMapping("/getReportArchiveBetweenTwoDates/{date1}/{date2}")
-    public ResponseEntity<byte[]> getReportArchiveBetweenTwoDates(@PathVariable LocalDate date1, @PathVariable LocalDate date2) throws IllegalStateException, IOException {
+    public ResponseEntity<byte[]> getReportArchiveBetweenTwoDates(@PathVariable String date1, @PathVariable String date2) throws IllegalStateException, IOException {
         return reportsService.getReportArchiveBetweenTwoDates(date1, date2);
     }
 
