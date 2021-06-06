@@ -109,14 +109,13 @@ class _HomeState extends State<Home> {
 
                                       SizedBox(height: 8),
 
-
                                       for (int index = 0; index < list.length - 1; index++)
-                                        if (list[index].isBefore(DateTime.now()))
+                                        if (list[index].isBefore(now!))
                                           Padding(
                                             padding: EdgeInsets.all(2),
                                             child: CustomButton(
                                                 onPressed: () {
-                                                  reportApi.download(list[index], list[index + 1]);
+                                                  reportApi.download(list[index], list[index + 1].isAfter(now!) ? now! : list[index + 1]);
                                                 },
                                                 child: Text(
                                                   'RELEASE   ${list[index + 1].isAfter(now!) ? now.toString().substring(0, 10) : list[index + 1].toString().substring(0, 10)}',

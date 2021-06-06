@@ -20,7 +20,7 @@ class ReportApi extends Utils {
       final anchor = html.document.createElement('a') as html.AnchorElement
         ..href = url
         ..style.display = 'none'
-        ..download = 'release_${DateTime.now().toString().substring(0, 10)}.zip';
+        ..download = 'release_${after.toString().substring(0, 10)}.zip';
 
       html.document.body!.children.add(anchor);
       anchor.click();
