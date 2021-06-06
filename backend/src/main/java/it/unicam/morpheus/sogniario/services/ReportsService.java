@@ -182,10 +182,20 @@ public class ReportsService implements EntityService<Report, String>{
         return ResponseEntity.ok().headers(httpHeaders).body(bos.toByteArray());
     }
 
-    public ResponseEntity<byte[]> getReportArchiveBetweenTwoDates(LocalDate date1, LocalDate date2) throws IllegalStateException, IOException {
+    public ResponseEntity<byte[]> getReportArchiveBetweenTwoDates(String date1, String date2) throws IllegalStateException, IOException {
+
+        LocalDate localDate1;
+        if(date1.isBlank()) throw new IllegalArgumentException("Il campo 'data1' è vuoto");
+        try{ localDate1 = LocalDate.parse(date1); }
+        catch (Exception e) { throw new IllegalArgumentException("Il campo 'data1' non è valido"); }
+
+        LocalDate localDate2;
+        if(date2.isBlank()) throw new IllegalArgumentException("Il campo 'data2' è vuoto");
+        try{ localDate2 = LocalDate.parse(date2); }
+        catch (Exception e) { throw new IllegalArgumentException("Il campo 'data2' non è valido"); }
 
         List<Report> reportList = reportsRepository.findAll().stream()
-                .filter( r -> r.getDream().getData().toLocalDate().isAfter(date1) && r.getDream().getData().toLocalDate().isBefore(date1))
+                .filter( r -> r.getDream().getData().toLocalDate().isAfter(localDate1) && r.getDream().getData().toLocalDate().isBefore(localDate2))
                 .collect(Collectors.toList());
 
         if(reportList.isEmpty()) throw new IllegalStateException("There are no reports between this two dates");
@@ -216,7 +226,7 @@ public class ReportsService implements EntityService<Report, String>{
         }
 
         for(Dreamer d: dreamersRepository.findAll()){
-            for(CompletedSurvey c: d.getCompletedSurveys().stream().filter(c -> c.getData().toLocalDate().isAfter(date1) && c.getData().toLocalDate().isBefore(date1)).collect(Collectors.toSet())){
+            for(CompletedSurvey c: d.getCompletedSurveys().stream().filter(c -> c.getData().toLocalDate().isAfter(localDate1) && c.getData().toLocalDate().isBefore(localDate2)).collect(Collectors.toSet())){
                 Optional<Survey> survey = surveysRepository.findById(c.getSurveyId());
                 String completedSurvey = "";
                 if(survey.isPresent()){
@@ -236,7 +246,7 @@ public class ReportsService implements EntityService<Report, String>{
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
-        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment().filename(date1.toString() + "_to_" + date2.toString() +".zip").build().toString());
+        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment().filename(date1 + "_to_" + date2 +".zip").build().toString());
         return ResponseEntity.ok().headers(httpHeaders).body(bos.toByteArray());
     }
 
