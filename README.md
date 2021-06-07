@@ -57,15 +57,11 @@ Sogniario nasce da una collaborazione tra il Brain and Sleep Research Laboratory
  
  - Autenticazione mediante token JWT, dove è stato aggiunto in tutte le chiamate GET/POST.
 
+ - Nuvola dei sogni e il relativo grafo del sogno.
+
  - Parte Web accessibile qui [Sogniario](http://193.205.92.106:8080/).
  - Nella parte Web è stata implementata la view del Researcher e quella dell' Admin.
  - L' Admin gestisce le candidature, scarica i dati e cambia le domande dei questionari, mentre il Researcher può solo scaricare i dati.
-
-
-**Non implementate**:
- - Nuvola dei sogni e il relativo grafo del sogno.
- - Possibilità di aggiornare i questionari dalla pagina web.
-
 
 # ⚙ Processo di Sviluppo<a name = "processo"></a>
 
