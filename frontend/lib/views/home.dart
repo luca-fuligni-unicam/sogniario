@@ -148,9 +148,12 @@ class _HomeState extends State<Home> {
                               context: context,
                               builder: (context) {
                                 return SogniarioAlert(
-                                  content: 'Questionario sul Cronotipo già compilato!',
+                                  content: 'Questionario gia\' compilato, si desidera compilarlo nuovamente?',
                                   buttonLabelDx: 'Ok',
-                                  onPressedDx: () => Navigator.pop(context),
+                                  onPressedDx: () {
+                                    Navigator.pop(context);
+                                    Navigator.pushNamed(context, '/chronotype');
+                                  },
                                   onPressedSx: () => Navigator.pop(context),
                                 );
                               });
@@ -178,9 +181,12 @@ class _HomeState extends State<Home> {
                               context: context,
                               builder: (context) {
                                 return SogniarioAlert(
-                                  content: 'PSQI già compilato!',
+                                  content: 'Questionario gia\' compilato, si desidera compilarlo nuovamente?',
                                   buttonLabelDx: 'Ok',
-                                  onPressedDx: () => Navigator.pop(context),
+                                  onPressedDx: () {
+                                    Navigator.pop(context);
+                                    Navigator.pushNamed(context, '/psqi');
+                                  },
                                   onPressedSx: () => Navigator.pop(context),
                                 );
                               });
