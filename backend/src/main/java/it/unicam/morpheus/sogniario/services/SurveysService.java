@@ -3,7 +3,6 @@ package it.unicam.morpheus.sogniario.services;
 import it.unicam.morpheus.sogniario.checker.SurveyChecker;
 import it.unicam.morpheus.sogniario.exception.EntityNotFoundException;
 import it.unicam.morpheus.sogniario.exception.IdConflictException;
-import it.unicam.morpheus.sogniario.model.Researcher;
 import it.unicam.morpheus.sogniario.model.Survey;
 import it.unicam.morpheus.sogniario.repositories.SurveysRepository;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -19,7 +18,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -89,8 +88,8 @@ public class SurveysService implements EntityService<Survey, String> {
         // TODO: 21/03/2021 se funzionante con l'estensone .xlsx togliere 5 caratteri
         tempSurvey.setId(fileName.substring(0, fileName.length()-4));
 
-        Map<String, List<String>> questions = new HashMap<>();
-        for(int i=0; !(worksheet.getRow(i) == null || worksheet.getRow(i).getLastCellNum() <= 0); i++) {
+        Map<String, List<String>> questions = new LinkedHashMap<>();
+        for(int i=0; !(worksheet.getRow(i) == null || worksheet.getRow(i).getLastCellNum() <= 0 || worksheet.getRow(i).getCell(0).getCellType().equals(CellType.BLANK)); i++) {
 
             HSSFRow row = worksheet.getRow(i);
 

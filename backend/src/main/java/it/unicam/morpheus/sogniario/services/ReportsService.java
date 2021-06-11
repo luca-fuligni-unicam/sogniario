@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -179,6 +180,82 @@ public class ReportsService implements EntityService<Report, String>{
         httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
         httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment().filename(year + (semester == 1 ? "First" : "Second") + "Semester.zip").build().toString());
         return ResponseEntity.ok().headers(httpHeaders).body(bos.toByteArray());
+    }
+
+    public ResponseEntity<byte[]> getReportArchiveBetweenTwoDates(String date1, String date2) throws IllegalStateException, IOException {
+
+        LocalDate localDate1;
+        if(date1.isBlank()) throw new IllegalArgumentException("Il campo 'data1' è vuoto");
+        try{ localDate1 = LocalDate.parse(date1); }
+        catch (Exception e) { throw new IllegalArgumentException("Il campo 'data1' non è valido"); }
+
+        LocalDate localDate2;
+        if(date2.isBlank()) throw new IllegalArgumentException("Il campo 'data2' è vuoto");
+        try{ localDate2 = LocalDate.parse(date2); }
+        catch (Exception e) { throw new IllegalArgumentException("Il campo 'data2' non è valido"); }
+
+        List<Report> reportList = reportsRepository.findAll().stream()
+                .filter( r -> r.getDream().getData().toLocalDate().isAfter(localDate1) && r.getDream().getData().toLocalDate().isBefore(localDate2))
+                .collect(Collectors.toList());
+
+        if(reportList.isEmpty()) throw new IllegalStateException("There are no reports between this two dates");
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ZipOutputStream zos = new ZipOutputStream(bos);
+
+        for(Report r: reportList){
+
+            String report = "";
+            report = report.concat("Dreamer ID: " + r.getDreamerId() + "\n");
+            report = report.concat("Sesso Dreamer: " + dreamersRepository.findById(r.getDreamerId()).get().getEta() + "\n");
+            report = report.concat("Sesso Dreamer: " + dreamersRepository.findById(r.getDreamerId()).get().getSesso() + "\n");
+            report = report.concat("Dream:" + r.getDream().getText() + "\n");
+            report = report.concat("Data registrazione sogno: " + r.getDream().getData() + "\n");
+
+            Optional<Survey> survey = surveysRepository.findById(r.getCompletedSurvey().getSurveyId());
+            if(survey.isPresent()){
+                report = report.concat("Survey:\n");
+                List<String> quest = new ArrayList<>(survey.get().getQuestions().keySet());
+                for(int i=0; i <= r.getCompletedSurvey().getAnswers().size() -1; i++)
+                    report = report.concat( quest.get(i) + "\n" + r.getCompletedSurvey().getAnswers().get(i) + "\n");
+            }
+
+            ZipEntry e = new ZipEntry(r.getDreamerId() + "/Report/" + r.getId() + ".txt");
+            zos.putNextEntry(e);
+            byte[] data = report.getBytes();
+            zos.write(data, 0, data.length);
+            zos.closeEntry();
+        }
+
+        for(Dreamer d: dreamersRepository.findAll()){
+            for(CompletedSurvey c: d.getCompletedSurveys().stream().filter(c -> c.getData().toLocalDate().isAfter(localDate1) && c.getData().toLocalDate().isBefore(localDate2)).collect(Collectors.toSet())){
+                Optional<Survey> survey = surveysRepository.findById(c.getSurveyId());
+                String completedSurvey = "";
+                if(survey.isPresent()){
+                    List<String> quest = new ArrayList<>(survey.get().getQuestions().keySet());
+                    for(int i=0; i <= c.getAnswers().size() -1; i++)
+                        completedSurvey = completedSurvey.concat( quest.get(i) + "\n" + c.getAnswers().get(i) + "\n");
+                }
+                ZipEntry e = new ZipEntry(d.getUsername() + "/" + c.getSurveyId()+ "/" + c.getData() + ".txt");
+                zos.putNextEntry(e);
+                byte[] data = completedSurvey.getBytes();
+                zos.write(data, 0, data.length);
+                zos.closeEntry();
+            }
+        }
+
+        zos.close();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, ContentDisposition.attachment().filename(date1 + "_to_" + date2 +".zip").build().toString());
+        return ResponseEntity.ok().headers(httpHeaders).body(bos.toByteArray());
+    }
+
+    public Map<String, List<String>> getGraph(String reportId) throws IOException, EntityNotFoundException {
+
+        if(reportsRepository.findById(reportId).isEmpty()) throw new EntityNotFoundException("Report not exist");
+        return reportsRepository.findById(reportId).get().getDream().getGraph();
     }
 }
 

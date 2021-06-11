@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/common/constants.dart';
 import 'package:frontend/models/dream.dart';
 import 'package:frontend/services/rest_api/dream_api.dart';
+import 'package:frontend/services/rest_api/report_api.dart';
+import 'package:frontend/views/cloud/dream_cloud.dart';
+import 'package:frontend/views/graph/graph_page.dart';
+import 'package:frontend/views/graph/report_graph.dart';
 import 'package:frontend/widgets/survey_card.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -38,7 +43,7 @@ class _DreamsState extends State<Dreams> {
         body: TabBarView(
             children: [
               MyDreams(),
-              Icon(Icons.settings_system_daydream),
+              DreamsCloud()
             ]),
       ),
     );
@@ -135,7 +140,7 @@ class DreamsList extends StatefulWidget {
 class _DreamsListState extends State<DreamsList> {
 
   DreamApi dreamApi = DreamApi();
-
+  ReportApi reportApi = ReportApi();
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +214,7 @@ class _DreamsListState extends State<DreamsList> {
             SizedBox(height: 4),
 
             Text(
-              dream.dream,
+              insertAccent(dream.dream),
               style: TextStyle(
                   fontSize: 16,
                   color: Colors.black54
@@ -217,12 +222,16 @@ class _DreamsListState extends State<DreamsList> {
             ),
 
             TextButton(
-              onPressed: () {},
+              onPressed: () async {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => ReportGraphPage(ReportGraph(deleteAccent(dream.dream))))
+                );
+              },
               child: Text('Dettagli'),
             )
 
           ]),
     );
   }
-
 }

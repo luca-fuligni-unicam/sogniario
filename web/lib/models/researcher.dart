@@ -5,8 +5,8 @@ class Researcher {
   final String email;
 
   Researcher({
-    this.name,
-    this.email,
+    required this.name,
+    required this.email,
   });
 
 }

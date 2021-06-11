@@ -52,9 +52,7 @@ class Utils {
   }
 
   bool getReminderChronotype() {
-    return box.get('chronotype') == null ? true : DateTime
-        .now().difference(box.get('chronotype'))
-        .inDays > 30;
+    return box.get('chronotype') == null;
   }
 
   void setReminderPSQI() {
@@ -62,7 +60,7 @@ class Utils {
   }
 
   void setReminderChronotype() {
-    box.put('chronotype', DateTime.now());
+    box.put('chronotype', false);
   }
 
 }

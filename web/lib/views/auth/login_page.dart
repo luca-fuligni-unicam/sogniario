@@ -14,9 +14,17 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  String email = '';
-  String password = '';
-  LoginApi loginApi = LoginApi();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  LoginApi? loginApi;
+  bool log = false;
+
+  @override
+  void initState() {
+    loginApi = LoginApi();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,32 +67,30 @@ class _LoginState extends State<Login> {
 
                         TextField(
                           decoration: InputDecoration(labelText: 'Email'),
-                          onChanged: (_email) {
-                            email = _email;
-                          },
+                          controller: email,
                         ),
 
                         TextField(
                           obscureText: true,
                           decoration: InputDecoration(labelText: 'Password'),
-                          onChanged: (_password) {
-                            password = _password;
-                          },
+                          controller: password,
                         ),
 
                         SizedBox(height: 5),
 
                         TextButton(
                             onPressed: () async {
+                              setState(() => log = true);
+                              await Future.delayed(Duration(milliseconds: 200));
 
-                              bool logged = await loginApi.login({
-                                'username': email,
-                                'password': loginApi.sha512Encrypt(password),
-                              }, true);
-
+                              bool logged = await loginApi!.login({
+                                'username': email.text,
+                                'password': loginApi!.sha512Encrypt(password.text),
+                              });
 
                               if (logged) {
-                                Map<String, dynamic> payload = Jwt.parseJwt(loginApi.getToken().substring(7));
+                                Map<String, dynamic> payload = Jwt.parseJwt(loginApi!.getToken().substring(7));
+                                setState(() => log = false);
 
                                 if (payload['authorities'].length < 8) {
                                   Navigator.pushAndRemoveUntil(
@@ -99,6 +105,7 @@ class _LoginState extends State<Login> {
                                 }
 
                               } else {
+                                setState(() => log = false);
                                 showDialog(
                                     context: context,
                                     builder: (_) {
@@ -106,14 +113,20 @@ class _LoginState extends State<Login> {
                                           type: AlertDialogType.WARNING,
                                           content: 'Problem with the login!\n'
                                               ' - Check your username or password.\n'
-                                              ' - If the username and password are correct, you wait to be accepted by the admin!'
+                                              ' - If the username and password are correct, you wait to be accepted by the admin!\n'
+                                              ' - Maybe your request was refused by the admin.'
                                       );
                                     }
                                 );
                               }
 
                             },
-                            child: Text('Login')
+                            child: log ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue.shade400),
+                                )) : Text('Login')
                         ),
 
                         SizedBox(height: 5),

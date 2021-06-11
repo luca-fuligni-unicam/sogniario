@@ -1,5 +1,5 @@
 <p align="center" >
-  <img src="frontend/assets/sogniario_icon.png" style="max-width: 20%">
+  <img src="frontend/assets/sogniario_logo.png" style="max-width: 20%">
 </p>
 
 ---
@@ -13,6 +13,10 @@
 <a href="https://www.unicam.it/">• Unicam</a>
 <a href="https://github.com/GiorgioPaoletti-Unicam/sogniario">• Sogniario</img></a>
 </b></p>
+
+<p align="center" >
+  <img src="doc/screenshot/image.png" style="max-width: 20%">
+</p>
 
 # 📔 Tabella dei contenuti
 
@@ -53,15 +57,11 @@ Sogniario nasce da una collaborazione tra il Brain and Sleep Research Laboratory
  
  - Autenticazione mediante token JWT, dove è stato aggiunto in tutte le chiamate GET/POST.
 
+ - Nuvola dei sogni e il relativo grafo del sogno.
+
  - Parte Web accessibile qui [Sogniario](http://193.205.92.106:8080/).
  - Nella parte Web è stata implementata la view del Researcher e quella dell' Admin.
  - L' Admin gestisce le candidature, scarica i dati e cambia le domande dei questionari, mentre il Researcher può solo scaricare i dati.
-
-
-**Non implementate**:
- - Nuvola dei sogni e il relativo grafo del sogno.
- - Possibilità di aggiornare i questionari dalla pagina web.
-
 
 # ⚙ Processo di Sviluppo<a name = "processo"></a>
 

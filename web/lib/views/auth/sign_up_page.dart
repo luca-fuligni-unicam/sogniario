@@ -13,12 +13,13 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
-  String name = '';
-  String email = '';
-  String password = '';
-  String motivation = '';
-  NominationApi nominationApi;
-  LoginApi loginApi;
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController motivation = TextEditingController();
+  NominationApi? nominationApi;
+  LoginApi? loginApi;
+  bool log = false;
 
   @override
   void initState() {
@@ -69,53 +70,52 @@ class _SignUpState extends State<SignUp> {
 
                         TextField(
                           decoration: InputDecoration(labelText: 'Name'),
-                          onChanged: (_name) {
-                            name = _name;
-                          },
+                          controller: name,
                         ),
 
                         TextField(
                           decoration: InputDecoration(labelText: 'Email'),
-                          onChanged: (_email) {
-                            email = _email;
-                          },
+                          controller: email,
                         ),
 
                         TextField(
                           obscureText: true,
                           decoration: InputDecoration(labelText: 'Password'),
-                          onChanged: (_password) {
-                            password = _password;
-                          },
+                          controller: password,
                         ),
 
                         TextField(
                           maxLines: 3,
                           decoration: InputDecoration(labelText: 'Motivation'),
-                          onChanged: (_motivation) {
-                            motivation = _motivation;
-                          },
+                          controller: motivation,
                         ),
 
                         SizedBox(height: 5),
 
                         TextButton(
                             onPressed: () async {
-                              bool logged = await loginApi.login({
+                              setState(() => log = true);
+                              bool logged = await loginApi!.login({
                                 'username': 'guest_researcher',
                                 'password': 'guest_researcher',
-                              }, true);
+                              });
 
-                              logged = await nominationApi.registered(
+                              logged = await nominationApi!.registered(
                                 Nomination(
-                                  name: name,
-                                  email: email,
-                                  password: nominationApi.sha512Encrypt(password),
-                                  motivation: motivation
+                                  name: name.text,
+                                  email: email.text,
+                                  password: nominationApi!.sha512Encrypt(password.text),
+                                  motivation: motivation.text
                                 )
                               );
 
                               if (logged) {
+                                name.clear();
+                                email.clear();
+                                password.clear();
+                                motivation.clear();
+
+                                setState(() => log = false);
                                 showDialog(
                                     context: context,
                                     builder: (_) {
@@ -126,6 +126,7 @@ class _SignUpState extends State<SignUp> {
                                     }
                                 );
                               } else {
+                                setState(() => log = false);
                                 showDialog(
                                     context: context,
                                     builder: (_) {
@@ -138,7 +139,12 @@ class _SignUpState extends State<SignUp> {
                               }
 
                             },
-                            child: Text('Sign Up')
+                            child: log ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue.shade400),
+                                )) : Text('Sign Up'),
                         ),
 
                         SizedBox(height: 5),

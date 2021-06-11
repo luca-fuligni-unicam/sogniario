@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * The class provides Rest APIs to manage instances of the {@link Dreamer} class
  */
@@ -65,5 +67,11 @@ public class DreamersController {
     @PostMapping(value = "/addCompletedSurvey/{dreamerID}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public boolean addCompletedSurvey(@RequestBody CompletedSurvey completedSurvey, @PathVariable String dreamerID) throws EntityNotFoundException {
         return dreamersService.addCompletedSurvey(completedSurvey, dreamerID);
+    }
+
+    @PreAuthorize("hasAuthority('dreamers:read')")
+    @GetMapping("/cloud/{dreamerId}")
+    public Map<String, Integer> getCloud(@PathVariable String dreamerId) throws EntityNotFoundException {
+        return dreamersService.getCloud(dreamerId);
     }
 }

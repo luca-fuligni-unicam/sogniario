@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/common/constants.dart';
 import 'package:frontend/models/dream.dart';
 import 'package:frontend/views/survey/survey_dream.dart';
 import 'package:frontend/widgets/alert.dart';
 import 'package:frontend/widgets/circle_decoration.dart';
 import 'package:frontend/widgets/sogniario_button.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:speech_to_text/speech_to_text.dart';
+import 'package:speech_to_text/speech_recognition_error.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+
+import 'dart:async';
+import 'dart:math';
 
 
 class AddDream extends StatefulWidget {
@@ -16,82 +22,51 @@ class AddDream extends StatefulWidget {
 
 class _AddDreamState extends State<AddDream> {
 
-  TextEditingController dreamController;
-  stt.SpeechToText speech;
-  bool isListening = false;
+  TextEditingController dreamController = TextEditingController();
+  final SpeechToText speech = SpeechToText();
+
+  bool _hasSpeech = false;
+  double level = 0.0;
+  double minSoundLevel = 50000;
+  double maxSoundLevel = -50000;
+  String _currentLocaleId = '';
+  int resultListened = 0;
 
   @override
   void initState() {
-    dreamController = TextEditingController();
-    speech = stt.SpeechToText();
+    initSpeechState();
     super.initState();
   }
 
   @override
-  void dispose() {
+  dispose() {
     dreamController.dispose();
     super.dispose();
   }
 
-  void listen() async {
-    if (!isListening) {
-      bool available = await speech.initialize();
-
-      if (available) {
-        setState(() => isListening = true);
-        speech.listen(
-          partialResults: false,
-          onResult: (val) => setState(() {
-            dreamController.text += val.recognizedWords;
-            isListening = true;
-          }),
-        );
-      }
-
-    } else {
-      setState(() => isListening = false);
-      speech.stop();
-    }
-  }
-
-
-  /*
-  void listen() async {
-    _available = await speech.initialize(
-      onStatus: (val)=> print('onStatus: $val'),
-      onError: (val) => print('onError: $val'),
-    );
-
-    if(!_available) {
-      setState(() {
-      });
-      return;
+  Future<void> initSpeechState() async {
+    var hasSpeech = await speech.initialize(
+        onError: errorListener,
+        onStatus: statusListener,
+        debugLogging: true,
+        finalTimeout: Duration(milliseconds: 0));
+    if (hasSpeech) {
+      var systemLocale = await speech.systemLocale();
+      _currentLocaleId = systemLocale?.localeId ?? '';
     }
 
-    return speech.listen(
-      listenFor: Duration(minutes: 10),
-      pauseFor: Duration(seconds: 5),
-      partialResults: false,
-      onResult: (val) async {
-        setState(() {
-          isListening = true;
-          dreamController.text += val.recognizedWords;
-        });
+    if (!mounted) return;
 
-        if (val.finalResult) {
-          return await speech.stop();
-        }
-
-      },
-    );
+    setState(() {
+      _hasSpeech = hasSpeech;
+    });
   }
-   */
+
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -99,8 +74,8 @@ class _AddDreamState extends State<AddDream> {
             children: [
 
               Positioned(
-                top: -50,
-                left: -30,
+                top: -20,
+                left: -20,
                 child: CircleDecoration(
                   height: 200,
                   width: 200,
@@ -112,8 +87,8 @@ class _AddDreamState extends State<AddDream> {
               ),
 
               Positioned(
-                top: MediaQuery.of(context).size.height / 3 + 50,
-                right: -20,
+                top: MediaQuery.of(context).size.height / 2 - 20,
+                right: -10,
                 child: CircleDecoration(
                   height: 200,
                   width: 200,
@@ -125,7 +100,7 @@ class _AddDreamState extends State<AddDream> {
               ),
 
               ListView(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(12),
                   children: [
 
                     Align(
@@ -148,22 +123,9 @@ class _AddDreamState extends State<AddDream> {
                       ),
                     ),
 
-                    SizedBox(height: 10),
-
-                    // ignore: deprecated_member_use
-                    FlatButton(
-                      onPressed: listen,
-                      child: ListTile(
-                        title: !isListening ? Text('Premi per parlare') : Text('In ascolto...'),
-                        leading: Icon(
-                          isListening ? Icons.mic_none_sharp : Icons.mic_off_rounded,
-                          color: Colors.black87,
-                          size: 26,
-                        ),
-                      ),
+                    SizedBox(
+                      height: 18,
                     ),
-
-                    SizedBox(height: 4),
 
                     TextField(
                       maxLines: 8,
@@ -183,18 +145,22 @@ class _AddDreamState extends State<AddDream> {
                       ),
                     ),
 
+                    SizedBox(
+                      height: 2,
+                    ),
+
                     SogniarioButton(
                       child: Text('Salva'),
                       background: Colors.blue.shade50.withOpacity(0.4),
                       overlay: Colors.blue.shade50.withOpacity(0.8),
                       onPressed: () {
 
-                        if (dreamController.text.isEmpty) {
+                        if (dreamController.text.isEmpty || dreamController.text.split(' ').length < 3) {
                           showDialog(
                               context: context,
                               builder: (context) {
                                 return SogniarioAlert(
-                                  content: "Non hai raccontato nessun sogno!",
+                                  content: dreamController.text.split(' ').length < 3 ? "Sogno troppo corto!" : "Non hai raccontato nessun sogno!",
                                   buttonLabelDx: 'Ok',
                                   type: AlertDialogType.INFO,
                                   onPressedDx: () => Navigator.pop(context),
@@ -208,20 +174,112 @@ class _AddDreamState extends State<AddDream> {
                               context,
                               PageTransition(
                                   type: PageTransitionType.fade,
-                                  child: SurveyDream(dream: Dream(dream: dreamController.text))
+                                  child: SurveyDream(dream: Dream(dream: deleteAccent(dreamController.text)))
                               )
                           );
                         }
 
                       },
                     ),
+                  ]),
 
-                  ])
+              Positioned(
+                bottom: 76,
+                left: 12,
+                right: 12,
+                child: Center(
+                  child: Text(
+                    'Premi "Racconta" ed inizia a parlare!',
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500
+                    ),
+                  ),
+                ),
+              ),
+
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 18),
+                  child: Container(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+
+                          TextButton(
+                            onPressed: speech.isListening ? cancelListening : null,
+                            child: Text('Cancella', style: TextStyle(fontSize: 17)),
+                          ),
+
+                          TextButton(
+                            onPressed: !_hasSpeech || speech.isListening ? null : startListening,
+                            child: Text(speech.isListening ? 'In ascolto..' : 'Racconta', style: TextStyle(fontSize: 17)),
+                          ),
+
+                        ]),
+                  ),
+                )
+              )
+
             ]),
-
-        ),
+        )
       ),
     );
+  }
+
+
+  void startListening() {
+    speech.listen(
+        onResult: resultListener,
+        listenFor: const Duration(seconds: 30),
+        pauseFor: Duration(seconds: 5),
+        partialResults: true,
+        localeId: _currentLocaleId,
+        onSoundLevelChange: soundLevelListener,
+        cancelOnError: true,
+        listenMode: ListenMode.confirmation
+    );
+
+    setState(() {});
+  }
+
+  void cancelListening() {
+    speech.cancel();
+    setState(() {
+      level = 0.0;
+    });
+  }
+
+  void resultListener(SpeechRecognitionResult result) {
+    ++resultListened;
+
+    if (result.finalResult) {
+      setState(() {
+        dreamController.text += result.recognizedWords;
+      });
+    }
+  }
+
+  void soundLevelListener(double level) {
+    minSoundLevel = min(minSoundLevel, level);
+    maxSoundLevel = max(maxSoundLevel, level);
+
+    setState(() {
+      this.level = level;
+    });
+  }
+
+  void errorListener(SpeechRecognitionError error) {
+    try {
+
+    } catch (Exception) {
+      speech.stop();
+    }
+  }
+
+  void statusListener(String status) {
+
   }
 
 }

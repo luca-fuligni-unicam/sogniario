@@ -49,3 +49,23 @@ const Divider divider = Divider(
   indent: 10,
   endIndent: 10,
 );
+
+
+String insertAccent(String str) {
+  return str
+      .replaceAll("e'", "è")
+      .replaceAll("a'", "à")
+      .replaceAll("i'", "ì")
+      .replaceAll("o'", "ò")
+      .replaceAll("u'", "ù");
+}
+
+String deleteAccent(String str) {
+  return str
+      .replaceAll("è", "e'")
+      .replaceAll("é", "e'")
+      .replaceAll("à", "a'")
+      .replaceAll("ì", "i'")
+      .replaceAll("ò", "o'")
+      .replaceAll("ù", "u'");
+}
