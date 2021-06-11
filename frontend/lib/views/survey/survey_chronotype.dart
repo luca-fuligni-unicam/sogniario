@@ -113,6 +113,7 @@ class _SurveyChronotypeState extends State<SurveyChronotype> {
                     onPageChanged: (index) => setState(() => currentIndex = index),
                     itemBuilder: (context, index) {
                       return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
 
                             Padding(
