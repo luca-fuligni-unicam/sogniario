@@ -7,6 +7,8 @@ import 'package:frontend/widgets/circle_decoration.dart';
 import 'package:frontend/widgets/sogniario_button.dart';
 import 'package:hive/hive.dart';
 
+import 'dart:convert';
+
 
 class GeneralInformation extends StatefulWidget {
 
@@ -18,9 +20,10 @@ class _GeneralInformationState extends State<GeneralInformation> {
 
   // 0 male, 1 female
   int gender = 0;
-  DateTime year = DateTime.now();
+  int dreamerAge = 0;
   var box = Hive.box('data');
   DreamerApi dreamerApi;
+  var age = '''[ ${List.generate(88, (index) => '${index + 14}')} ]''';
 
   @override
   void initState() {
@@ -110,7 +113,7 @@ class _GeneralInformationState extends State<GeneralInformation> {
                 ),
 
                 Text(
-                  'Data di nascita?',
+                  'Età?',
                   style: TextStyle(
                       fontSize: 18,
                       color: Colors.black.withOpacity(0.8),
@@ -121,17 +124,19 @@ class _GeneralInformationState extends State<GeneralInformation> {
                 SogniarioButton(
                     onPressed: () {
                       Picker(
+                          adapter: PickerDataAdapter<String>(
+                              pickerdata: JsonDecoder().convert(age),
+                              isArray: true
+                          ),
                           hideHeader: true,
-                          adapter: DateTimePickerAdapter(),
-                          title: Text("Data di nascita?"),
-                          selectedTextStyle: TextStyle(color: Colors.blue),
+                          selectedTextStyle: TextStyle(color: Colors.blue.shade500),
                           confirmText: 'Conferma',
                           confirmTextStyle: TextStyle(fontSize: 17, color: Colors.blue.shade500),
                           cancelTextStyle: TextStyle(fontSize: 17, color: Colors.blue.shade500),
-                          itemExtent: 32,
+                          title: Text('Età'),
                           onConfirm: (Picker picker, List value) {
                             setState(() {
-                              year = (picker.adapter as DateTimePickerAdapter).value;
+                              dreamerAge = int.parse(picker.getSelectedValues()[0]);
                             });
                           }
                       ).showDialog(context);
@@ -143,15 +148,15 @@ class _GeneralInformationState extends State<GeneralInformation> {
                     overlay: Colors.grey.shade100
                 ),
 
-                year != null ? Text(
-                  'Nato il: ${year.toString().substring(0, 10)}',
+                dreamerAge != 0 ? Text(
+                  'Età: $dreamerAge',
                   style: TextStyle(
                       fontSize: 17,
                       color: Colors.black.withOpacity(0.7),
                       fontWeight: FontWeight.w500
                   ),
                 ) : Text(
-                  'Nessuna data selezionata!',
+                  'Nessun età selezionata!',
                   style: TextStyle(
                       fontSize: 17,
                       color: Colors.black.withOpacity(0.7),
@@ -166,13 +171,13 @@ class _GeneralInformationState extends State<GeneralInformation> {
                 SogniarioButton(
                     onPressed: () async {
 
-                      if (year == null || year.year == DateTime.now().year || year.difference(DateTime.now()).inHours > 0) {
+                      if (dreamerAge == 0) {
                         showDialog(
                             context: context,
                             builder: (context) {
                               return SogniarioAlert(
                                 type: AlertDialogType.WARNING,
-                                content: 'Inserire una data di nascita valida!',
+                                content: 'Inserire l\'età!',
                                 buttonLabelDx: 'Ok',
                                 onPressedDx: () => Navigator.pop(context),
                                 onPressedSx: () => Navigator.pop(context),
@@ -190,7 +195,7 @@ class _GeneralInformationState extends State<GeneralInformation> {
                             Dreamer(
                                 id: dreamerApi.getId(),
                                 sex: gender == 0 ? 'MALE' : 'FEMALE',
-                                age: DateTime.now().difference(year).inDays ~/ 365
+                                age: dreamerAge
                             )
                         );
 
