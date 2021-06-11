@@ -124,48 +124,7 @@ class _AddDreamState extends State<AddDream> {
                     ),
 
                     SizedBox(
-                      height: 12,
-                    ),
-
-                    Center(
-                      child: Text(
-                        'Premi "Racconta" ed inizia a parlare!',
-                        style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w500
-                        ),
-                      ),
-                    ),
-
-                    SizedBox(
-                      height: 8,
-                    ),
-
-                    Container(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            TextButton(
-                              onPressed: !_hasSpeech || speech.isListening ? null : startListening,
-                              child: Text(speech.isListening ? 'In ascolto..' : 'Racconta', style: TextStyle(fontSize: 17)),
-                            ),
-
-                            /*
-                            TextButton(
-                              onPressed: speech.isListening ? stopListening : null,
-                              child: Text('Stop', style: TextStyle(fontSize: 17)),
-                            ),
-                             */
-
-                            TextButton(
-                              onPressed: speech.isListening ? cancelListening : null,
-                              child: Text('Cancella', style: TextStyle(fontSize: 17)),
-                            ),
-                          ]),
-                    ),
-
-                    SizedBox(
-                      height: 16,
+                      height: 18,
                     ),
 
                     TextField(
@@ -184,6 +143,10 @@ class _AddDreamState extends State<AddDream> {
                           ),
                           hintText: 'Cosa hai sognato?'
                       ),
+                    ),
+
+                    SizedBox(
+                      height: 2,
                     ),
 
                     SogniarioButton(
@@ -219,6 +182,46 @@ class _AddDreamState extends State<AddDream> {
                       },
                     ),
                   ]),
+
+              Positioned(
+                bottom: 76,
+                left: 12,
+                right: 12,
+                child: Center(
+                  child: Text(
+                    'Premi "Racconta" ed inizia a parlare!',
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500
+                    ),
+                  ),
+                ),
+              ),
+
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 18),
+                  child: Container(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+
+                          TextButton(
+                            onPressed: speech.isListening ? cancelListening : null,
+                            child: Text('Cancella', style: TextStyle(fontSize: 17)),
+                          ),
+
+                          TextButton(
+                            onPressed: !_hasSpeech || speech.isListening ? null : startListening,
+                            child: Text(speech.isListening ? 'In ascolto..' : 'Racconta', style: TextStyle(fontSize: 17)),
+                          ),
+
+                        ]),
+                  ),
+                )
+              )
+
             ]),
         )
       ),
@@ -239,13 +242,6 @@ class _AddDreamState extends State<AddDream> {
     );
 
     setState(() {});
-  }
-
-  void stopListening() {
-    speech.stop();
-    setState(() {
-      level = 0.0;
-    });
   }
 
   void cancelListening() {
