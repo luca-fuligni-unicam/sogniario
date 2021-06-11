@@ -3,12 +3,12 @@ class Dreamer {
 
   final String id;
   final String sex;
-  final DateTime birthDate;
+  final int age;
 
   Dreamer({
     this.id,
     this.sex,
-    this.birthDate
+    this.age
   });
 
 
@@ -25,7 +25,7 @@ class Dreamer {
   Map<String, dynamic> registered() => {
     'username': id,
     'password': id,
-    'nascita': birthDate.toString().substring(0, 10),
+    'eta': age.toString(),
     'sesso': sex,
   };
 

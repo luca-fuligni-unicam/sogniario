@@ -190,7 +190,7 @@ class _GeneralInformationState extends State<GeneralInformation> {
                             Dreamer(
                                 id: dreamerApi.getId(),
                                 sex: gender == 0 ? 'MALE' : 'FEMALE',
-                                birthDate: year
+                                age: DateTime.now().difference(year).inDays ~/ 365
                             )
                         );
 
