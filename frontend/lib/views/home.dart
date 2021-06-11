@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
                 buttonLabelDx: 'Cronotipo',
                 buttonLabelSx: 'PSQI',
                 type: AlertDialogType.INFO,
-                onPressedDx: () => chronotype ? Navigator.pushNamed(context, '/chronotype') : {},
+                onPressedDx: () => Navigator.pushNamed(context, '/chronotype'),
                 onPressedSx: () => psqi ? Navigator.pushNamed(context, '/psqi') : {},
               );
             });
