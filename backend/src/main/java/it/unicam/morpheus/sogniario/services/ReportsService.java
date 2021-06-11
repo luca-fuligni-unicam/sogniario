@@ -207,6 +207,8 @@ public class ReportsService implements EntityService<Report, String>{
 
             String report = "";
             report = report.concat("Dreamer ID: " + r.getDreamerId() + "\n");
+            report = report.concat("Sesso Dreamer: " + dreamersRepository.findById(r.getDreamerId()).get().getEta() + "\n");
+            report = report.concat("Sesso Dreamer: " + dreamersRepository.findById(r.getDreamerId()).get().getSesso() + "\n");
             report = report.concat("Dream:" + r.getDream().getText() + "\n");
             report = report.concat("Data registrazione sogno: " + r.getDream().getData() + "\n");
 

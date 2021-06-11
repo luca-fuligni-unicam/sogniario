@@ -59,7 +59,8 @@ public class DreamersService implements EntityService<Dreamer, String> {
                         object.getUsername(),
                         passwordEncoder.encode(object.getPassword()),
                         UserRole.DREAMER.getGrantedAuthorities(),
-                        object.getNascita(),
+                        //object.getNascita(),
+                        object.getEta(),
                         object.getSesso()
                 )
         );

@@ -27,15 +27,18 @@ public class Dreamer extends User {
 
     private Set<CompletedSurvey> completedSurveys;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate nascita;
+    //@JsonFormat(pattern = "yyyy-MM-dd")
+    //private LocalDate nascita;
+    private int eta;
 
     private Sex sesso;
 
-    public Dreamer(String username, String password, Set<? extends GrantedAuthority> grantedAuthorities, @NonNull LocalDate nascita, @NonNull Sex sesso) {
+    //public Dreamer(String username, String password, Set<? extends GrantedAuthority> grantedAuthorities, @NonNull LocalDate nascita, @NonNull Sex sesso) {
+    public Dreamer(String username, String password, Set<? extends GrantedAuthority> grantedAuthorities, int eta, @NonNull Sex sesso) {
         super(username, password, grantedAuthorities);
         this.completedSurveys = new HashSet<>();
-        this.nascita = nascita;
+        //this.nascita = nascita;
+        this.eta = eta;
         this.sesso = sesso;
     }
 

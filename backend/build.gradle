@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'it.unicam.morpheus'
-version = '0.0.1-SNAPSHOT'
+version = 'Iterazione-3'
 sourceCompatibility = '11'
 
 configurations {
