@@ -174,7 +174,7 @@ class _AddDreamState extends State<AddDream> {
                               context,
                               PageTransition(
                                   type: PageTransitionType.fade,
-                                  child: SurveyDream(dream: Dream(dream: deleteAccent(dreamController.text)))
+                                  child: SurveyDream(dream: Dream(dream: deleteAccent(dreamController.text.trim())))
                               )
                           );
                         }
@@ -256,7 +256,11 @@ class _AddDreamState extends State<AddDream> {
 
     if (result.finalResult) {
       setState(() {
-        dreamController.text += result.recognizedWords;
+        if (dreamController.text.endsWith(' ')) {
+          dreamController.text += result.recognizedWords;
+        } else {
+          dreamController.text += ' ' + result.recognizedWords;
+        }
       });
     }
   }
