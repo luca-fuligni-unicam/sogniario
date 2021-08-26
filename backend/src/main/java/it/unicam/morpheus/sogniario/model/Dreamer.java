@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-enum Sex {MALE, FEMALE, OTHER}
+enum Sex {MALE, FEMALE, OTHER, UNSPECIFIED}
 
 /**
  * The class has the objective of representing a Researcher, the class extends the {@link User} class from which it derives the properties for authentication.
