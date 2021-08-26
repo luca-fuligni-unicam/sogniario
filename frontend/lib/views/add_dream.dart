@@ -124,6 +124,18 @@ class _AddDreamState extends State<AddDream> {
                     ),
 
                     SizedBox(
+                      height: 8,
+                    ),
+
+                    Text(
+                      'Controllare che l\'app sia in ascolto, altrimenti premere nuovamente \'Racconta\'.',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500
+                      ),
+                    ),
+
+                    SizedBox(
                       height: 18,
                     ),
 
