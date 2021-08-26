@@ -18,7 +18,7 @@ class GeneralInformation extends StatefulWidget {
 
 class _GeneralInformationState extends State<GeneralInformation> {
 
-  // 0 male, 1 female
+  // 0 MALE, 1 FEMALE, 2 OTHER, 3 UNSPECIFIED
   int gender = 0;
   int dreamerAge = 0;
   var box = Hive.box('data');
@@ -45,9 +45,9 @@ class _GeneralInformationState extends State<GeneralInformation> {
               child: CircleDecoration(
                 width: 300,
                 height: 250,
-                shadow: Colors.blueAccent.shade100,
-                gradientOne: Colors.blue.shade50,
-                gradientTwo: Colors.blue.shade100,
+                shadow: Colors.blueGrey.shade300,
+                gradientOne: Colors.blueGrey.shade100,
+                gradientTwo: Colors.blueGrey.shade200,
               ),
             ),
 
@@ -65,15 +65,15 @@ class _GeneralInformationState extends State<GeneralInformation> {
             ),
 
             Positioned(
-              right: 0,
+              right: -10,
               bottom: -30,
               child: CircleDecoration(
                 width: 250,
                 height: 250,
                 offset: Offset(-2, -3),
-                shadow: Colors.pinkAccent.shade100,
-                gradientOne: Colors.pink.shade50,
-                gradientTwo: Colors.pink.shade100,
+                shadow: Colors.blueGrey.shade300,
+                gradientOne: Colors.blueGrey.shade100,
+                gradientTwo: Colors.blueGrey.shade200,
               ),
             ),
 
@@ -95,8 +95,8 @@ class _GeneralInformationState extends State<GeneralInformation> {
                     child: Text('Uomo'),
                     gender: gender,
                     verified: 0,
-                    background: Colors.blue.shade50,
-                    overlay: Colors.blue.shade100
+                    background: Colors.grey.shade100,
+                    overlay: Colors.grey.shade200
                 ),
 
                 SogniarioButton(
@@ -104,12 +104,30 @@ class _GeneralInformationState extends State<GeneralInformation> {
                     child: Text('Donna'),
                     gender: gender,
                     verified: 1,
-                    background: Colors.pink.shade50,
-                    overlay: Colors.pink.shade100
+                    background: Colors.grey.shade100,
+                    overlay: Colors.grey.shade200
+                ),
+
+                SogniarioButton(
+                    onPressed: () => setState(() => gender = 2),
+                    child: Text('Altro'),
+                    gender: gender,
+                    verified: 2,
+                    background: Colors.grey.shade100,
+                    overlay: Colors.grey.shade200
+                ),
+
+                SogniarioButton(
+                    onPressed: () => setState(() => gender = 3),
+                    child: Text('Preferisco non dichiararlo'),
+                    gender: gender,
+                    verified: 3,
+                    background: Colors.grey.shade100,
+                    overlay: Colors.grey.shade200
                 ),
 
                 SizedBox(
-                  height: 20,
+                  height: 14,
                 ),
 
                 Text(
@@ -187,14 +205,14 @@ class _GeneralInformationState extends State<GeneralInformation> {
                       } else {
 
                         bool registered = await dreamerApi.login(
-                          Dreamer().firstLogin(), false
+                            Dreamer().firstLogin(), false
                         );
 
                         dreamerApi.setId();
                         registered = await dreamerApi.registered(
                             Dreamer(
                                 id: dreamerApi.getId(),
-                                sex: gender == 0 ? 'MALE' : 'FEMALE',
+                                sex: getSex(gender),
                                 age: dreamerAge
                             )
                         );
@@ -234,6 +252,24 @@ class _GeneralInformationState extends State<GeneralInformation> {
           ])
       ),
     );
+  }
+
+
+
+  String getSex(int gender) {
+    switch (gender) {
+      case 0:
+        return 'MALE';
+
+      case 1:
+        return 'FEMALE';
+
+      case 2:
+        return 'OTHER';
+
+      default:
+        return 'UNSPECIFIED';
+    }
   }
 
 }
