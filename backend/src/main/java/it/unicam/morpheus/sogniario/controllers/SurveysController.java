@@ -27,30 +27,35 @@ public class SurveysController {
     }
 
     @PreAuthorize("hasAuthority('surveys:read')")
+    @CrossOrigin
     @GetMapping("/{surveyID}")
     public Survey getInstance(@PathVariable String surveyID) throws EntityNotFoundException {
         return surveysService.getInstance(surveyID);
     }
 
     @PreAuthorize("hasAuthority('surveys:write')")
+    @CrossOrigin
     @PostMapping(value ="/createNew", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Survey create(@RequestBody Survey object) throws IdConflictException, EntityNotFoundException {
         return surveysService.create(object);
     }
 
     @PreAuthorize("hasAuthority('surveys:write')")
+    @CrossOrigin
     @PutMapping(value ="/update", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Survey update(@RequestBody Survey object) throws IdConflictException, EntityNotFoundException {
         return surveysService.update(object);
     }
 
     @PreAuthorize("hasAuthority('surveys:write')")
+    @CrossOrigin
     @DeleteMapping("/{surveyID}")
     public boolean delete(@PathVariable String surveyID) {
         return surveysService.delete(surveyID);
     }
 
     @PreAuthorize("hasAuthority('surveys:read')")
+    @CrossOrigin
     @GetMapping("/exist/{surveyID}")
     public boolean exists(@PathVariable String surveyID) {
         return surveysService.exists(surveyID);

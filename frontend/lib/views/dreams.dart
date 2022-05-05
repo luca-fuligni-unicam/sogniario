@@ -73,18 +73,18 @@ class MyDreams extends StatefulWidget {
 
 class _MyDreamsState extends State<MyDreams> {
 
-  CalendarController _calendarController;
-  DateTime dreamsDate = DateTime.now();
+  DateTime _dreamsDate = DateTime.now();
+  DateTime _focusedDay = DateTime.now();
 
   @override
   void initState() {
-    _calendarController = CalendarController();
+    //_calendarController = CalendarController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _calendarController.dispose();
+    //_calendarController.dispose();
     super.dispose();
   }
 
@@ -93,9 +93,8 @@ class _MyDreamsState extends State<MyDreams> {
   Widget build(BuildContext context) {
     return ListView(
         children: [
-
           TableCalendar(
-            calendarController: _calendarController,
+            //calendarController: _calendarController,
             headerStyle: HeaderStyle(
                 titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
                 formatButtonTextStyle: TextStyle(color: Colors.white, fontSize: 16),
@@ -103,18 +102,28 @@ class _MyDreamsState extends State<MyDreams> {
                 leftChevronIcon: Icon(Icons.chevron_left_outlined, size: 28),
                 rightChevronIcon: Icon(Icons.chevron_right_outlined, size: 28)
             ),
-            calendarStyle: CalendarStyle(
-                weekdayStyle: TextStyle(fontSize: 16, color: Colors.black.withOpacity(0.6)),
-                selectedColor: Colors.blue[100],
-                selectedStyle: TextStyle(color: Colors.black.withOpacity(0.8), fontSize: 17),
-                todayColor: Colors.blue.shade300.withOpacity(0.8)
-            ),
-            endDay: DateTime.now(),
-            onDaySelected: (date, events, holidays) => setState(() => dreamsDate = date),
+            //calendarStyle: CalendarStyle(
+            //    weekdayStyle: TextStyle(fontSize: 16, color: Colors.black.withOpacity(0.6)),
+            //    selectedColor: Colors.blue[100],
+            //    selectedStyle: TextStyle(color: Colors.black.withOpacity(0.8), fontSize: 17),
+            //    todayColor: Colors.blue.shade300.withOpacity(0.8)
+            // ),
+            firstDay: DateTime.utc(2010,10,16),
+            lastDay: DateTime.utc(2030, 3, 14),
+            focusedDay: DateTime.now(),
+            selectedDayPredicate: (day) {
+              return isSameDay(_dreamsDate, day);
+            },
+            onDaySelected: (selectedDay, focusedDay) {
+              setState(() {
+                _dreamsDate = selectedDay;
+                _focusedDay = focusedDay;
+              });
+            },
           ),
 
           DreamsList(
-            date: dreamsDate.toString().substring(0, 10),
+            date: _dreamsDate.toString().substring(0, 10),
           )
 
         ]);
