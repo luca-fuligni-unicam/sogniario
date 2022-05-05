@@ -1,11 +1,10 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:web/services/rest_api/report_api.dart';
 import 'package:web/services/routes.dart';
 import 'package:web/widgets/button.dart';
 import 'package:web/widgets/menu.dart';
+
+import '../services/rest_api/app_api.dart';
 
 class Home extends StatefulWidget {
   final isAdmin;
@@ -18,6 +17,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   ReportApi reportApi = ReportApi();
+  AppApi appApi = AppApi();
 
   DateTime? before, after, now = DateTime.now();
   final list = <DateTime>[
@@ -32,10 +32,10 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(children: [
-          SingleChildScrollView(
-              child: Container(
+      backgroundColor: Colors.white,
+      body: Stack(children: [
+        SingleChildScrollView(
+          child: Container(
             margin: EdgeInsets.symmetric(horizontal: 12),
             padding: EdgeInsets.all(12),
             child: Column(
@@ -156,43 +156,69 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   SizedBox(
-                    height: 8,
-                  ),
-                  Visibility(
-                    //visible: widget.isAdmin,
-                    child: CustomButton(
-                      icon: Icon(Icons.android, color: Colors.black),
-                      child: Text(
-                        'DOWNLOAD APP - Android',
-                        style: const TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.8,
-                        ),
-                      ),
-                      onPressed: () {},
-                    ),
+                    height: 24,
                   ),
                   SizedBox(
-                    height: 8,
-                  ),
-                  Visibility(
-                    //visible: widget.isAdmin,
-                    child: CustomButton(
-                      icon: Icon(Icons.apple, color: Colors.black),
-                      child: Text(
-                        'DOWNLOAD APP - iOS',
-                        style: const TextStyle(
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.8,
-                        ),
+                    width: 420,
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border:
+                            Border.all(color: Colors.blue.shade100, width: 1.5),
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            bottomLeft: Radius.circular(20)),
                       ),
-                      onPressed: () {},
+                      child: Column(children: [
+                        Text(
+                          'DOWNLOAD APP',
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.8,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Padding(
+                          padding: EdgeInsets.all(2),
+                          child: CustomButton(
+                            icon: Icon(Icons.android, color: Colors.black),
+                            onPressed: () {
+                              appApi.downloadAndroid();
+                            },
+                            child: Text(
+                              'Android',
+                              style: TextStyle(
+                                color: Colors.black87.withOpacity(0.8),
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Padding(
+                          padding: EdgeInsets.all(2),
+                          child: CustomButton(
+                            icon: Icon(Icons.apple, color: Colors.black),
+                            child: Text(
+                              'iOS',
+                              style: const TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 0.8,
+                              ),
+                            ),
+                            onPressed: () {},
+                          ),
+                        ),
+                      ]),
                     ),
                   ),
                 ]),
-          ))
-        ]));
+          ),
+        ),
+      ]),
+    );
   }
 }

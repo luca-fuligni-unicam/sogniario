@@ -1,18 +1,13 @@
 import 'package:web/services/utils.dart';
 import 'package:http/http.dart' as http;
-
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 
-
 class ReportApi extends Utils {
-
   void download(DateTime before, DateTime after) async {
-    var uri = '${server}api/reports/getReportArchiveBetweenTwoDates/${before.toString().substring(0, 10)}/${after.toString().substring(0, 10)}';
-    var response = await http.get(
-        Uri.parse(uri),
-        headers: header(getToken())
-    );
+    var uri =
+        '${server}api/reports/getReportArchiveBetweenTwoDates/${before.toString().substring(0, 10)}/${after.toString().substring(0, 10)}';
+    var response = await http.get(Uri.parse(uri), headers: header(getToken()));
 
     if (response.statusCode == 200) {
       final blob = html.Blob([response.bodyBytes]);
@@ -29,5 +24,4 @@ class ReportApi extends Utils {
       html.Url.revokeObjectUrl(url);
     }
   }
-
 }
