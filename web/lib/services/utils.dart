@@ -2,8 +2,8 @@ import 'package:crypt/crypt.dart';
 import 'package:hive/hive.dart';
 
 class Utils {
-  //final String server = 'http://193.205.92.106:8080/';
-  final String server = 'http://localhost:8080/';
+  final String server = 'http://193.205.92.106:8080/';
+  //final String server = 'http://localhost:8080/';
   var box = Hive.box('data');
 
   Map<String, String> header(String token) => {

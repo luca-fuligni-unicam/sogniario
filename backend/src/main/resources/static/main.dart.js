@@ -64329,7 +64329,7 @@ A.Qc.prototype={
 tG(){var s=0,r=A.a0(t.z),q=this,p,o,n,m,l
 var $async$tG=A.a1(function(a,b){if(a===1)return A.Y(b,r)
 while(true)switch(s){case 0:s=2
-return A.U(A.ae1(A.hD("http://localhost:8080/api/download/file/app-release.apk"),q.mB(q.b.j9(0,"token"))),$async$tG)
+return A.U(A.ae1(A.hD("http://193.205.92.106:8080/api/download/file/app-release.apk"),q.mB(q.b.j9(0,"token"))),$async$tG)
 case 2:l=b
 if(l.b===200){p=(self.URL||self.webkitURL).createObjectURL(A.afF([l.x]))
 o=document
@@ -64350,7 +64350,7 @@ pp(a){return this.a6V(a)},
 a6V(a){var s=0,r=A.a0(t.y),q,p=this,o,n,m
 var $async$pp=A.a1(function(b,c){if(b===1)return A.Y(c,r)
 while(true)switch(s){case 0:s=3
-return A.U(A.abl(A.hD("http://localhost:8080/login"),B.ap.zG(a,null),p.c),$async$pp)
+return A.U(A.abl(A.hD("http://193.205.92.106:8080/login"),B.ap.zG(a,null),p.c),$async$pp)
 case 3:n=c
 m=n.e
 if(m.h(0,"authorization")!=null){o=p.b
@@ -64363,7 +64363,7 @@ A.XN.prototype={
 ud(){var s=0,r=A.a0(t.Ht),q,p=this,o,n,m
 var $async$ud=A.a1(function(a,b){if(a===1)return A.Y(b,r)
 while(true)switch(s){case 0:s=3
-return A.U(A.ae1(A.hD("http://localhost:8080/api/nominations/NominationPendenti"),p.mB(p.b.j9(0,"token"))),$async$ud)
+return A.U(A.ae1(A.hD("http://193.205.92.106:8080/api/nominations/NominationPendenti"),p.mB(p.b.j9(0,"token"))),$async$ud)
 case 3:o=b
 n=A.ad(B.ap.Jd(0,A.axM(A.aw0(o.e).c.a.h(0,"charset")).d7(0,o.x),null),!0,t.z)
 m=A.V(n).i("aw<1,ho>")
@@ -64375,7 +64375,7 @@ return A.a_($async$ud,r)},
 uu(a){return this.a8p(a)},
 a8p(a){var s=0,r=A.a0(t.y),q,p=this,o,n,m,l
 var $async$uu=A.a1(function(b,c){if(b===1)return A.Y(c,r)
-while(true)switch(s){case 0:n=A.hD("http://localhost:8080/api/nominations/createNew")
+while(true)switch(s){case 0:n=A.hD("http://193.205.92.106:8080/api/nominations/createNew")
 m=p.mB(p.b.j9(0,"token"))
 l=a.c
 l.toString
@@ -64391,7 +64391,7 @@ rL(a,b){return this.a27(0,b)},
 a27(a,b){var s=0,r=A.a0(t.y),q,p=this
 var $async$rL=A.a1(function(c,d){if(c===1)return A.Y(d,r)
 while(true)switch(s){case 0:s=3
-return A.U(A.abl(A.hD("http://localhost:8080/api/nominations/acceptNomination/"+b),null,p.mB(p.b.j9(0,"token"))),$async$rL)
+return A.U(A.abl(A.hD("http://193.205.92.106:8080/api/nominations/acceptNomination/"+b),null,p.mB(p.b.j9(0,"token"))),$async$rL)
 case 3:q=d.b===200
 s=1
 break
@@ -64401,7 +64401,7 @@ uv(a){return this.a8q(a)},
 a8q(a){var s=0,r=A.a0(t.y),q,p=this
 var $async$uv=A.a1(function(b,c){if(b===1)return A.Y(c,r)
 while(true)switch(s){case 0:s=3
-return A.U(A.abl(A.hD("http://localhost:8080/api/nominations/rejectNomination/"+a),null,p.mB(p.b.j9(0,"token"))),$async$uv)
+return A.U(A.abl(A.hD("http://193.205.92.106:8080/api/nominations/rejectNomination/"+a),null,p.mB(p.b.j9(0,"token"))),$async$uv)
 case 3:q=c.b===200
 s=1
 break
@@ -64416,7 +64416,7 @@ tF(a,b,c){return this.a4B(0,b,c)},
 a4B(a,b,c){var s=0,r=A.a0(t.z),q=this,p,o,n,m,l
 var $async$tF=A.a1(function(d,e){if(d===1)return A.Y(e,r)
 while(true)switch(s){case 0:s=2
-return A.U(A.ae1(A.hD("http://localhost:8080/api/reports/getReportArchiveBetweenTwoDates/"+B.b.K(b.j(0),0,10)+"/"+B.b.K(c.j(0),0,10)),q.mB(q.b.j9(0,"token"))),$async$tF)
+return A.U(A.ae1(A.hD("http://193.205.92.106:8080/api/reports/getReportArchiveBetweenTwoDates/"+B.b.K(b.j(0),0,10)+"/"+B.b.K(c.j(0),0,10)),q.mB(q.b.j9(0,"token"))),$async$tF)
 case 2:l=e
 if(l.b===200){p=(self.URL||self.webkitURL).createObjectURL(A.afF([l.x]))
 o=document

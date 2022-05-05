@@ -14,10 +14,8 @@ import java.net.URLConnection;
 @RequestMapping("api/download")
 public class AppController {
 
-    // Local testing
-    private static final String EXTERNAL_FILE_PATH = "/home/luca/Desktop/Test/";
-    // Server deployment
-    //private static final String EXTERNAL_FILE_PATH = "C:\\Public\\";
+    //private static final String EXTERNAL_FILE_PATH = "/home/luca/Desktop/Test/";
+    private static final String EXTERNAL_FILE_PATH = "C:\\Public\\";
 
     @RequestMapping("/file/{fileName:.+}")
     public void downloadPDFResource(HttpServletRequest request, HttpServletResponse response,
