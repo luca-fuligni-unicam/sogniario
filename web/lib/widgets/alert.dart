@@ -15,6 +15,10 @@ class Alert extends StatelessWidget {
     this.buttonLabel = "Ok"
   });
 
+  final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+    padding: const EdgeInsets.all(5.0),
+  );
+
   
   @override
   Widget build(BuildContext context) {
@@ -68,8 +72,8 @@ class Alert extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     // ignore: deprecated_member_use
-                    child: FlatButton(
-                      padding: const EdgeInsets.all(5.0),
+                    child: TextButton(
+                      style: flatButtonStyle,
                       child: Text(buttonLabel),
                       onPressed: () => Navigator.pop(context, true),
                     ),

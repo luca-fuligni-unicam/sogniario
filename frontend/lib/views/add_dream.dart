@@ -124,6 +124,18 @@ class _AddDreamState extends State<AddDream> {
                     ),
 
                     SizedBox(
+                      height: 8,
+                    ),
+
+                    Text(
+                      'Controllare che l\'app sia in ascolto, altrimenti premere nuovamente \'Racconta\'.',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500
+                      ),
+                    ),
+
+                    SizedBox(
                       height: 18,
                     ),
 
@@ -174,7 +186,7 @@ class _AddDreamState extends State<AddDream> {
                               context,
                               PageTransition(
                                   type: PageTransitionType.fade,
-                                  child: SurveyDream(dream: Dream(dream: deleteAccent(dreamController.text)))
+                                  child: SurveyDream(dream: Dream(dream: deleteAccent(dreamController.text.trim())))
                               )
                           );
                         }
@@ -256,7 +268,11 @@ class _AddDreamState extends State<AddDream> {
 
     if (result.finalResult) {
       setState(() {
-        dreamController.text += result.recognizedWords;
+        if (dreamController.text.endsWith(' ')) {
+          dreamController.text += result.recognizedWords;
+        } else {
+          dreamController.text += ' ' + result.recognizedWords;
+        }
       });
     }
   }
