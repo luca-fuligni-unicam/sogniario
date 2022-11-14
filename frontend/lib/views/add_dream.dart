@@ -226,7 +226,7 @@ class _AddDreamState extends State<AddDream> {
 
                           TextButton(
                             onPressed: !_hasSpeech || speech.isListening ? null : startListening,
-                            child: Text(speech.isListening ? 'In ascolto..' : 'Racconta', style: TextStyle(fontSize: 17)),
+                            child: Text(speech.isListening ? 'In ascolto...' : 'Racconta', style: TextStyle(fontSize: 17)),
                           ),
 
                         ]),
@@ -289,7 +289,7 @@ class _AddDreamState extends State<AddDream> {
   void errorListener(SpeechRecognitionError error) {
     try {
 
-    } catch (Exception) {
+    } catch (exception) {
       speech.stop();
     }
   }

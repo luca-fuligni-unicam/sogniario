@@ -235,6 +235,7 @@ class _DreamsListState extends State<DreamsList> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => ReportGraphPage(ReportGraph(deleteAccent(dream.dream))))
+                    //MaterialPageRoute(builder: (_) => DirectedGraphView(DirectedGraphPage(ReportGraph(deleteAccent(dream.dream)))))
                 );
               },
               child: Text('Dettagli'),

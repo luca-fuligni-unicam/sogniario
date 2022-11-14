@@ -184,6 +184,7 @@ class _SurveyDreamState extends State<SurveyDream> {
                                                   return SogniarioAlert(
                                                       content: "\nConfermi le risposte date?\n",
                                                       buttonLabelDx: 'Conferma',
+                                                      buttonLabelSx: 'Indietro',
                                                       onPressedDx: () async {
 
                                                         List<String> answer = List
@@ -207,11 +208,12 @@ class _SurveyDreamState extends State<SurveyDream> {
                                                                 return SogniarioAlert(
                                                                   content: "Report mandato con successo!",
                                                                   buttonLabelDx: 'Ok',
+                                                                  //buttonLabelSx: 'Close',
                                                                   type: AlertDialogType.SUCCESS,
                                                                   onPressedDx: () {
                                                                     Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
                                                                   },
-                                                                  onPressedSx: () => Navigator.pop(context),
+                                                                  //onPressedSx: () => Navigator.pop(context),
                                                                 );
                                                               });
 

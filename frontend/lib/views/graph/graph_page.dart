@@ -6,27 +6,29 @@ import 'package:lazy_data_table/lazy_data_table.dart';
 import 'package:fluttericon/modern_pictograms_icons.dart';
 import 'package:fluttericon/typicons_icons.dart';
 
-
 class ReportGraphPage extends StatefulWidget {
-
   final ReportGraph _reportGraph;
 
   ReportGraphPage(this._reportGraph);
 
-  ReportGraphPageState createState()=> ReportGraphPageState(_reportGraph);
+  ReportGraphPageState createState() => ReportGraphPageState(_reportGraph);
 }
 
-class ReportGraphPageState extends State<ReportGraphPage>{
-
+class ReportGraphPageState extends State<ReportGraphPage> {
   LazyDataTable lazyTable;
   ReportGraph _reportGraph;
-  double height = 30, width = 100, _s = 16;
+  double height = 30, width = 50, _s = 12;
   List<Color> colors = [
-    Colors.deepOrange.shade200, Colors.deepOrange.shade700,
-    Colors.green.shade200, Colors.green.shade600,
-    Colors.red.shade200, Colors.red.shade700,
-    Colors.yellow.shade200 , Colors.yellowAccent.shade700,
-    Colors.blue.shade200, Colors.blue.shade700,
+    Colors.deepOrange.shade200,
+    Colors.deepOrange.shade700,
+    Colors.green.shade200,
+    Colors.green.shade600,
+    Colors.red.shade200,
+    Colors.red.shade700,
+    Colors.yellow.shade200,
+    Colors.yellowAccent.shade700,
+    Colors.blue.shade200,
+    Colors.blue.shade700,
   ];
 
   ReportGraphPageState(this._reportGraph) {
@@ -42,23 +44,21 @@ class ReportGraphPageState extends State<ReportGraphPage>{
           cellWidth: width,
         ),
         tableTheme: LazyDataTableTheme(
-            alternateRow: false,
-            alternateColumn: false,
-            cellColor: Colors.white,
-            cellBorder: Border.fromBorderSide(BorderSide(color: Colors.white)),
+          alternateRow: false,
+          alternateColumn: false,
+          cellColor: Colors.white,
+          cellBorder: Border.fromBorderSide(BorderSide(color: Colors.white)),
         ),
         dataCellBuilder: (row, column) {
-          ReportGraphNode current = _reportGraph
-              .getNodes()
-              .firstWhere(
-                  (n) => n.getCoordinate().getRow() == row && n.getCoordinate().getColumn() == column, orElse: () => null
-          );
+          ReportGraphNode current = _reportGraph.getNodes().firstWhere(
+              (n) =>
+                  n.getCoordinate().getRow() == row &&
+                  n.getCoordinate().getColumn() == column,
+              orElse: () => null);
 
           return current == null ? Container() : createArrow(current);
-        }
-    );
+        });
   }
-
 
   ArrowElement createArrow(ReportGraphNode node) {
     List<ReportGraphNode> nodes = _reportGraph.getNodes();
@@ -70,8 +70,8 @@ class ReportGraphPageState extends State<ReportGraphPage>{
     return buildArrow(node, list, 0, null);
   }
 
-
-  ArrowElement buildArrow(ReportGraphNode node, List<ReportGraphNode> list, int index, ArrowElement widget) {
+  ArrowElement buildArrow(ReportGraphNode node, List<ReportGraphNode> list,
+      int index, ArrowElement widget) {
     String from = node.getText() + (index == 0 ? '' : index.toString());
 
     if (index == list.length) {
@@ -85,9 +85,7 @@ class ReportGraphPageState extends State<ReportGraphPage>{
                 borderRadius: BorderRadius.circular(4),
               ),
               padding: EdgeInsets.all(2),
-              child: buildNode(node)
-          )
-      );
+              child: buildNode(node)));
     }
 
     ReportGraphNode to = list[index];
@@ -116,19 +114,15 @@ class ReportGraphPageState extends State<ReportGraphPage>{
 
     // caso 1: stessa riga
     if (r == rt) {
-      return c < ct ? [Alignment.centerRight, Alignment.centerLeft]
-        : [
-            Alignment.centerLeft,
-            Alignment.centerRight
-            ];
+      return c < ct
+          ? [Alignment.centerRight, Alignment.centerLeft]
+          : [Alignment.centerLeft, Alignment.centerRight];
     }
 
     if (c == ct) {
-      return r < rt ? [Alignment.bottomCenter, Alignment.topCenter]
-        : [
-            Alignment.topCenter,
-            Alignment.bottomCenter
-            ];
+      return r < rt
+          ? [Alignment.bottomCenter, Alignment.topCenter]
+          : [Alignment.topCenter, Alignment.bottomCenter];
     }
 
     List<Alignment> align = [];
@@ -145,26 +139,19 @@ class ReportGraphPageState extends State<ReportGraphPage>{
     return align;
   }
 
-  void _zoom(int index){
+  void _zoom(int index) {
     if (index == 0) {
-      if (height > 20)
-        height -= 1;
+      if (height > 20) height -= 1;
 
-      if (width > 40)
-        width -= 5;
+      if (width > 40) width -= 5;
 
-      if (_s > 8)
-        _s -= 0.5;
-
+      if (_s > 8) _s -= 0.5;
     } else if (index == 2) {
-      if (height < 30)
-        height += 1;
+      if (height < 30) height += 1;
 
-      if (width < 110)
-        width += 5;
+      if (width < 110) width += 5;
 
-      if (_s < 16)
-        _s += 1;
+      if (_s < 16) _s += 1;
     }
 
     setState(() {
@@ -176,13 +163,22 @@ class ReportGraphPageState extends State<ReportGraphPage>{
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
+        /*appBar: AppBar(
+          backgroundColor: Colors.blue.shade100,
+        ),*/
         body: ArrowContainer(
           child: Padding(
-            padding: EdgeInsets.all(8),
-            child: Container(
-                height: MediaQuery.of(context).size.height - 200,
-                child: lazyTable
-            ),
+            padding: EdgeInsets.all(30.0),
+            child: Column(children: [
+              Container(
+                  height: MediaQuery.of(context).size.height - 200,
+                  child: lazyTable),
+              ElevatedButton(
+                //style: ElevatedButton.styleFrom(onSurface: Colors.blue.shade100),
+                onPressed: () => Navigator.pop(context),
+                child: Text('Torna indietro'),
+              )
+            ]),
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -203,17 +199,15 @@ class ReportGraphPageState extends State<ReportGraphPage>{
                 icon: Icon(ModernPictograms.zoom_in, size: 30),
               )
             ],
-            onTap: (index) => _zoom(index)
-        )
-    );
+            onTap: (index) => _zoom(index)));
   }
 }
 
-
 class CentralText extends Text {
-  CentralText(String text, double size, bool bold) : super(
-      text,
-      textAlign: TextAlign.center,
-      style: TextStyle(fontSize: size, fontWeight: bold ? FontWeight.w600 : FontWeight.normal)
-  );
+  CentralText(String text, double size, bool bold)
+      : super(text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: size,
+                fontWeight: bold ? FontWeight.w600 : FontWeight.normal));
 }

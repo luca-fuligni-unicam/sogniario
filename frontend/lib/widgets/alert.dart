@@ -17,11 +17,10 @@ class SogniarioAlert extends StatelessWidget {
     @required this.content,
     this.type = AlertDialogType.INFO,
     this.buttonLabelDx = "Ok",
-    this.buttonLabelSx = "Close",
+    this.buttonLabelSx,
     @required this.onPressedDx,
-    @required this.onPressedSx
+    this.onPressedSx
   });
-
 
   @override
   Widget build(BuildContext context) {
